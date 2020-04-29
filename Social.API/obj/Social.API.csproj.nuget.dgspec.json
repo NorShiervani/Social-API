@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Sam\\source\\repos\\Social-API\\Social.api\\Social.API.csproj": {}
+    "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Sam\\source\\repos\\Social-API\\Social.api\\Social.API.csproj": {
+    "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Sam\\source\\repos\\Social-API\\Social.api\\Social.API.csproj",
+        "projectUniqueName": "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj",
         "projectName": "Social.API",
-        "projectPath": "C:\\Users\\Sam\\source\\repos\\Social-API\\Social.api\\Social.API.csproj",
-        "packagesPath": "C:\\Users\\Sam\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Sam\\source\\repos\\Social-API\\Social.api\\obj\\",
+        "projectPath": "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj",
+        "packagesPath": "C:\\Users\\nakedkids\\.nuget\\packages\\",
+        "outputPath": "E:\\C#\\Social-API\\Social-API\\social.api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Sam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nakedkids\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -52,6 +52,10 @@
               "version": "[3.1.0, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[3.1.0, )"
             },
