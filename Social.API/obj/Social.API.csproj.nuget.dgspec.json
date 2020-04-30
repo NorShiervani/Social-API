@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\Social.API\\Social.API.csproj": {}
+    "C:\\Users\\Sam\\source\\repos\\Social-API\\social.api\\Social.API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\Social.API\\Social.API.csproj": {
+    "C:\\Users\\Sam\\source\\repos\\Social-API\\social.api\\Social.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\Social.API\\Social.API.csproj",
+        "projectUniqueName": "C:\\Users\\Sam\\source\\repos\\Social-API\\social.api\\Social.API.csproj",
         "projectName": "Social.API",
-        "projectPath": "c:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\Social.API\\Social.API.csproj",
-        "packagesPath": "C:\\Users\\norsh_6pstx7m\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\Social.API\\obj\\",
+        "projectPath": "C:\\Users\\Sam\\source\\repos\\Social-API\\social.api\\Social.API.csproj",
+        "packagesPath": "C:\\Users\\Sam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Sam\\source\\repos\\Social-API\\social.api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\norsh_6pstx7m\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Sam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -88,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
