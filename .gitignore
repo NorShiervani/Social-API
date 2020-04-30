@@ -59,6 +59,9 @@ artifacts/
 # StyleCop
 StyleCopReport.xml
 
+#Web Api Folders
+/obj/
+/bin/
 # Files built by Visual Studio
 *_i.c
 *_p.c
