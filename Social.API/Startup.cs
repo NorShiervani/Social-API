@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Social.API.Services;
+using AutoMapper;
 
 namespace Social.API
 {
@@ -28,6 +30,14 @@ namespace Social.API
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
             services.AddDbContext<DataContext>(x => x.UseSqlite (Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IFakeRespository, FakeRespository>();
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

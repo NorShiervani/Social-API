@@ -1,21 +1,30 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Social.API.Models.Fake;
 
 namespace Social.API.Services
 {
     public class FakeRespository : IFakeRespository
     {
-        /*private readonly _context;
-
-        public async Task<Fake> GetFake()
+        private readonly DataContext _context;
+        public FakeRespository(DataContext context)
         {
-            var query = _context.getFake();
+            _context = context;
+        }
 
-            return await query.FirstOrDefaultAsync();
-        }*/
-        public Task<Fake> GetFake()
+        public async Task<IEnumerable<Fake>> GetFakes()
         {
-            throw new System.NotImplementedException();
+            var query = await _context.Fake.ToListAsync(); 
+            
+            return query;
+        }
+
+        public async Task<Fake> GetFake(int id)
+        {
+            var query = await _context.Fake.FirstOrDefaultAsync(x => x.Id == id); 
+            
+            return query;
         }
     }
 }
