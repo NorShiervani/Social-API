@@ -38,12 +38,38 @@ namespace Social.API.Controllers
             return Ok(fakeFromRepo);
         }
 
-
         [HttpPost]
-        public async Task<ActionResult<Fake>> PostFake(Fake newFake)
+        public ActionResult<Fake> PostFake(Fake newFake)
         {
             _repo.PostFake(newFake);
             return CreatedAtAction(nameof(GetFakeById), new { id = newFake.Id, name = newFake.Name}, newFake);
         }   
+
+        [HttpPut("{id}")]
+        public IActionResult PutFakeById(int id, Fake fake)
+        {
+            if (id != fake.Id)
+            {
+                return BadRequest();
+            }
+
+            _repo.PutFake(fake);
+
+            return CreatedAtAction(nameof(GetFakeById), new { id = fake.Id, name = fake.Name}, fake);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFakeById(int id)
+        {
+            var fake = await _repo.GetFake(id);
+            
+            if (fake == null)
+            {
+                return NotFound();
+            }
+            _repo.DeleteFake(fake);
+
+            return NoContent();
+        }
     }
 }

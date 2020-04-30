@@ -32,5 +32,25 @@ namespace Social.API.Services
             _context.Fake.Add(fake);
             await _context.SaveChangesAsync();
         }
+
+        public async void PutFake(Fake fake)
+        {
+             _context.Entry(fake).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               
+            } 
+        }
+
+        public async void DeleteFake(Fake fake)
+        {
+            _context.Fake.Remove(fake);
+            await _context.SaveChangesAsync();
+        }
     }
 }
