@@ -40,11 +40,10 @@ namespace Social.API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Fake>> PosFake(Fake newFake)
+        public async Task<ActionResult<Fake>> PostFake(Fake newFake)
         {
             _repo.PostFake(newFake);
-
-            return CreatedAtAction(nameof(newFake), new { id = newFake.Id, name = newFake.Name}, newFake);
+            return CreatedAtAction(nameof(GetFakeById), new { id = newFake.Id, name = newFake.Name}, newFake);
         }   
     }
 }
