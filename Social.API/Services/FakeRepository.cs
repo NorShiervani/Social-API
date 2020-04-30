@@ -26,5 +26,11 @@ namespace Social.API.Services
             
             return query;
         }
+
+        public async void PostFake(Fake fake)
+        {
+            _context.Fake.Add(fake);
+            await _context.SaveChangesAsync();
+        }
     }
 }

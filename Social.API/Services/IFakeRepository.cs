@@ -8,5 +8,7 @@ namespace Social.API.Services
     {
         public Task<IEnumerable<Fake>> GetFakes();
         public Task<Fake> GetFake(int id);
+
+        public void PostFake(Fake fake);
     }
 }

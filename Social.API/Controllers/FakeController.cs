@@ -6,6 +6,7 @@ using Social.API.Services;
 using AutoMapper;
 using Social.API.Dtos;
 using System.Linq;
+using Social.API.Models.Fake;
 
 namespace Social.API.Controllers
 {
@@ -36,5 +37,14 @@ namespace Social.API.Controllers
 
             return Ok(fakeFromRepo);
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult<Fake>> PosFake(Fake newFake)
+        {
+            _repo.PostFake(newFake);
+
+            return CreatedAtAction(nameof(newFake), new { id = newFake.Id, name = newFake.Name}, newFake);
+        }   
     }
 }
