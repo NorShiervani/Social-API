@@ -1181,27 +1181,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nakedkids\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\norsh_6pstx7m\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj",
+      "projectUniqueName": "C:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\social.api\\Social.API.csproj",
       "projectName": "Social.API",
-      "projectPath": "E:\\C#\\Social-API\\Social-API\\social.api\\Social.API.csproj",
-      "packagesPath": "C:\\Users\\nakedkids\\.nuget\\packages\\",
-      "outputPath": "E:\\C#\\Social-API\\Social-API\\social.api\\obj\\",
+      "projectPath": "C:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\social.api\\Social.API.csproj",
+      "packagesPath": "C:\\Users\\norsh_6pstx7m\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\norsh_6pstx7m\\Documents\\Group 6\\social.api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\nakedkids\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\norsh_6pstx7m\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -1263,7 +1260,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
