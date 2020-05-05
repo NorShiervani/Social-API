@@ -21,5 +21,13 @@ namespace Social.API.Controllers
             _mapper = mapper;
             _repo = repo;
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById()
+        {
+            var usersFromRepo = await _repo.GetUserById();
+
+            return Ok(usersFromRepo);
+        }
     }
 }
