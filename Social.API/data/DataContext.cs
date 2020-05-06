@@ -1,12 +1,17 @@
 using Social.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Social.API.Models.Fake;
+using Microsoft.Extensions.Configuration;
 
 namespace Social.API
 {
     public class DataContext : DbContext
     {
-    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    private readonly IConfiguration _configuration;
+    public DataContext(IConfiguration _configuration, DbContextOptions<DataContext> options) : base(options) 
+    {
+        this._configuration = _configuration;
+    }
 
     public DbSet<Fake> Fake { get; set; }
     public DbSet<User> Users { get; set; }
@@ -17,6 +22,11 @@ namespace Social.API
     public DbSet<UserConversator> UserConversators { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Conversation> Conversations { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(_configuration.GetConnectionString("SocialNetworkDb"));
+        }
       
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
