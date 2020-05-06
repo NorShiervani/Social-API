@@ -67,20 +67,6 @@ namespace Social.API
                     City = "Kiev"
                 }
             );
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 3,
-                    Username = "CrazyMama72",
-                    Password = "44515214",
-                    Firstname = "Svetlana",
-                    Lastname = "Orgonsk",
-                    Email = "cmso@example.com",
-                    IsSuspended = false,
-                    Country = "Ukraine",
-                    City = "Kiev"
-                }
-            );
 
             modelBuilder.Entity<Like>().HasData(
                 new Like
