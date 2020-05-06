@@ -108,6 +108,26 @@ namespace Social.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Likes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PostId = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PostId = 2,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PostId = 1,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("Social.API.Models.Message", b =>
@@ -146,6 +166,26 @@ namespace Social.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Text = "Hey everybody! You all good?",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Text = "Having the most lovely",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Text = "Russia... Is not very nice(to us)...",
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("Social.API.Models.Role", b =>
@@ -154,15 +194,23 @@ namespace Social.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Rights")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Rights = 1,
+                            RoleName = "User"
+                        });
                 });
 
             modelBuilder.Entity("Social.API.Models.User", b =>
@@ -203,6 +251,47 @@ namespace Social.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Brighton",
+                            Country = "England",
+                            Email = "jd@example.com",
+                            Firstname = "John",
+                            IsSuspended = false,
+                            Lastname = "Doe",
+                            Password = "4321234",
+                            RoleId = 1,
+                            Username = "LitteJohn2038"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "El Paso",
+                            Country = "USA",
+                            Email = "pp@example.com",
+                            Firstname = "Patrick",
+                            IsSuspended = false,
+                            Lastname = "Plopinopel",
+                            Password = "44321554",
+                            RoleId = 1,
+                            Username = "BigMan55"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Kiev",
+                            Country = "Ukraine",
+                            Email = "cmso@example.com",
+                            Firstname = "Svetlana",
+                            IsSuspended = false,
+                            Lastname = "Orgonsk",
+                            Password = "44515214",
+                            RoleId = 1,
+                            Username = "CrazyMama72"
+                        });
                 });
 
             modelBuilder.Entity("Social.API.Models.UserConversator", b =>
