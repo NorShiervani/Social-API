@@ -17,12 +17,19 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetPosts()
         {
             var postsFromRepo = await _repo.GetPosts();
 
             return Ok(postsFromRepo);
+        }
+
+        [HttpGet("{id}", Name = "GetPost")]
+        public async Task<IActionResult> GetPostById(int id)
+        {
+            var postFromRepo = await _repo.GetPost(id);
+
+            return Ok(postFromRepo);
         }
     }
 }
