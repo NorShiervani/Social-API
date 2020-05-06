@@ -23,9 +23,9 @@ namespace Social.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById()
+        public async Task<IActionResult> GetUserById(int id)
         {
-            var usersFromRepo = await _repo.GetUserById();
+            var usersFromRepo = await _repo.GetUserById(id);
 
             return Ok(usersFromRepo);
         }
