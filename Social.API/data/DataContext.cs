@@ -7,7 +7,6 @@ namespace Social.API
 {
     public class DataContext : DbContext
     {
-<<<<<<< HEAD
     private readonly IConfiguration _configuration;
     public DataContext(IConfiguration _configuration, DbContextOptions<DataContext> options) : base(options) 
     {
@@ -25,30 +24,10 @@ namespace Social.API
     public DbSet<Conversation> Conversations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(_configuration.GetConnectionString("SocialNetworkDb"));
-        }
-      
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Fake>().HasData(new Fake{Id = 1, Name = "Bill"});
-        modelBuilder.Entity<Fake>().HasData(new Fake{Id = 2, Name = "Shaun"});
-        modelBuilder.Entity<Fake>().HasData(new Fake{Id = 3, Name = "Hillary"});
-        modelBuilder.Entity<Fake>().HasData(new Fake{Id = 4, Name = "Emma"});
+            optionsBuilder.UseSqlite(_configuration.GetConnectionString("SocialNetworkDb"));
     }
-=======
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
-        public DbSet<Fake> Fake { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Like> Likes { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserConversator> UserConversators { get; set; }
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Conversation> Conversations { get; set; }
-        
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Fake>().HasData(new Fake{Id = 1, Name = "Bill"});
@@ -98,20 +77,6 @@ namespace Social.API
                     City = "Kiev"
                 }
             );
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 3,
-                    Username = "CrazyMama72",
-                    Password = "44515214",
-                    Firstname = "Svetlana",
-                    Lastname = "Orgonsk",
-                    Email = "cmso@example.com",
-                    IsSuspended = false,
-                    Country = "Ukraine",
-                    City = "Kiev"
-                }
-            );
 
             modelBuilder.Entity<Like>().HasData(
                 new Like
@@ -137,7 +102,6 @@ namespace Social.API
                     UserId = 3
                 }
             );
->>>>>>> 8ca603a11a9055bc17662a6887b1122bc4f1a380
 
             modelBuilder.Entity<Post>().HasData(
                 new Post
