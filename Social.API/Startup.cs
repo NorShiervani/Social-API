@@ -25,6 +25,9 @@ namespace Social.API
             services.AddDbContext<DataContext>();
             services.AddScoped<IFakeRespository, FakeRespository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());

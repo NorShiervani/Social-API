@@ -22,7 +22,7 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var usersFromRepo = await _repo.GetUserById(id);
