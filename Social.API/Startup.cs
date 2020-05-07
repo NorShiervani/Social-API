@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Social.API.Services;
 using AutoMapper;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Formatters.Json;
 
 namespace Social.API
 {
@@ -20,8 +22,8 @@ namespace Social.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false)
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
-
+            .AddNewtonsoftJson(options =>
+                               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<DataContext>();
             services.AddScoped<IFakeRespository, FakeRespository>();
             services.AddScoped<IUserRepository, UserRepository>();

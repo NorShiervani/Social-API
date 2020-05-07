@@ -23,7 +23,7 @@ namespace Social.API.Services
 
         public async Task<User> GetUserById(int id)
         {
-            var query = await _context.Users.FirstOrDefaultAsync(x => x.Id == id); 
+            var query = await _context.Users.Include(u => u.Posts).FirstOrDefaultAsync(x => x.Id == id); 
             
             return query;
         }
