@@ -1,0 +1,14 @@
+{
+  "results": {
+    "Id": 1,
+    "Username": "“johndoe1”",
+    "Password": "“argon2”",
+    "Firstname": "“John”",
+    "Lastname": "“Doe”",
+    "IsSuspended": false,
+    "Messages": [ "..." ],
+    "Likes": [ "..." ],
+    "Posts": [ "..." ],
+    "Comments": [ "..." ]
+  }
+}
