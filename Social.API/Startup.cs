@@ -30,6 +30,10 @@ namespace Social.API
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IConversationRepository, ConversationRepository>();
+            services.AddScoped<IUserConversatorRepository, UserConversatorRepository>();
+            
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
