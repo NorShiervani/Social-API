@@ -17,6 +17,7 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
             var postsFromRepo = await _repo.GetPosts();
