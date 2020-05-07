@@ -38,5 +38,12 @@ namespace Social.API.Controllers
 
             return Ok(usersFromRepo);
         }
+
+        [HttpGet("{id}/posts", Name = "GetUserPosts")]
+        public async Task<IActionResult> GetPostsByUserId(int id)
+        {
+            var usersFromRepo = await _repo.GetUserById(id);
+            return Ok(usersFromRepo.Posts);
+        }
     }
 }
