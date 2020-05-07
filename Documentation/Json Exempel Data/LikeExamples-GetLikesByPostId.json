@@ -1,0 +1,11 @@
+{
+  "results": {
+    "post": {
+      "postid": 1,
+      "text": "Hello, how are you doing?",
+      "userid": 1,
+      "created": "2020-04-22:10:43",
+      "likes": []
+    }
+  }
+}

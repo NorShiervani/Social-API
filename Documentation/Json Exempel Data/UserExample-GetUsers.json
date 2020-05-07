@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "Id": 1,
+      "Username": "johndoe1",
+      "Password": "argon2",
+      "Firstname": "John",
+      "Lastname": "Doe",
+      "Messages": [ "..." ],
+      "Likes": [ "..." ],
+      "Posts": [ "..." ],
+      "Comments": [ "..." ]
+    },
+    {
+      "Id": 2,
+      "Username": "iceposeidon",
+      "Password": "hehehe123",
+      "Firstname": "Paul",
+      "Lastname": "Denino",
+      "Messages": [ "..." ],
+      "Likes": [ "..." ],
+      "Posts": [ "..." ],
+      "Comments": [ "..." ]
+    }
+  ]
+}
