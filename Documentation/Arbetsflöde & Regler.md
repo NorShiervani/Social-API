@@ -14,10 +14,6 @@
 
   
 
-  
-
-  **Rutiner för det dagliga arbetet**
-
   **Rutiner för det dagliga arbetet**
 
 - Standup: Rullande sekreterare - Enligt listans ordning
@@ -40,6 +36,8 @@
 
 - Panikgrejer(när något inte alls går som det ska)När en pull request inte gått igenom efter andra gången och vi inte är överrens kontakta Joakim. När något går och skiter sig samlas alla och diskuterar eventuella lösningar.
 
+  
+
   **Dagordning Standup**
 
 - SekreterareRullande för var dag.
@@ -56,6 +54,10 @@
 
   Pulla ner och merge minst en gång om dagen
 
-  **Allmänt**
+  2a (eller 3e) personen som approvar en pull request har alltid tillåtelse att merge:a in pull requesten i master.
 
-  sNamnge projektet – ”SocialNetworkAPI”
+  Uppdaterar man med små ändringar i dokumentationen behöver man ej göra en pull request/ man får merge:a in direkt (förutsatt att gruppen känner till detta)
+  
+  **Allmänt**
+  
+  Namnge projektet – ”SocialNetworkAPI”
