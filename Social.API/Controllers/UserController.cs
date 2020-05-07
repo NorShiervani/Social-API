@@ -10,7 +10,7 @@ using Social.API.Models.Fake;
 
 namespace Social.API.Controllers
 {
-    [Route("api/v1.0/[controller]")]
+    [Route("api/v1.0/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
