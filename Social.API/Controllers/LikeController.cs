@@ -20,10 +20,17 @@ namespace Social.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ActionResult> GetLikes()
         {
             var likesFromRepo = await _repo.GetLikes();
+            return Ok(likesFromRepo);
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult> GetLikesByPostId(int Id)
+        {
+            var likesFromRepo = await _repo.GetLikesByPostId(Id);
             return Ok(likesFromRepo);
         }
 
