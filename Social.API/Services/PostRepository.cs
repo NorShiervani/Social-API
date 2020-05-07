@@ -27,14 +27,14 @@ namespace Social.API.Services
 
         public async Task<Post> GetPost(int id)
         {
-            var query = await _context.Posts.Include(p => p.User).FirstOrDefaultAsync(x => x.Id == id); 
+            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id); 
             
             return query;
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            var query = await _context.Posts.ToListAsync(); 
+            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
             
             return query;
         }
