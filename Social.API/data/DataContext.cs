@@ -34,9 +34,15 @@ namespace Social.API
             modelBuilder.Entity<Fake>().HasData(new Fake{Id = 2, Name = "Shaun"});
             modelBuilder.Entity<Fake>().HasData(new Fake{Id = 3, Name = "Hillary"});
             modelBuilder.Entity<Fake>().HasData(new Fake{Id = 4, Name = "Emma"});
-
+            
+            modelBuilder.Entity<Role>().HasData(new
+            {
+                Id = 1,
+                RoleName = "User",
+                Rights = 1
+            });
             modelBuilder.Entity<User>().HasData(
-                new User
+                new
                 {
                     Id = 1,
                     Username = "LitteJohn2038",
@@ -46,11 +52,12 @@ namespace Social.API
                     Email = "jd@example.com",
                     IsSuspended = false,
                     Country = "England",
-                    City = "Brighton"
+                    City = "Brighton",
+                    RoleId = 1
                 }
             );
             modelBuilder.Entity<User>().HasData(
-                new User
+                new
                 {
                     Id = 2,
                     Username = "BigMan55",
@@ -60,11 +67,12 @@ namespace Social.API
                     Email = "pp@example.com",
                     IsSuspended = false,
                     Country = "USA",
-                    City = "El Paso"
+                    City = "El Paso",
+                    RoleId = 1
                 }
             );
             modelBuilder.Entity<User>().HasData(
-                new User
+                new
                 {
                     Id = 3,
                     Username = "CrazyMama72",
@@ -74,12 +82,13 @@ namespace Social.API
                     Email = "cmso@example.com",
                     IsSuspended = false,
                     Country = "Ukraine",
-                    City = "Kiev"
+                    City = "Kiev",
+                    RoleId = 1
                 }
             );
 
             modelBuilder.Entity<Like>().HasData(
-                new Like
+                new
                 {
                     Id = 1,
                     PostId = 1,
@@ -87,7 +96,7 @@ namespace Social.API
                 }
             );
             modelBuilder.Entity<Like>().HasData(
-                new Like
+                new
                 {
                     Id = 2,
                     PostId = 2,
@@ -95,7 +104,7 @@ namespace Social.API
                 }
             );
             modelBuilder.Entity<Like>().HasData(
-                new Like
+                new
                 {
                     Id = 3,
                     PostId = 1,
@@ -104,7 +113,7 @@ namespace Social.API
             );
 
             modelBuilder.Entity<Post>().HasData(
-                new Post
+                new
                 {
                     Id = 1,
                     Text = "Hey everybody! You all good?",
@@ -112,7 +121,7 @@ namespace Social.API
                 }
             );
             modelBuilder.Entity<Post>().HasData(
-                new Post
+                new
                 {
                     Id = 2,
                     Text = "Having the most lovely",
@@ -120,7 +129,7 @@ namespace Social.API
                 }
             );
             modelBuilder.Entity<Post>().HasData(
-                new Post
+                new
                 {
                     Id = 3,
                     Text = "Russia... Is not very nice(to us)...",

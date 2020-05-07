@@ -2,7 +2,7 @@
 
 namespace Social.API.Migrations
 {
-    public partial class UpdatedDatabaseModels : Migration
+    public partial class InitialWithDataSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,12 +20,25 @@ namespace Social.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Fake",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fake", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(nullable: true),
+                    RoleName = table.Column<string>(nullable: true),
                     Rights = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -179,6 +192,76 @@ namespace Social.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Fake",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Bill" });
+
+            migrationBuilder.InsertData(
+                table: "Fake",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Shaun" });
+
+            migrationBuilder.InsertData(
+                table: "Fake",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Hillary" });
+
+            migrationBuilder.InsertData(
+                table: "Fake",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 4, "Emma" });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Rights", "RoleName" },
+                values: new object[] { 1, 1, "User" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
+                values: new object[] { 1, "Brighton", "England", "jd@example.com", "John", false, "Doe", "4321234", 1, "LitteJohn2038" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
+                values: new object[] { 2, "El Paso", "USA", "pp@example.com", "Patrick", false, "Plopinopel", "44321554", 1, "BigMan55" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
+                values: new object[] { 3, "Kiev", "Ukraine", "cmso@example.com", "Svetlana", false, "Orgonsk", "44515214", 1, "CrazyMama72" });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Text", "UserId" },
+                values: new object[] { 2, "Having the most lovely", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Text", "UserId" },
+                values: new object[] { 1, "Hey everybody! You all good?", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Text", "UserId" },
+                values: new object[] { 3, "Russia... Is not very nice(to us)...", 3 });
+
+            migrationBuilder.InsertData(
+                table: "Likes",
+                columns: new[] { "Id", "PostId", "UserId" },
+                values: new object[] { 2, 2, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Likes",
+                columns: new[] { "Id", "PostId", "UserId" },
+                values: new object[] { 1, 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Likes",
+                columns: new[] { "Id", "PostId", "UserId" },
+                values: new object[] { 3, 1, 3 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
@@ -229,6 +312,9 @@ namespace Social.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Fake");
 
             migrationBuilder.DropTable(
                 name: "Likes");
