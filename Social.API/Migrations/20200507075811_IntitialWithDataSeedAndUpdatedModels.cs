@@ -2,7 +2,7 @@
 
 namespace Social.API.Migrations
 {
-    public partial class InitialWithDataSeed : Migration
+    public partial class IntitialWithDataSeedAndUpdatedModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,7 +80,7 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +90,7 @@ namespace Social.API.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,8 +99,8 @@ namespace Social.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<int>(nullable: false),
-                    ConversationId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: true),
+                    ConversationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,13 +110,13 @@ namespace Social.API.Migrations
                         column: x => x.ConversationId,
                         principalTable: "Conversations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserConversators_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,8 +126,8 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
-                    PostId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    PostId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,13 +137,13 @@ namespace Social.API.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,8 +152,8 @@ namespace Social.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PostId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    PostId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,13 +163,13 @@ namespace Social.API.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Likes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,7 +179,7 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
-                    UserConversatorId = table.Column<int>(nullable: false)
+                    UserConversatorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,7 +189,7 @@ namespace Social.API.Migrations
                         column: x => x.UserConversatorId,
                         principalTable: "UserConversators",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(

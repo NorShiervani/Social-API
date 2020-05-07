@@ -22,7 +22,7 @@ namespace Social.API.Services
 
         public async Task<IEnumerable<Like>> GetLikesByPostId(int Id)
         {
-            var query = await _context.Likes.Where(x => x.PostId == Id).ToListAsync();
+            var query = await _context.Likes.Where(x => x.Post.Id == Id).ToListAsync();
             return query;
         }
         public async void DeleteLike(Like like)
