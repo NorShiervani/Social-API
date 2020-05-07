@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "user": {
+        "userid": 1,
+        "username": "Walterized",
+        "firstname": "Walter",
+        "lastname": "White",
+        "issuspended": false,
+        "roleid": 3,
+        "likedposts": []
+      }
+    }
+
+  ]
+}

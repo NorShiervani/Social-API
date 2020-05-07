@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "postid": 1,
+      "text": "Hello, how are you doing?",
+      "userid": 1,
+      "created": "2020-04-22:10:43"
+    },
+    {
+      "postid": 3,
+      "text": "Too old to not win this game.",
+      "userid": 1,
+      "created": "2020-04-26:22:09"
+    },
+    {
+      "postid": 2,
+      "text": "I'm here since you know it.",
+      "userid": 2,
+      "created": "2020-04-25:05:33"
+    }
+  ]
+}
