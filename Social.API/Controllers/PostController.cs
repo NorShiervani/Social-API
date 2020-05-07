@@ -5,7 +5,7 @@ using Social.API.Services;
 
 namespace Social.API.Controllers
 {
-    [Route("api/v1.0/[controller]")]
+    [Route("api/v1.0/posts")]
     [ApiController]
     public class PostController : ControllerBase
     {
