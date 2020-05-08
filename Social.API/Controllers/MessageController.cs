@@ -5,6 +5,8 @@ using Social.API.Services;
 
 namespace Social.API.Controllers
 {
+    [Route("api/v1.0/conversations")]
+    [ApiController]
     public class MessageController : ControllerBase
     {
         private readonly IMessageRepository _repo;
