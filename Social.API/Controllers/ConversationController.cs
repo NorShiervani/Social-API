@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Social.API.Services
 {
+    [Route("api/v1.0/conversations")]
+    [ApiController]
     public class ConversationController : ControllerBase
     {
         private readonly IConversationRepository _repo;

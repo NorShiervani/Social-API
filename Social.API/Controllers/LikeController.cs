@@ -7,7 +7,7 @@ using Social.API.Services;
 
 namespace Social.API.Controllers
 {
-    [Route("/api/v1.0/[Controller]")]
+    [Route("/api/v1.0/likes")]
     [ApiController]
     public class LikeController : ControllerBase
     {
