@@ -39,11 +39,11 @@ public class testclass
     }
 
     [Fact]
-    public async void GetAFAkeUser_WhenCalled_Returns()
+    public async void ControllerTest_GetAFAkeUser_WhenCalled_ReturnsAnOkUser()
     {
         var repoMock = new Mock<IUserRepository>();
         IEnumerable<User> UserList = new List<User>();
-        (UserList as List<User>).Add(new User(){ Id = 2, Firstname = "Samuel", Lastname="Björk" });
+        (UserList as List<User>).Add(new User(){ Id = 2, Firstname = "Sam", Lastname="Björk" });
 
 
         repoMock.Setup(x => x.GetUsers()).Returns(Task.FromResult(UserList));
@@ -56,10 +56,9 @@ public class testclass
         Assert.Equal((UserList as List<User>).Count, items.Count);
     }
     [Fact]
-    public async void GetUsersFromRepo_Test()
+    public async void RepoTest_GetUsers()
     {
         IConfiguration config = new ConfigurationBuilder()
-                  .AddJsonFile("appsettings.json", true, true)
                   .AddJsonFile($"appsettings.Development.json", true, true)
                   .Build();
         var datacontext = new DataContext(config, new DbContextOptions<DataContext>());
