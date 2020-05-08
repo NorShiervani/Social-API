@@ -4,7 +4,7 @@ using Social.API.Models.Fake;
 
 namespace Social.API.Services
 {
-    public interface IFakeRespository
+    public interface IFakeRepository
     {
         public Task<IEnumerable<Fake>> GetFakes();
         public Task<Fake> GetFake(int id);

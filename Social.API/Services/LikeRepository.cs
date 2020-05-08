@@ -16,13 +16,13 @@ namespace Social.API.Services
 
         public async Task<IEnumerable<Like>> GetLikes()
         {
-            var query = await _context.Likes.Include(x => x.User).ToListAsync();
+            var query = await _context.Likes.Include(x => x.User).Include(x => x.Post).ToListAsync();
             return query;
         }
 
         public async Task<IEnumerable<Like>> GetLikesByPostId(int Id)
         {
-            var query = await _context.Likes.Include(x => x.User).Where(x => x.Post.Id == Id).ToListAsync();
+            var query = await _context.Likes.Include(x => x.User).Include(x => x.Post).Where(x => x.Post.Id == Id).ToListAsync();
             return query;
         }
         public async void DeleteLike(Like like)

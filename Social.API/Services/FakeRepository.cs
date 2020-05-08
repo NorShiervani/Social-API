@@ -5,7 +5,7 @@ using Social.API.Models.Fake;
 
 namespace Social.API.Services
 {
-    public class FakeRespository : IFakeRespository
+    public class FakeRespository : IFakeRepository
     {
         private readonly DataContext _context;
         public FakeRespository(DataContext context)

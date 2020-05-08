@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Social.API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Post> GetPost(int id)
+        public async Task<Post> GetPostById(int id)
         {
             var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id); 
             
@@ -49,7 +50,7 @@ namespace Social.API.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-               
+              
             } 
         }
     }

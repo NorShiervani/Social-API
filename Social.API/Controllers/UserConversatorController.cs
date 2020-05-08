@@ -25,10 +25,10 @@ namespace Social.API.Controllers
             return Ok(conversatorsFromRepo);
         }
 
-        [HttpGet("{id}", Name = "GetUserConversator")]
+        [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<IActionResult> GetUserConversatorById(int id)
         {
-            var conversatorFromRepo = await _repo.GetUserConversator(id);
+            var conversatorFromRepo = await _repo.GetUserConversatorById(id);
 
             return Ok(conversatorFromRepo);
         }

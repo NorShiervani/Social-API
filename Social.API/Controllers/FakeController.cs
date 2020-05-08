@@ -14,9 +14,9 @@ namespace Social.API.Controllers
     [ApiController]
     public class FakeController : ControllerBase
     {
-        private readonly IFakeRespository _repo;
+        private readonly IFakeRepository _repo;
         private readonly IMapper _mapper;
-        public FakeController(IFakeRespository repo, IMapper mapper)
+        public FakeController(IFakeRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;

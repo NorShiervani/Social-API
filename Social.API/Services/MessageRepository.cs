@@ -24,7 +24,7 @@ namespace Social.API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Message> GetMessage(int id)
+        public async Task<Message> GetMessageById(int id)
         {
             var query = await _context.Messages.Include(m => m.UserConversator).ThenInclude(u => u.Conversation).FirstOrDefaultAsync(x => x.Id == id); 
             

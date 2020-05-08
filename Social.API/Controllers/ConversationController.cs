@@ -24,10 +24,10 @@ namespace Social.API.Services
             return Ok(conversationsFromRepo);
         }
 
-        [HttpGet("{id}", Name = "GetConversation")]
+        [HttpGet("{id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
-            var conversationFromRepo = await _repo.GetConversation(id);
+            var conversationFromRepo = await _repo.GetConversationById(id);
 
             return Ok(conversationFromRepo);
         }

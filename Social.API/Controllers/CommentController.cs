@@ -18,13 +18,13 @@ namespace Social.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCommnets()
+        public async Task<IActionResult> GetComments()
         {
             var commentsFromRepo = await _repo.GetComments();            
             return Ok(commentsFromRepo);
         }
 
-        [HttpGet("{Id}", Name = "{GetComments}")]
+        [HttpGet("{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
             var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
