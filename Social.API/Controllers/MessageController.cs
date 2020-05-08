@@ -5,7 +5,7 @@ using Social.API.Services;
 
 namespace Social.API.Controllers
 {
-    [Route("api/v1.0/conversations")]
+    [Route("api/v1.0/messages")]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -18,9 +18,9 @@ namespace Social.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMessagesByUserId()
+        public async Task<IActionResult> GetMessagesByUserId(int id)
         {
-            var messagesFromRepo = await _repo.GetMessagesByUserId();
+            var messagesFromRepo = await _repo.GetMessage(id);
 
             return Ok(messagesFromRepo);
         }

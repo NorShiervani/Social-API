@@ -136,6 +136,120 @@ namespace Social.API
                     UserId = 3
                 }
             );
+             modelBuilder.Entity<Comment>().HasData(
+                new
+                {
+                    Id = 1,
+                    Text = "Cool yo!",
+                    PostId = 3,
+                    UserId = 1
+                }
+            );
+            modelBuilder.Entity<Comment>().HasData(
+                new
+                {
+                    Id = 2,
+                    Text = "Fast as fuck!",
+                    PostId = 2,
+                    UserId = 2
+                }
+            );
+
+            modelBuilder.Entity<Comment>().HasData(
+                new
+                {
+                    Id = 3,
+                    Text = "Uuugghhh.",
+                    PostId = 3,
+                    UserId = 3
+                }
+            );
+            modelBuilder.Entity<Comment>().HasData(
+                new
+                {
+                    Id = 4,
+                    Text = "Haha awesome!",
+                    PostId = 3,
+                    UserId = 2
+                }
+            );
+
+            modelBuilder.Entity<Conversation>().HasData(
+                new
+                {
+                    Id = 1,
+                    ConversationName = "The cool guys!",
+                }
+            );
+
+            modelBuilder.Entity<Message>().HasData(
+                new
+                {
+                    Id = 1,
+                    Text = "Hello friends!",
+                    UserConversatorId = 1
+                }
+            );
+
+            modelBuilder.Entity<Message>().HasData(
+                new
+                {
+                    Id = 2,
+                    Text = "Hello!",
+                    UserConversatorId = 2
+                }
+            );
+
+            modelBuilder.Entity<Message>().HasData(
+                new
+                {
+                    Id = 3,
+                    Text = "What up?!",
+                    UserConversatorId = 1
+                }
+            );
+
+            modelBuilder.Entity<Message>().HasData(
+                new
+                {
+                    Id = 4,
+                    Text = "Doing laundry, and you?",
+                    UserConversatorId = 2
+                }
+            );
+
+            modelBuilder.Entity<Message>().HasData(
+                new
+                {
+                    Id = 5,
+                    Text = "Eating breakfast, and staying chill!",
+                    UserConversatorId = 1
+                }
+            );
+
+            modelBuilder.Entity<UserConversator>().HasData(
+                new
+                {
+                    Id = 1,
+                    UserId = 1,
+                    ConversationId = 1
+                }
+            );
+
+            modelBuilder.Entity<UserConversator>().HasData(
+                new
+                {
+                    Id = 2,
+                    UserId = 2,
+                    ConversationId = 1
+                }
+            );
+
+
+            
+
+
+
         }
     }
 }
