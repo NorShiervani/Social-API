@@ -26,12 +26,12 @@ namespace Social.API.Services
 
         public async Task<Message> GetMessage(int id)
         {
-            var query = await _context.Messages.FirstOrDefaultAsync(x => x.Id == id); 
+            var query = await _context.Messages.Include(m => m.UserConversator).ThenInclude(u => u.Conversation).FirstOrDefaultAsync(x => x.Id == id); 
             
             return query;
         }
 
-        public async Task<IEnumerable<Message>> GetMessagesByUserId()
+        public async Task<IEnumerable<Message>> GetMessages()
         {
             var query = await _context.Messages.ToListAsync(); 
             
