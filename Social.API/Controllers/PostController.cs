@@ -25,10 +25,10 @@ namespace Social.API.Controllers
             return Ok(postsFromRepo);
         }
 
-        [HttpGet("{id}", Name = "GetPost")]
+        [HttpGet("{id}", Name = "GetPostById")]
         public async Task<IActionResult> GetPostById(int id)
         {
-            var postFromRepo = await _repo.GetPost(id);
+            var postFromRepo = await _repo.GetPostById(id);
 
             return Ok(postFromRepo);
         }

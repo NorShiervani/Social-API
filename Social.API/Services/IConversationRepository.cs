@@ -7,7 +7,7 @@ namespace Social.API.Services
     public interface IConversationRepository
     {
         public Task<IEnumerable<Conversation>> GetConversations();
-        public Task<Conversation> GetConversation(int id);
+        public Task<Conversation> GetConversationById(int id);
         public void CreateConversation(Conversation conversation);
     }
 }

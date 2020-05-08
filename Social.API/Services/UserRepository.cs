@@ -14,6 +14,12 @@ namespace Social.API.Services
             _context = context;
         }
 
+        public async void CreateUser(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<User>> GetUsers()
         {
             var query = await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 

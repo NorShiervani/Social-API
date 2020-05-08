@@ -22,16 +22,16 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var fakesFromRepo = await _repo.GetUsers();
+            var usersFromRepo = await _repo.GetUsers();
 
-            return Ok(fakesFromRepo);
+            return Ok(usersFromRepo);
         }
 
 
-        [HttpGet("{id}", Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var usersFromRepo = await _repo.GetUserById(id);
@@ -39,7 +39,7 @@ namespace Social.API.Controllers
             return Ok(usersFromRepo);
         }
 
-        [HttpGet("{id}/posts", Name = "GetUserPosts")]
+        [HttpGet("{id}/posts", Name = "GetUserPostsById")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
             var usersFromRepo = await _repo.GetUserById(id);

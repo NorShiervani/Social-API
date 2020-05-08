@@ -27,7 +27,7 @@ namespace Social.API.Controllers
             return Ok(likesFromRepo);
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
             var likesFromRepo = await _repo.GetLikesByPostId(Id);

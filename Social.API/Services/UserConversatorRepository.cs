@@ -20,7 +20,7 @@ namespace Social.API.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<UserConversator> GetUserConversator(int id)
+        public async Task<UserConversator> GetUserConversatorById(int id)
         {
             var query = await _context.UserConversators.FirstOrDefaultAsync(x => x.Id == id); 
 

@@ -18,14 +18,17 @@ namespace Social.API
 {
     public class Startup
     {
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false)
-            .AddNewtonsoftJson(options =>
-                               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                    .AddNewtonsoftJson(options =>
+                                       options
+                                       .SerializerSettings
+                                       .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddDbContext<DataContext>();
-            services.AddScoped<IFakeRespository, FakeRespository>();
+            
+            services.AddScoped<IFakeRepository, FakeRespository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();

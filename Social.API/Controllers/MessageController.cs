@@ -17,10 +17,10 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name ="GetMessageById")]
         public async Task<IActionResult> GetMessagesByUserId(int id)
         {
-            var messagesFromRepo = await _repo.GetMessage(id);
+            var messagesFromRepo = await _repo.GetMessageById(id);
 
             return Ok(messagesFromRepo);
         }
