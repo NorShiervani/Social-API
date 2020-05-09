@@ -2,6 +2,7 @@ using Social.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Social.API.Models.Fake;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Social.API
 {
@@ -76,6 +77,21 @@ namespace Social.API
                 {
                     Id = 3,
                     Username = "CrazyMama72",
+                    Password = "44515214",
+                    Firstname = "Svetlana",
+                    Lastname = "Orgonsk",
+                    Email = "cmso@example.com",
+                    IsSuspended = false,
+                    Country = "Ukraine",
+                    City = "Kiev",
+                    RoleId = 1
+                }
+            );
+            modelBuilder.Entity<User>().HasData(
+                new
+                {
+                    Id = 4,
+                    Username = "Ulla",
                     Password = "44515214",
                     Firstname = "Svetlana",
                     Lastname = "Orgonsk",

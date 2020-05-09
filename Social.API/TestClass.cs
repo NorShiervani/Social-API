@@ -12,20 +12,18 @@ using System;
 using System.Collections.Generic;
 using Moq;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
-public class testclass
+public class testclass : IClassFixture<DatabaseFixture>
 {
-    DataContext _context;
-    IUserRepository _repo;
     IMapper _mapper;
+    DatabaseFixture fixture;
+    public testclass(DatabaseFixture fixture)
+    {
+        this.fixture = fixture;
+    }
 
-    // [Fact]
-    // public async void GetUsers_WhenCalled_ReturnsOkResult()
-    // {
-    //     var result = await _repo.GetUsers();
-
-    //     Assert.NotNull(result);
-    // }
+    // ... write tests, using fixture.Db to get access to the SQL Server ...
 
 
     [Fact]
@@ -39,6 +37,37 @@ public class testclass
     }
 
     [Fact]
+    public async void RepoTest_GetUsers()
+    {
+        
+        if(await fixture.dataContext.Users.CountAsync() < 1)
+        {
+            fixture.dataContext.Users.Add(new User()
+                {
+                    Id = 1,
+                    Username = "LitteJohn2038",
+                    Password = "4321234",
+                    Firstname = "John",
+                    Lastname = "Doe",
+                    Email = "jd@example.com",
+                    IsSuspended = false,
+                    Country = "England",
+                    City = "Brighton",
+                    RoleId = 1
+                }
+            );
+            fixture.dataContext.SaveChanges();
+        }
+        
+        var expectedUserCount = await fixture.dataContext.Users.CountAsync();
+        var repo = new UserRepository(fixture.dataContext);
+        var result = await repo.GetUsers() as List<User>;
+
+        Assert.Equal(expectedUserCount, result.Count);
+
+    }
+
+    [Fact]
     public async void ControllerTest_GetAFAkeUser_WhenCalled_ReturnsAnOkUser()
     {
         var repoMock = new Mock<IUserRepository>();
@@ -47,25 +76,12 @@ public class testclass
 
 
         repoMock.Setup(x => x.GetUsers()).Returns(Task.FromResult(UserList));
-        //var x = await repoMock.Object.GetUsers();
 
         var controller = new UserController(repoMock.Object, _mapper);
 
         var result = await controller.GetUsers() as OkObjectResult;
         var items = Assert.IsType<List<User>>(result.Value);
         Assert.Equal((UserList as List<User>).Count, items.Count);
-    }
-    [Fact]
-    public async void RepoTest_GetUsers()
-    {
-        IConfiguration config = new ConfigurationBuilder()
-                  .AddJsonFile($"appsettings.Development.json", true, true)
-                  .Build();
-        var datacontext = new DataContext(config, new DbContextOptions<DataContext>());
-        var repo = new UserRepository(datacontext);
-
-        var result = await repo.GetUsers();
-
     }
 
     private List<User> GetAllUsers()
