@@ -1,6 +1,6 @@
 **Sprint 1: Review**
 
-Sekreterare: Samuel Björkqvist
+Sekreterare: Samuel
 
 ****
 
