@@ -14,7 +14,9 @@ using Moq;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-public class testclass : IClassFixture<DatabaseFixture>
+namespace Social.Api.Tests
+{
+    public class testclass : IClassFixture<DatabaseFixture>
 {
     IMapper _mapper;
     DatabaseFixture fixture;
@@ -74,7 +76,6 @@ public class testclass : IClassFixture<DatabaseFixture>
         IEnumerable<User> UserList = new List<User>();
         (UserList as List<User>).Add(new User(){ Id = 2, Firstname = "Sam", Lastname="Björk" });
 
-
         repoMock.Setup(x => x.GetUsers()).Returns(Task.FromResult(UserList));
 
         var controller = new UserController(repoMock.Object, _mapper);
@@ -91,4 +92,5 @@ public class testclass : IClassFixture<DatabaseFixture>
 
         return testUsers;
     }
+}
 }
