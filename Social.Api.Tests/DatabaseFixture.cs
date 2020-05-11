@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Social.API;
 
-namespace Social.Api.Tests
-{
+
     public class DatabaseFixture : IDisposable
     {
         public DataContext dataContext {get; set;}
@@ -31,4 +30,3 @@ namespace Social.Api.Tests
 
     }
 
-}

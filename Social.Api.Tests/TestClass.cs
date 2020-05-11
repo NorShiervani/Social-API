@@ -14,7 +14,7 @@ using Moq;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Social.Api.Tests
+namespace Social.API.Tests
 {
     public class testclass : IClassFixture<DatabaseFixture>
 {

@@ -10,6 +10,6 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Social.Api\Social.Api.csproj"/>
+    <ProjectReference Include="..\Social.API\Social.API.csproj"/>
   </ItemGroup>
 </Project>
