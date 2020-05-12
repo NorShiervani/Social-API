@@ -5,10 +5,10 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class MessageRepository : IMessageRepository
+    public class MessageRepository : Repository<Message>, IMessageRepository
     {
         private readonly DataContext _context;
-        public MessageRepository(DataContext context)
+        public MessageRepository(DataContext context) : base(context)
         {
             _context = context;
         }

@@ -10,7 +10,7 @@ namespace Social.API.Services
         Task<T> GetById(int id);
         void Create(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(T entity);
         Task<bool> Save();
     }
 }

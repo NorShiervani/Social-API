@@ -6,10 +6,10 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class CommentRepository : ICommentRepository
+    public class CommentRepository : Repository<Comment>, ICommentRepository
     {
         private readonly DataContext _context;
-        public CommentRepository(DataContext context)
+        public CommentRepository(DataContext context) : base(context)
         {
             _context = context;
         }

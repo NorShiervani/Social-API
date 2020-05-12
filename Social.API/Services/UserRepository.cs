@@ -6,10 +6,10 @@ using Social.API.Models.Fake;
 
 namespace Social.API.Services
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        public UserRepository(DataContext context) :base(context)
         {
             _context = context;
         }

@@ -6,10 +6,10 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class LikeRepository : ILikeRepository
+    public class LikeRepository : Repository<Like>, ILikeRepository
     {
         private readonly DataContext _context;
-        public LikeRepository(DataContext context)
+        public LikeRepository(DataContext context) : base(context)
         {
             _context = context;
         }

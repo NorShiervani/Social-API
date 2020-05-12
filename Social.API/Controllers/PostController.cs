@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Models;
 using Social.API.Services;
 
 namespace Social.API.Controllers
