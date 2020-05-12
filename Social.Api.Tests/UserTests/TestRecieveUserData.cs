@@ -16,26 +16,24 @@ using System.IO;
 
 namespace Social.API.Tests
 {
-    public class testclass : IClassFixture<DatabaseFixture>
+    public class TestRecieveUserData : IClassFixture<DatabaseFixture>
 {
     IMapper _mapper;
     DatabaseFixture fixture;
-    public testclass(DatabaseFixture fixture)
+    public TestRecieveUserData(DatabaseFixture fixture)
     {
         this.fixture = fixture;
     }
 
-    // ... write tests, using fixture.Db to get access to the SQL Server ...
-
-
     [Fact]
-    public void GetUsers_WhenCalled_ReturnsOkResult()
+    public void GetUsers_UsersCountIsTwo_RetunsCorrectUserCount()
     {
         var testUsers = GetAllUsers();
+
         var controller = new TestUserController(testUsers);
 
         var result = controller.GetAllUsers() as List<User>;
-        Assert.Equal(testUsers.Count, result.Count);
+        Assert.Equal(3, result.Count);
     }
 
     [Fact]
@@ -89,6 +87,8 @@ namespace Social.API.Tests
     {
         var testUsers = new List<User>();
         testUsers.Add(new User { Id = 1, Firstname = "Sam", Lastname = "Björk"});
+        testUsers.Add(new User { Id = 2, Firstname = "Sam", Lastname = "Björk"});
+        testUsers.Add(new User { Id = 3, Firstname = "Sam", Lastname = "Björk"});
 
         return testUsers;
     }
