@@ -5,11 +5,11 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class UserConversatorRepository : IUserConversatorRepository
+    public class UserConversatorRepository : Repository<UserConversator>, IUserConversatorRepository
     {
         
         private readonly DataContext _context;
-        public UserConversatorRepository(DataContext context)
+        public UserConversatorRepository(DataContext context) : base(context)
         {
             _context = context;
         }

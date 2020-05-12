@@ -5,10 +5,10 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class ConversationRepository : IConversationRepository
+    public class ConversationRepository : Repository<Conversation>,IConversationRepository
     {
         private readonly DataContext _context;
-        public ConversationRepository(DataContext context)
+        public ConversationRepository(DataContext context) : base(context)
         {
             _context = context;
         }
