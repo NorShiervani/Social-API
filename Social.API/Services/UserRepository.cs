@@ -16,8 +16,8 @@ namespace Social.API.Services
 
         public async void CreateUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            Create(user);
+            await Save();
         }
 
         public async Task<IEnumerable<User>> GetUsers()
