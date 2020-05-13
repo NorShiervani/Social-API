@@ -15,14 +15,14 @@ namespace Social.API.Services
         }
         public async void CreateComment(Comment comment)
         {
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
+            Create(comment);
+            await Save();
         }
 
         public async void DeleteComment(Comment comment)
         {
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
+            Delete(comment);
+            await Save();
         }
 
         public async Task<IEnumerable<Comment>> GetComments()

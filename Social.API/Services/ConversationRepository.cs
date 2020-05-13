@@ -14,8 +14,8 @@ namespace Social.API.Services
         }
         public async void CreateConversation(Conversation conversation)
         {
-            _context.Conversations.Add(conversation);
-            await _context.SaveChangesAsync();
+            Create(conversation);
+            await Save();
         }
 
         public async Task<Conversation> GetConversationById(int id)
