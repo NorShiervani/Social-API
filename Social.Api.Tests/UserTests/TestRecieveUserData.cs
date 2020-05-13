@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using Moq;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using Social.Api.Tests.FakeModels;
 using System.Linq;
 using System.Collections;
 using Moq.EntityFrameworkCore;
@@ -26,9 +25,9 @@ namespace Social.API.Tests
     [Fact]
     public void GetUsers_Users_RetunsCorrectUserCount()
     {
-        var testUser = new FakeUser();
+        var testUser = GetAllUsers();
         var testUserList = new List<User>();
-        testUserList.Add(testUser);
+        testUserList.Add(testUser[0]);
 
         var controller = new TestUserController(testUserList);
 
