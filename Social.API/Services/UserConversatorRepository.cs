@@ -16,8 +16,8 @@ namespace Social.API.Services
 
         public async void CreateUserConversator(UserConversator userConversator)
         {
-            _context.UserConversators.Add(userConversator);
-            await _context.SaveChangesAsync();
+            Create(userConversator);
+            await Save();
         }
 
         public async Task<UserConversator> GetUserConversatorById(int id)

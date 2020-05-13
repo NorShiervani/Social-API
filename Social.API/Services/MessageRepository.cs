@@ -14,14 +14,14 @@ namespace Social.API.Services
         }
         public async void CreateMessage(Message message)
         {
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
+            Create(message);
+            await Save();
         }
 
         public async void DeleteMessage(Message message)
         {
-            _context.Messages.Remove(message);
-            await _context.SaveChangesAsync();
+            Delete(message);
+            await Save();
         }
 
         public async Task<Message> GetMessageById(int id)
