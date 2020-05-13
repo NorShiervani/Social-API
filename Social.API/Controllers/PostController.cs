@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Models;
 using Social.API.Services;
@@ -21,17 +23,33 @@ namespace Social.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
-            var postsFromRepo = await _repo.GetPosts();
+            try
+            {
+                var postsFromRepo = await _repo.GetPosts();
 
-            return Ok(postsFromRepo);
+                return Ok(postsFromRepo);
+            }
+            catch(Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
         [HttpGet("{id}", Name = "GetPostById")]
         public async Task<IActionResult> GetPostById(int id)
         {
-            var postFromRepo = await _repo.GetPostById(id);
+            try
+            {
+                var postFromRepo = await _repo.GetPostById(id);
 
-            return Ok(postFromRepo);
+                return Ok(postFromRepo);
+            }
+            catch(Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
     }
 }
