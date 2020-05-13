@@ -6,6 +6,11 @@ using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 using System.Linq;
+using System.Collections.Generic;
+using Social.API;
+using Microsoft.Extensions.Logging;
+using Moq.EntityFrameworkCore;
+using AutoFixture;
 
 namespace Social.Api.Tests.PostTesting
 {
@@ -13,6 +18,7 @@ namespace Social.Api.Tests.PostTesting
     {
         IMapper _mapper;
         DatabaseFixture fixture;
+        private static readonly Fixture Fixture = new Fixture();
         public TestRetrievePostData(DatabaseFixture fixture)
         {
             this.fixture = fixture;
@@ -21,19 +27,35 @@ namespace Social.Api.Tests.PostTesting
         [Fact]
         public async void GetPostById_PostExists_ReturnsPost()
         {
-            //Arrange
-            Post fakePost = new FakePost(new FakeUser());
-            int id = fakePost.Id;
-            var repoMock = new Mock<IPostRepository>();
-            Post returnedPost = null;
+            // Arrange
+            IList<Post> posts = GeneratePosts();
+            var dataContext = new Mock<DataContext>();
+            dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
+            var postRepository = new PostRepository(dataContext.Object);
 
-            //Act
-            fixture.dataContext.Posts.Add(fakePost);
-            await fixture.dataContext.SaveChangesAsync();
-            returnedPost = await fixture.dataContext.Posts.FindAsync(id);
+            // Act
+            var post = await postRepository.GetPostById(1010);
 
-            //Assert
-            Assert.NotNull(returnedPost);
+            // Assert
+            Assert.Equal(1010, post.Id);
+        }
+
+        private static IList<Post> GeneratePosts()
+        {
+            return new List<Post>
+                {
+                   new FakePost(new FakeUser()) {
+                       Id = 1010,
+                       Text = "test"
+                   },
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser()),
+                   new FakePost(new FakeUser())
+                };
         }
     }
 }
