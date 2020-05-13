@@ -14,7 +14,7 @@ using System;
 
 namespace Social.Api.Tests.PostTesting
 {
-    public class TestRetrievePostData : IClassFixture<DatabaseFixture>
+    public class TestRetrievePostData
     {   
         [Theory]
         [InlineData(23)]
