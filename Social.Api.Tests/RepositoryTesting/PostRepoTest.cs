@@ -10,20 +10,25 @@ using Social.API;
 using Microsoft.Extensions.Logging;
 using Moq.EntityFrameworkCore;
 using AutoFixture;
+using System;
 
 namespace Social.Api.Tests.PostTesting
 {
     public class TestRetrievePostData : IClassFixture<DatabaseFixture>
-    {
-        [Fact]
-        public async void GetPostById_PostExists_ReturnsCorrectPostId()
+    {   
+        [Theory]
+        [InlineData(23)]
+        [InlineData(554)]
+        [InlineData(32)]
+        [InlineData(345)]
+        [InlineData(5434)]
+        public async void GetPostById_PostExists_ReturnsCorrectPostId(int expectedId)
         {
             // Arrange
-            int expectedId = 1010;
             IList<Post> posts = new List<Post> {
                     new Post() {
                        Id = expectedId,
-                       Text = "This should work."
+                       Text = $"This post should have the Id {expectedId}."
                     },
                     GenerateFake.Post(),
                     GenerateFake.Post()
@@ -37,6 +42,32 @@ namespace Social.Api.Tests.PostTesting
 
             // Assert
             Assert.Equal(expectedId, post.Id);
+        }
+
+        
+        [Theory]
+        [InlineData(2)]
+        [InlineData(53)]
+        [InlineData(59)]
+        [InlineData(151)]
+        [InlineData(157)]
+        public async void GetPosts_PostsAmount_ReturnsCorrectAmountOfPosts(int expectedAmountPosts)
+        {
+            //Arrange
+            IList<Post> posts = new List<Post>();
+            for (int i = 0; i < expectedAmountPosts; i++)
+            {
+                posts.Add(GenerateFake.Post());
+            }
+            var dataContext = new Mock<DataContext>();
+            dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
+            var postRepository = new PostRepository(dataContext.Object);
+
+            //Act
+            var postsFromRepo = await postRepository.GetPosts();
+
+            //Assert
+            Assert.Equal(expectedAmountPosts, posts.Count());
         }
     }
 }
