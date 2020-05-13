@@ -23,7 +23,7 @@ namespace Social.API.Tests
 {
 
     [Fact]
-    public void GetUsers_Users_RetunsCorrectUserCount()
+    public void GetUsers_Users_ReturnsCorrectUserCount()
     {
         var testUser = GetAllUsers();
         var testUserList = new List<User>();
