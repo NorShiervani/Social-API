@@ -27,14 +27,14 @@ namespace Social.API.Services
         }
         public async void DeleteLike(Like like)
         {
-            _context.Likes.Remove(like);
-            await _context.SaveChangesAsync();
+            Delete(like);
+            await Save();
         }
 
         public async void CreateLike(Like like)
         {
-            _context.Add(like);
-            await _context.SaveChangesAsync();
+            Create(like);
+            await Save();
         }
     }
 }
