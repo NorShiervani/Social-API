@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using Moq;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Social.Api.Tests.FakeModels;
+using System.Linq;
 
 namespace Social.API.Tests
 {
@@ -26,14 +28,25 @@ namespace Social.API.Tests
     }
 
     [Fact]
-    public void GetUsers_UsersCountIsTwo_RetunsCorrectUserCount()
+    public void GetUsers_Users_RetunsCorrectUserCount()
     {
-        var testUsers = GetAllUsers();
+        var testUser = new FakeUser();
+        var testUserList = new List<User>();
+        testUserList.Add(testUser);
 
-        var controller = new TestUserController(testUsers);
+        var controller = new TestUserController(testUserList);
 
-        var result = controller.GetAllUsers() as List<User>;
-        Assert.Equal(3, result.Count);
+        var result = controller.GetAllUsers();
+        Assert.Equal(1, testUserList.Count);
+    }
+
+    [Fact]
+    public async void GetUserById_UserExists_ReturnUser()
+    {
+        var user = await fixture.dataContext.Users.Where(x => x.Id == 1).FirstOrDefaultAsync();
+        
+
+        Assert.Equal(1, user.Id);
     }
 
     [Fact]
