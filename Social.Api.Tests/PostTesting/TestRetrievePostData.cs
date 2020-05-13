@@ -31,7 +31,7 @@ namespace Social.Api.Tests.PostTesting
             fixture.dataContext.Posts.Add(fakePost);
             await fixture.dataContext.SaveChangesAsync();
             returnedPost = await fixture.dataContext.Posts.FindAsync(id);
-
+            
             //Assert
             Assert.NotNull(returnedPost);
         }
