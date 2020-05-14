@@ -110,6 +110,8 @@ namespace Social.API.Tests.Repository
         public async void GetConversations_ConversationsAmount_ReturnsInCorrectAmountOfConversations(int incorrectAmountConversations)
         {
             //Arrange
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation>();
             for (int i = 0; i < 2; i++)
             {
@@ -117,7 +119,7 @@ namespace Social.API.Tests.Repository
             }
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object);
+            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
 
             //Act
             var conversationsFromRepo = await conversationRepository.GetConversations();
