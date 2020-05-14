@@ -16,9 +16,9 @@ namespace Social.API.Services
             this._context = _context;
             table = _context.Set<T>();
         }
-        public IQueryable<T> GetAll()
+        public async Task<IList<T>> GetAll()
         {
-            return table;
+            return await table.ToListAsync();
         }
         public async Task<T> GetById(int id)
         {

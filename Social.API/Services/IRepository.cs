@@ -6,7 +6,7 @@ namespace Social.API.Services
 {
     public interface IRepository<T> where T : class
     {
-        IQueryable<T> GetAll() ;
+        Task<IList<T>> GetAll();
         Task<T> GetById(int id);
         void Create(T entity);
         void Update(T entity);

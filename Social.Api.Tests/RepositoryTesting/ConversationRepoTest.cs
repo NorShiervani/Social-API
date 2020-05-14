@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using Moq;
 using Moq.EntityFrameworkCore;
@@ -10,11 +11,15 @@ namespace Social.API.Tests.Repository
 {
     public class ConversationRepoTests
     {
-        [Fact]
-        public async void GetPostById_PostExists_ReturnsCorrectPostId()
+        [Theory]
+        [InlineData(2000)]
+        [InlineData(6666)]
+        [InlineData(5000)]
+        [InlineData(1000)]
+        [InlineData(1313)]
+        public async void GetConversationById_ConversationExists_ReturnsCorrectConversationId(int expectedId)
         {
             // Arrange
-            int expectedId = 2020;
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = expectedId,
@@ -34,11 +39,15 @@ namespace Social.API.Tests.Repository
             Assert.Equal(expectedId, conversation.Id);
         }
 
-        [Fact]
-        public async void GetPostById_PostNotExists_ReturnsNull()
+        [Theory]
+        [InlineData(2000)]
+        [InlineData(6666)]
+        [InlineData(5000)]
+        [InlineData(1001)]
+        [InlineData(1313)]
+        public async void GetConversationById_ConversationNotExists_ReturnsNull(int nonExistantId)
         {
             // Arrange
-            int nonExistantId = 1;
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = 1000,
@@ -56,6 +65,31 @@ namespace Social.API.Tests.Repository
 
             // Assert
             Assert.Null(conversation);
+        }
+
+        [Theory]
+        [InlineData(50)]
+        [InlineData(10)]
+        [InlineData(2222)]
+        [InlineData(10000)]
+        [InlineData(20000)]
+        public async void GetConversations_ConversationsAmount_ReturnsCorrectAmountOfConversations(int expectedAmountConversations)
+        {
+            //Arrange
+            IList<Conversation> conversations = new List<Conversation>();
+            for (int i = 0; i < expectedAmountConversations; i++)
+            {
+                conversations.Add(GenerateFake.Conversation());
+            }
+            var dataContext = new Mock<DataContext>();
+            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
+            var conversationRepository = new ConversationRepository(dataContext.Object);
+
+            //Act
+            var conversationsFromRepo = await conversationRepository.GetConversations();
+
+            //Assert
+            Assert.Equal(expectedAmountConversations, conversationsFromRepo.Count());
         }
     }
 }
