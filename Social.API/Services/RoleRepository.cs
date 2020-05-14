@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
@@ -7,7 +8,7 @@ namespace Social.API.Services
     public class RoleRepository : Repository<Role>,IRoleRepository
     {
         private readonly DataContext _context;
-        public RoleRepository(DataContext context):base(context)
+        public RoleRepository(DataContext context, ILogger<RoleRepository> logger):base(context, logger)
         {
             _context = context;
         }
