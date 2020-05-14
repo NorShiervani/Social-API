@@ -67,7 +67,7 @@ namespace Social.Api.Tests.PostTesting
             var postsFromRepo = await postRepository.GetPosts();
 
             //Assert
-            Assert.Equal(expectedAmountPosts, posts.Count());
+            Assert.Equal(expectedAmountPosts, postsFromRepo.Count());
         }
     }
 }

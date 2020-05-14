@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using Moq;
 using Moq.EntityFrameworkCore;
@@ -64,6 +65,31 @@ namespace Social.API.Tests.Repository
 
             // Assert
             Assert.Null(conversation);
+        }
+
+        [Theory]
+        [InlineData(50)]
+        [InlineData(10)]
+        [InlineData(2222)]
+        [InlineData(10000)]
+        [InlineData(20000)]
+        public async void GetConversations_ConversationsAmount_ReturnsCorrectAmountOfConversations(int expectedAmountConversations)
+        {
+            //Arrange
+            IList<Conversation> conversations = new List<Conversation>();
+            for (int i = 0; i < expectedAmountConversations; i++)
+            {
+                conversations.Add(GenerateFake.Conversation());
+            }
+            var dataContext = new Mock<DataContext>();
+            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
+            var conversationRepository = new ConversationRepository(dataContext.Object);
+
+            //Act
+            var conversationsFromRepo = await conversationRepository.GetConversations();
+
+            //Assert
+            Assert.Equal(expectedAmountConversations, conversationsFromRepo.Count());
         }
     }
 }
