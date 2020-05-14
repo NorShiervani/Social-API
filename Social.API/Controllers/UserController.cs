@@ -7,6 +7,8 @@ using AutoMapper;
 using Social.API.Dtos;
 using System.Linq;
 using Social.API.Models.Fake;
+using System.Net.Http;
+using Social.API.Models;
 
 namespace Social.API.Controllers
 {
@@ -44,6 +46,40 @@ namespace Social.API.Controllers
         {
             var usersFromRepo = await _repo.GetUserById(id);
             return Ok(usersFromRepo.Posts);
+        }
+
+        [HttpPost]
+        public ActionResult<User> CreateUser(User newUser)
+        {
+            _repo.CreateUser(newUser);
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUserById(int id, User user)
+        {   
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            _repo.UpdateUser(user);
+
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFakeById(int id)
+        {
+            var user = await _repo.GetUserById(id);
+            
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _repo.DeleteUser(user);
+
+            return NoContent();
         }
     }
 }

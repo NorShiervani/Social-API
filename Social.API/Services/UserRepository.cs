@@ -20,6 +20,16 @@ namespace Social.API.Services
             Create(user);
             await Save();
         }
+        public async void UpdateUser(User user)
+        {
+            Update(user);
+            await Save();
+        }
+        public async void DeleteUser(User user)
+        {
+            Delete(user);
+            await Save();
+        }
 
         public async Task<IEnumerable<User>> GetUsers()
         {
