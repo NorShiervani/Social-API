@@ -20,6 +20,21 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
+        [HttpPost("{userId}")]
+        public ActionResult<Post> CreatePost(int userId, [FromBody] Post post)
+        {
+            try
+            {
+                _repo.CreatePost(userId, post);
+                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+            } 
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
@@ -29,9 +44,9 @@ namespace Social.API.Controllers
 
                 return Ok(postsFromRepo);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
@@ -45,9 +60,9 @@ namespace Social.API.Controllers
 
                 return Ok(postFromRepo);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
