@@ -36,6 +36,7 @@ namespace Social.API
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IUserConversatorRepository, UserConversatorRepository>();
+            services.AddScoped<ISocialRepository, SocialRepository>();
             
             var mappingConfig = new MapperConfiguration(mc =>
             {

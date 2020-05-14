@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -12,27 +13,29 @@ namespace Social.API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly IPostRepository _repo;
+        private readonly ISocialRepository _repo;
         private readonly IMapper _mapper;
-        public PostController(IPostRepository repo, IMapper mapper)
+        public PostController(ISocialRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;
         }
 
         [HttpPost("{userId}")]
-        public ActionResult<Post> CreatePost(int userId, [FromBody] Post post)
+        public async Task<ActionResult<Post>> CreatePost(int userId, [FromBody] Post post)
         {
-            try
-            {
-                _repo.CreatePost(userId, post);
+            User user = await _repo.GetUserById(userId);
+
+            if (user == null)
+                return BadRequest($"Could not create post. User with the Id '{userId}' was not found.");
+
+            post.User = user;
+            _repo.Create<Post>(post);
+
+            if (await _repo.Save())
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
-            } 
+
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Failed to save post to the database.");
         }
 
         [HttpGet]
@@ -47,7 +50,7 @@ namespace Social.API.Controllers
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+                    $"Failed to retrieve posts. Exception thrown when attempting to retrieve posts: {e.Message}");
             }
         }
 
@@ -56,14 +59,15 @@ namespace Social.API.Controllers
         {
             try
             {
-                var postFromRepo = await _repo.GetPostById(id);
+                var postsFromRepo = await _repo.GetPostById(id);
+                return Ok(postsFromRepo);
 
-                return Ok(postFromRepo);
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+                $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+
             }
         }
     }
