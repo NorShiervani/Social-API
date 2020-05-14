@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Models;
 
 namespace Social.API.Services
 {
@@ -41,8 +42,7 @@ namespace Social.API.Services
         {
             try
             {
-                var conversationFromRepo = await _repo.GetConversationById(id);
-                    Debug.WriteLine(conversationFromRepo.Id);
+                var conversationFromRepo = await _repo.GetConversationById(id);;
                 return Ok(conversationFromRepo);
             }
             catch (Exception e)
@@ -50,7 +50,22 @@ namespace Social.API.Services
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                         $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
-
+            
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateConversation(Conversation conversation)
+        {
+            try
+            {
+                await _repo.CreateConversation(conversation);
+                return Ok(conversation);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+        }
+        
     }
 }

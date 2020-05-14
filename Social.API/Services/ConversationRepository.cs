@@ -13,10 +13,11 @@ namespace Social.API.Services
         {
             _context = context;
         }
-        public async void CreateConversation(Conversation conversation)
+        public async Task<Conversation> CreateConversation(Conversation conversation)
         {
             Create(conversation);
             await Save();
+            return conversation;
         }
 
         public async Task<Conversation> GetConversationById(int id)

@@ -8,6 +8,6 @@ namespace Social.API.Services
     {
         public Task<IEnumerable<Conversation>> GetConversations();
         public Task<Conversation> GetConversationById(int id);
-        public void CreateConversation(Conversation conversation);
+        public Task<Conversation> CreateConversation(Conversation conversation);
     }
 }
