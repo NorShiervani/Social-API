@@ -37,6 +37,7 @@ namespace Social.Api.Tests.PostTesting
             };
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
+
             var postRepository = new PostRepository(dataContext.Object, logger);
 
             // Act
