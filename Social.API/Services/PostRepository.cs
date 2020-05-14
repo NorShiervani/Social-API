@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
@@ -9,7 +10,7 @@ namespace Social.API.Services
     public class PostRepository : Repository<Post>, IPostRepository
     {
         private readonly DataContext _context;
-        public PostRepository(DataContext context):base(context)
+        public PostRepository(DataContext context, ILogger<PostRepository> logger):base(context, logger)
         {
             _context = context;
         }

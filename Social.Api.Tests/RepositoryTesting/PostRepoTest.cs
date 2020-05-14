@@ -25,6 +25,8 @@ namespace Social.Api.Tests.PostTesting
         public async void GetPostById_PostExists_ReturnsCorrectPostId(int expectedId)
         {
             // Arrange
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<PostRepository> logger = loggerFactory.CreateLogger<PostRepository>();
             IList<Post> posts = new List<Post> {
                     new Post() {
                        Id = expectedId,
@@ -35,7 +37,7 @@ namespace Social.Api.Tests.PostTesting
             };
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
-            var postRepository = new PostRepository(dataContext.Object);
+            var postRepository = new PostRepository(dataContext.Object, logger);
 
             // Act
             var post = await postRepository.GetPostById(expectedId);
@@ -54,6 +56,8 @@ namespace Social.Api.Tests.PostTesting
         public async void GetPosts_PostsAmount_ReturnsCorrectAmountOfPosts(int expectedAmountPosts)
         {
             //Arrange
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<PostRepository> logger = loggerFactory.CreateLogger<PostRepository>();
             IList<Post> posts = new List<Post>();
             for (int i = 0; i < expectedAmountPosts; i++)
             {
@@ -61,7 +65,7 @@ namespace Social.Api.Tests.PostTesting
             }
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
-            var postRepository = new PostRepository(dataContext.Object);
+            var postRepository = new PostRepository(dataContext.Object, logger);
 
             //Act
             var postsFromRepo = await postRepository.GetPosts();

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
@@ -9,7 +10,7 @@ namespace Social.API.Services
     public class LikeRepository : Repository<Like>, ILikeRepository
     {
         private readonly DataContext _context;
-        public LikeRepository(DataContext context) : base(context)
+        public LikeRepository(DataContext context, ILogger<LikeRepository> logger) : base(context, logger)
         {
             _context = context;
         }

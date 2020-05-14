@@ -9,12 +9,13 @@ namespace Social.API.Services
     public class Repository<T> : IRepository<T> where T : class
     {
         private DataContext _context;
-        protected readonly ILogger<T> _logger;
+        protected readonly ILogger<Repository<T>> _logger;
         private DbSet<T> table = null;
-        public Repository(DataContext _context)
+        public Repository(DataContext _context, ILogger<Repository<T>> logger)
         {
             this._context = _context;
             table = _context.Set<T>();
+            _logger = logger;
         }
         public async Task<IList<T>> GetAll()
         {

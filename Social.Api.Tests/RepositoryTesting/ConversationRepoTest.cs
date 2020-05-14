@@ -6,6 +6,7 @@ using Social.Api.Tests;
 using Social.API.Models;
 using Social.API.Services;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace Social.API.Tests.Repository
 {
@@ -20,6 +21,8 @@ namespace Social.API.Tests.Repository
         public async void GetConversationById_ConversationExists_ReturnsCorrectConversationId(int expectedId)
         {
             // Arrange
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = expectedId,
@@ -30,7 +33,7 @@ namespace Social.API.Tests.Repository
             };
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object);
+            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
 
             // Act
             var conversation = await conversationRepository.GetConversationById(expectedId);
@@ -48,6 +51,8 @@ namespace Social.API.Tests.Repository
         public async void GetConversationById_ConversationNotExists_ReturnsNull(int nonExistantId)
         {
             // Arrange
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = 1000,
@@ -58,7 +63,7 @@ namespace Social.API.Tests.Repository
             };
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object);
+            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
 
             // Act
             var conversation = await conversationRepository.GetConversationById(nonExistantId);
@@ -77,13 +82,17 @@ namespace Social.API.Tests.Repository
         {
             //Arrange
             IList<Conversation> conversations = new List<Conversation>();
+            
+            ILoggerFactory loggerFactory = new LoggerFactory();    
+            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
+
             for (int i = 0; i < expectedAmountConversations; i++)
             {
                 conversations.Add(GenerateFake.Conversation());
             }
             var dataContext = new Mock<DataContext>();
             dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object);
+            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
 
             //Act
             var conversationsFromRepo = await conversationRepository.GetConversations();

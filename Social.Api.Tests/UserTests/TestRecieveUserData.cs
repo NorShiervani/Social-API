@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using Moq.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Social.API.Tests
 {
@@ -39,10 +40,12 @@ namespace Social.API.Tests
     public async void GetUserById_UserExists_ReturnUser()
     {
         //Arrange
+        ILoggerFactory loggerFactory = new LoggerFactory();    
+        ILogger<UserRepository> logger = loggerFactory.CreateLogger<UserRepository>();
         IList<User> users = GenerateUsers();
         var userContextMock = new Mock<DataContext>();
         userContextMock.Setup(e => e.Users).ReturnsDbSet(users);
-        var userRepo = new UserRepository(userContextMock.Object);   
+        var userRepo = new UserRepository(userContextMock.Object, logger);   
 
         //Act
         var theUser = await userRepo.GetUserById(1);
@@ -55,10 +58,12 @@ namespace Social.API.Tests
     public async void GetUserById_UserNotExists_ReturnNull()
     {
         //Arrange
+        ILoggerFactory loggerFactory = new LoggerFactory();    
+        ILogger<UserRepository> logger = loggerFactory.CreateLogger<UserRepository>();
         IList<User> users = GenerateUsers();
         var userContextMock = new Mock<DataContext>();
         userContextMock.Setup(e => e.Users).ReturnsDbSet(users);
-        var userRepo = new UserRepository(userContextMock.Object);   
+        var userRepo = new UserRepository(userContextMock.Object, logger);   
 
         //Act
         var theUser = await userRepo.GetUserById(999999);
