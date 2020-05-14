@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
@@ -9,7 +10,7 @@ namespace Social.API.Services
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
         private readonly DataContext _context;
-        public CommentRepository(DataContext context) : base(context)
+        public CommentRepository(DataContext context, ILogger<CommentRepository> logger) : base(context, logger)
         {
             _context = context;
         }

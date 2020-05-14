@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
@@ -9,7 +10,7 @@ namespace Social.API.Services
     {
         
         private readonly DataContext _context;
-        public UserConversatorRepository(DataContext context) : base(context)
+        public UserConversatorRepository(DataContext context, ILogger<UserConversatorRepository> logger) : base(context, logger)
         {
             _context = context;
         }
