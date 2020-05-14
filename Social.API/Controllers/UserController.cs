@@ -9,6 +9,8 @@ using System.Linq;
 using Social.API.Models.Fake;
 using System.Net.Http;
 using Social.API.Models;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Social.API.Controllers
 {
@@ -27,59 +29,114 @@ namespace Social.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var usersFromRepo = await _repo.GetUsers();
+            try
+            {
+                var usersFromRepo = await _repo.GetUsers();
 
-            return Ok(usersFromRepo);
+                return Ok(usersFromRepo);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to retrieve users. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
+
 
 
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var usersFromRepo = await _repo.GetUserById(id);
+            try
+            {
+                var userFromRepo = await _repo.GetUserById(id);
+                return Ok(userFromRepo);
 
-            return Ok(usersFromRepo);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to retrieve the user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+
+            }
         }
 
         [HttpGet("{id}/posts", Name = "GetUserPostsById")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
-            var usersFromRepo = await _repo.GetUserById(id);
-            return Ok(usersFromRepo.Posts);
+            try
+            {
+                var userFromRepo = await _repo.GetUserById(id);
+                return Ok(userFromRepo.Posts);
+
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
         [HttpPost]
         public ActionResult<User> CreateUser(User newUser)
         {
-            _repo.CreateUser(newUser);
-            return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+            try
+            {
+                var userExist = _repo.GetUserById(newUser.Id);
+                if (userExist != null)
+                {
+                    throw new Exception("User already exists");
+                }
+                _repo.CreateUser(newUser);
+                return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to create user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateUserById(int id, User user)
         {   
-            if (id != user.Id)
+            try
             {
-                return BadRequest();
+                if (id != user.Id)
+                {
+                    return BadRequest("Wrong userId");
+                }
+
+                _repo.UpdateUser(user);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
             }
-
-            _repo.UpdateUser(user);
-
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to update user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFakeById(int id)
         {
-            var user = await _repo.GetUserById(id);
-            
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
-            _repo.DeleteUser(user);
+                var user = await _repo.GetUserById(id);
+                if (user == null)
+                {
+                    return NotFound("There was no user with that Id");
+                }
 
-            return NoContent();
+                _repo.DeleteUser(user);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to delete user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
     }
 }
