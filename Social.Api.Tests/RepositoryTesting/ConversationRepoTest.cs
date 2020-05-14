@@ -91,5 +91,30 @@ namespace Social.API.Tests.Repository
             //Assert
             Assert.Equal(expectedAmountConversations, conversationsFromRepo.Count());
         }
+
+        [Theory]
+        [InlineData(50)]
+        [InlineData(10)]
+        [InlineData(2222)]
+        [InlineData(10000)]
+        [InlineData(20000)]
+        public async void GetConversations_ConversationsAmount_ReturnsInCorrectAmountOfConversations(int incorrectAmountConversations)
+        {
+            //Arrange
+            IList<Conversation> conversations = new List<Conversation>();
+            for (int i = 0; i < 2; i++)
+            {
+                conversations.Add(GenerateFake.Conversation());
+            }
+            var dataContext = new Mock<DataContext>();
+            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
+            var conversationRepository = new ConversationRepository(dataContext.Object);
+
+            //Act
+            var conversationsFromRepo = await conversationRepository.GetConversations();
+
+            //Assert
+            Assert.NotEqual(incorrectAmountConversations, conversationsFromRepo.Count());
+        }
     }
 }
