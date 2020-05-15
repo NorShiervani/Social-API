@@ -68,7 +68,7 @@ namespace Social.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFakeById(int id)
+        public async Task<IActionResult> DeletePostById(int id)
         {
             try
             {
