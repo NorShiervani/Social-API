@@ -34,8 +34,17 @@ namespace Social.API.Controllers
 
             if (await _repo.Save())
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+<<<<<<< HEAD
 
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Failed to save post to the database.");
+=======
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+            }
+>>>>>>> 54aff2377f405f45488ee5762423ac479e32a868
         }
 
         [HttpGet]
@@ -66,6 +75,53 @@ namespace Social.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
 
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePostById(int id)
+        {
+            try
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return BadRequest($"Could not delete post. Post with Id {id} was not found.");
+                }
+                _repo.DeletePost(post);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the post. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+
+        }
+
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
+        {
+            try 
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return BadRequest($"Could not update post. Post with Id {id} was not found.");
+                }
+                post.Text = updatedText;
+                _repo.PutPost(post);
+
+                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to update the post. Exception thrown when attempting to update data in the database: {e.Message}");
             }
         }
     }
