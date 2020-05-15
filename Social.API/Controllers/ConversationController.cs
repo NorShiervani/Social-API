@@ -82,7 +82,7 @@ namespace Social.API.Services
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+                        $"Failed to update converation. Exception thrown when attempting to update data from the database: {e.Message}");
             }
         }
         
