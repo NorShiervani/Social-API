@@ -68,7 +68,7 @@ namespace Social.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFakeById(int id)
+        public async Task<IActionResult> DeletePostById(int id)
         {
             try
             {
@@ -88,6 +88,30 @@ namespace Social.API.Controllers
                     $"Failed to delete the post. Exception thrown when attempting to delete data from the database: {e.Message}");
             }
 
+        }
+
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
+        {
+            try 
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return BadRequest($"Could not update post. Post with Id {id} was not found.");
+                }
+                post.Text = updatedText;
+                _repo.PutPost(post);
+
+                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to update the post. Exception thrown when attempting to update data in the database: {e.Message}");
+            }
         }
     }
 }
