@@ -1,27 +1,28 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class MessageRepository : IMessageRepository
+    public class MessageRepository : Repository<Message>, IMessageRepository
     {
         private readonly DataContext _context;
-        public MessageRepository(DataContext context)
+        public MessageRepository(DataContext context, ILogger<MessageRepository> logger) : base(context, logger)
         {
             _context = context;
         }
         public async void CreateMessage(Message message)
         {
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
+            Create(message);
+            await Save();
         }
 
         public async void DeleteMessage(Message message)
         {
-            _context.Messages.Remove(message);
-            await _context.SaveChangesAsync();
+            Delete(message);
+            await Save();
         }
 
         public async Task<Message> GetMessageById(int id)

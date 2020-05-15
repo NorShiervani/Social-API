@@ -13,15 +13,19 @@ namespace Social.API
         this._configuration = _configuration;
     }
 
-    public DbSet<Fake> Fake { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Like> Likes { get; set; }
-    public DbSet<Post> Posts { get; set; }
-    public DbSet<Comment> Comments { get; set; }
-    public DbSet<Role> Roles { get; set; }
-    public DbSet<UserConversator> UserConversators { get; set; }
-    public DbSet<Message> Messages { get; set; }
-    public DbSet<Conversation> Conversations { get; set; }
+    public DataContext()
+    {
+    }
+
+    public virtual DbSet<Fake> Fake { get; set; }
+    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<Like> Likes { get; set; }
+    public virtual DbSet<Post> Posts { get; set; }
+    public virtual DbSet<Comment> Comments { get; set; }
+    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<UserConversator> UserConversators { get; set; }
+    public virtual DbSet<Message> Messages { get; set; }
+    public virtual DbSet<Conversation> Conversations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

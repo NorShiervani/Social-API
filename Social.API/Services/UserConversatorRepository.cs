@@ -1,23 +1,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class UserConversatorRepository : IUserConversatorRepository
+    public class UserConversatorRepository : Repository<UserConversator>, IUserConversatorRepository
     {
         
         private readonly DataContext _context;
-        public UserConversatorRepository(DataContext context)
+        public UserConversatorRepository(DataContext context, ILogger<UserConversatorRepository> logger) : base(context, logger)
         {
             _context = context;
         }
 
         public async void CreateUserConversator(UserConversator userConversator)
         {
-            _context.UserConversators.Add(userConversator);
-            await _context.SaveChangesAsync();
+            Create(userConversator);
+            await Save();
         }
 
         public async Task<UserConversator> GetUserConversatorById(int id)

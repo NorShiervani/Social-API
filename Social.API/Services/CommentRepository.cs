@@ -2,27 +2,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class CommentRepository : ICommentRepository
+    public class CommentRepository : Repository<Comment>, ICommentRepository
     {
         private readonly DataContext _context;
-        public CommentRepository(DataContext context)
+        public CommentRepository(DataContext context, ILogger<CommentRepository> logger) : base(context, logger)
         {
             _context = context;
         }
         public async void CreateComment(Comment comment)
         {
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
+            Create(comment);
+            await Save();
         }
 
         public async void DeleteComment(Comment comment)
         {
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
+            Delete(comment);
+            await Save();
         }
 
         public async Task<IEnumerable<Comment>> GetComments()

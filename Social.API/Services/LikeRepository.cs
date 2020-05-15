@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public class LikeRepository : ILikeRepository
+    public class LikeRepository : Repository<Like>, ILikeRepository
     {
         private readonly DataContext _context;
-        public LikeRepository(DataContext context)
+        public LikeRepository(DataContext context, ILogger<LikeRepository> logger) : base(context, logger)
         {
             _context = context;
         }
@@ -27,14 +28,14 @@ namespace Social.API.Services
         }
         public async void DeleteLike(Like like)
         {
-            _context.Likes.Remove(like);
-            await _context.SaveChangesAsync();
+            Delete(like);
+            await Save();
         }
 
         public async void CreateLike(Like like)
         {
-            _context.Add(like);
-            await _context.SaveChangesAsync();
+            Create(like);
+            await Save();
         }
     }
 }

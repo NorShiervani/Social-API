@@ -1,6 +1,10 @@
+using System.Diagnostics;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Models;
 
 namespace Social.API.Services
 {
@@ -15,21 +19,53 @@ namespace Social.API.Services
             _mapper = mapper;
             _repo = repo;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetConversations()
         {
-            var conversationsFromRepo = await _repo.GetConversations();
+            try
+            {
+                var conversationsFromRepo = await _repo.GetConversations();
 
-            return Ok(conversationsFromRepo);
+                return Ok(conversationsFromRepo);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+
         }
 
         [HttpGet("{id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
-            var conversationFromRepo = await _repo.GetConversationById(id);
-
-            return Ok(conversationFromRepo);
+            try
+            {
+                var conversationFromRepo = await _repo.GetConversationById(id);;
+                return Ok(conversationFromRepo);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+            
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateConversation(Conversation conversation)
+        {
+            try
+            {
+                await _repo.CreateConversation(conversation);
+                return Ok(conversation);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+        }
+        
     }
 }
