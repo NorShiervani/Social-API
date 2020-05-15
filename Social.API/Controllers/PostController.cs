@@ -34,17 +34,8 @@ namespace Social.API.Controllers
 
             if (await _repo.Save())
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
-<<<<<<< HEAD
 
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Failed to save post to the database.");
-=======
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
-            }
->>>>>>> 54aff2377f405f45488ee5762423ac479e32a868
         }
 
         [HttpGet]
@@ -89,7 +80,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete post. Post with Id {id} was not found.");
                 }
-                _repo.DeletePost(post);
+                _repo.Delete(post);
 
                 return NoContent();
             }
@@ -114,7 +105,7 @@ namespace Social.API.Controllers
                     return BadRequest($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
-                _repo.PutPost(post);
+                _repo.Update(post);
 
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }

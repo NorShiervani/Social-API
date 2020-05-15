@@ -71,5 +71,18 @@ namespace Social.API.Services
             var query = await GetAll<User>(including);
             return query.FirstOrDefault(x => x.Id == userId);
         }
+
+        //Doesnt work
+        public async Task<T> GetById<T>(int entityId, params Expression<Func<T, object>>[] including) where T : class
+        {
+            _logger.LogInformation($"Fetching an entity of type {typeof(T)} with id {entityId} from the database.");
+            var query = _context.Set<T>();
+            for (int i = 0; i < including.Length; i++)
+            {
+                query.Include(including[i]);
+            }
+
+            return await query.FindAsync(entityId);
+        }
     }
 }
