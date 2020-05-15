@@ -52,44 +52,24 @@ namespace Social.API.Services
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetById<T>(int entityId, params Expression<Func<T, object>>[] including) where T : class
-        {
-            _logger.LogInformation($"Fetching an entity of type {typeof(T)} with id {entityId} from the database.");
-            var query = _context.Set<T>();
-            for (int i = 0; i < including.Length; i++)
-            {
-                Expression<Func<T, object>> include = including[i];
-                query.Include(include);
-            }
-
-            return await query.FindAsync(entityId);
-        }
-
         public async Task<bool> Save()
         {
             _logger.LogInformation("Saving changes made in the datacontext to the database...");
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Post> GetPostById(int id)
+        public async Task<Post> GetPostById(int postId, params Expression<Func<Post, object>>[] including)
         {
-            var query = await _context.Posts.Include(u => u.User).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
-
-            return query;
+            _logger.LogInformation($"Fetching post with id {postId} from the database.");
+            var query = await GetAll<Post>(including);
+            return query.FirstOrDefault(x => x.Id == postId);
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<User> GetUserById(int userId, params Expression<Func<User, object>>[] including)
         {
-            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync();
-
-            return query;
-        }
-
-        public async Task<User> GetUserById(int id)
-        {
-            var query = await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
-
-            return query;
+             _logger.LogInformation($"Fetching user with id {userId} from the database.");
+            var query = await GetAll<User>(including);
+            return query.FirstOrDefault(x => x.Id == userId);
         }
     }
 }

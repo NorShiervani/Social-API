@@ -53,12 +53,12 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "GetPostById")]
-        public async Task<IActionResult> GetPostById(int id)
+        [HttpGet("{postId}", Name = "GetPostById")]
+        public async Task<IActionResult> GetPostById(int postId)
         {
             try
             {
-                var postsFromRepo = await _repo.GetById<Post>(id, x => x.User, x=> x.Likes);
+                var postsFromRepo = await _repo.GetPostById(postId, x => x.User, x=> x.Likes);
                 return Ok(postsFromRepo);
             }
             catch (Exception e)
