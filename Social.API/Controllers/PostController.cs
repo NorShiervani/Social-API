@@ -43,8 +43,7 @@ namespace Social.API.Controllers
         {
             try
             {
-                var postsFromRepo = await _repo.GetPosts();
-
+                IList<Post> postsFromRepo = await _repo.GetAll<Post>(x => x.User, x=> x.Likes);
                 return Ok(postsFromRepo);
             }
             catch (Exception e)
@@ -59,9 +58,8 @@ namespace Social.API.Controllers
         {
             try
             {
-                var postsFromRepo = await _repo.GetPostById(id);
+                var postsFromRepo = await _repo.GetById<Post>(id, x => x.User, x=> x.Likes);
                 return Ok(postsFromRepo);
-
             }
             catch (Exception e)
             {
