@@ -8,7 +8,9 @@ namespace Social.API.Services
     {
         public Task<IEnumerable<Comment>> GetComments();
         public Task<IEnumerable<Comment>> GetCommentsByPostId(int Id);
-        public void CreateComment(Comment comment);
+        public Task<Comment> GetCommentByPostId(int Id);
+        public void CreateComment(int postId, Comment comment);
+        public void UpdateComment(int commentId, Comment comment);
         public void DeleteComment(Comment comment);
     }
 }
