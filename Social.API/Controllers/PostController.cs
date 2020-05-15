@@ -32,7 +32,7 @@ namespace Social.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
-            } 
+            }
         }
 
         [HttpGet]
@@ -65,6 +65,29 @@ namespace Social.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFakeById(int id)
+        {
+            try
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return BadRequest($"Could not delete post. Post with Id {id} was not found.");
+                }
+                _repo.DeletePost(post);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the post. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+
         }
     }
 }
