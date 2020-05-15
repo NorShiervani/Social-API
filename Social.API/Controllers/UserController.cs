@@ -76,6 +76,21 @@ namespace Social.API.Controllers
                 $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+        [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
+        public async Task<IActionResult> GetCommentsByUserId(int id)
+        {
+            try
+            {
+                var userFromRepo = await _repo.GetUserById(id);
+                return Ok(userFromRepo.Comments);
+
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to retrieve comments. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+        }
 
         [HttpPost]
         public ActionResult<User> CreateUser(User newUser)
