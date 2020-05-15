@@ -9,5 +9,6 @@ namespace Social.API.Services
         public Task<IEnumerable<Conversation>> GetConversations();
         public Task<Conversation> GetConversationById(int id);
         public Task<Conversation> CreateConversation(Conversation conversation);
+        public Task<Conversation> UpdateConversation(Conversation conversation);
     }
 }

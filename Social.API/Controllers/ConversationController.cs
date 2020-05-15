@@ -66,6 +66,25 @@ namespace Social.API.Services
                         $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
+        {
+            if(id != conversation.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _repo.UpdateConversation(conversation);
+                return Ok(conversation);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to update converation. Exception thrown when attempting to update data from the database: {e.Message}");
+            }
+        }
         
     }
 }

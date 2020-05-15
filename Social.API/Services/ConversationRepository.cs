@@ -33,5 +33,12 @@ namespace Social.API.Services
             
             return query;
         }
+
+        public async Task<Conversation> UpdateConversation(Conversation conversation)
+        {
+            Update(conversation);
+            await Save();
+            return conversation;
+        }
     }
 }
