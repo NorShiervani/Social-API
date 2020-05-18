@@ -7,8 +7,9 @@ using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 using Microsoft.Extensions.Logging;
+using Social.API;
 
-namespace Social.API.Tests
+namespace Social.Api.Tests
 {
     public class ConversationRepoTests
     {

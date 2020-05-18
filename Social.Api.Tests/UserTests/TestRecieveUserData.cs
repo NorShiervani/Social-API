@@ -18,23 +18,10 @@ using System.Collections;
 using Moq.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Social.API.Tests
+namespace Social.Api.Tests
 {
     public class TestRecieveUserData
 {
-
-    [Fact]
-    public void GetUsers_Users_ReturnsCorrectUserCount()
-    {
-        var testUser = GetAllUsers();
-        var testUserList = new List<User>();
-        testUserList.Add(testUser[0]);
-
-        var controller = new TestUserController(testUserList);
-
-        var result = controller.GetAllUsers();
-        Assert.Equal(1, testUserList.Count);
-    }
 
     [Fact]
     public async void GetUserById_UserExists_ReturnUser()
