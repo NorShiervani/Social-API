@@ -12,10 +12,19 @@ using Moq.EntityFrameworkCore;
 using AutoFixture;
 using System;
 
-namespace Social.Api.Tests.PostTesting
+namespace Social.Api.Tests
 {
-    public class TestRetrievePostData
+    public class PostRepoTests
     {   
+        private readonly Mock<DataContext> _mockContext;
+        private readonly PostRepository _mockRepo;
+
+        public PostRepoTests()
+        {
+            _mockContext = new Mock<DataContext>();
+            _mockRepo = new PostRepository(_mockContext.Object, Mock.Of<ILogger<PostRepository>>());
+        }
+
         [Theory]
         [InlineData(23)]
         [InlineData(554)]
@@ -25,8 +34,6 @@ namespace Social.Api.Tests.PostTesting
         public async void GetPostById_PostExists_ReturnsCorrectPostId(int expectedId)
         {
             // Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<PostRepository> logger = loggerFactory.CreateLogger<PostRepository>();
             IList<Post> posts = new List<Post> {
                     new Post() {
                        Id = expectedId,
@@ -35,13 +42,10 @@ namespace Social.Api.Tests.PostTesting
                     GenerateFake.Post(),
                     GenerateFake.Post()
             };
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Posts).ReturnsDbSet(posts);
-
-            var postRepository = new PostRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Posts).ReturnsDbSet(posts);
 
             // Act
-            var post = await postRepository.GetPostById(expectedId);
+            var post = await _mockRepo.GetPostById(expectedId);
 
             // Assert
             Assert.Equal(expectedId, post.Id);
