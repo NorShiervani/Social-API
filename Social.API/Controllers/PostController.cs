@@ -25,7 +25,13 @@ namespace Social.API.Controllers
         {
             try
             {
-                _repo.CreatePost(userId, post);
+                User userFromRepo = _repo.GetUserById(userId).Result;
+                if (userFromRepo == null)
+                    return BadRequest($"User with the id {userId} does not exist.");
+
+                post.User = userFromRepo;
+
+                _repo.CreatePost(post);
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }
             catch (Exception e)

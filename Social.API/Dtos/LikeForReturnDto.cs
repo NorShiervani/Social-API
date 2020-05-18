@@ -5,7 +5,7 @@ namespace Social.API.Dtos
     public class LikeForReturnDto
     {
         public int Id { get; set; }
-        public Post Post { get; set; }
-        public User User { get; set; }
+        public PostForReturnDto Post { get; set; }
+        public UserForReturnDto User { get; set; }
     }
 }

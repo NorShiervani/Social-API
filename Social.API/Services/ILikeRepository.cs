@@ -4,7 +4,7 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public interface ILikeRepository
+    public interface ILikeRepository : IRepository<Like>
     {
         public Task<IEnumerable<Like>> GetLikes();
         public Task<IEnumerable<Like>> GetLikesByPostId(int Id);

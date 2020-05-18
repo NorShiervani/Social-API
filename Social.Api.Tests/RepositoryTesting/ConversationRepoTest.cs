@@ -9,7 +9,11 @@ using Xunit;
 using Microsoft.Extensions.Logging;
 using Social.API;
 
+<<<<<<< HEAD
 namespace Social.Api.Tests
+=======
+namespace Social.API.Tests
+>>>>>>> master
 {
     public class ConversationRepoTests
     {
