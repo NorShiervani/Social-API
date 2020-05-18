@@ -16,15 +16,8 @@ namespace Social.API.Services
             _context = context;
         }
         
-        public async void CreatePost(int userId, Post post)
-        {
-            User user = _context.Users.FirstOrDefault(x => x.Id == userId);
-
-            if (user == null)
-                throw new Exception($"Could not create post, user with the id {userId} was not found.");
-
-            post.User = user;
-            
+        public async void CreatePost(Post post)
+        { 
             Create(post);
             await Save();
         }

@@ -11,6 +11,7 @@ using System.Net.Http;
 using Social.API.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections;
 
 namespace Social.API.Controllers
 {
@@ -32,8 +33,8 @@ namespace Social.API.Controllers
             try
             {
                 var usersFromRepo = await _repo.GetUsers();
-
-                return Ok(usersFromRepo);
+                var usersToDto = _mapper.Map<UserForReturnDto[]>(usersFromRepo);
+                return Ok(usersToDto);
             }
             catch (Exception e)
             {
@@ -50,7 +51,8 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                return Ok(userFromRepo);
+                var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                return Ok(userToDto);
 
             }
             catch (Exception e)
@@ -67,7 +69,8 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                return Ok(userFromRepo.Posts);
+                var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                return Ok(userToDto.Posts);
 
             }
             catch (Exception e)
@@ -82,7 +85,8 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                return Ok(userFromRepo.Comments);
+                var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                return Ok(userToDto.Comments);
 
             }
             catch (Exception e)

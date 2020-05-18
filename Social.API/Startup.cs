@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Social.API.Services;
 using AutoMapper;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Formatters.Json;
 
 namespace Social.API
 {

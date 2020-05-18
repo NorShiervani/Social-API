@@ -24,6 +24,7 @@ namespace Social.API.Controllers
         [HttpPost("{userId}")]
         public async Task<ActionResult<Post>> CreatePost(int userId, [FromBody] Post post)
         {
+<<<<<<< HEAD
             User user = await _repo.GetUserById(userId);
 
             if (user == null)
@@ -33,6 +34,17 @@ namespace Social.API.Controllers
             _repo.Create<Post>(post);
 
             if (await _repo.Save())
+=======
+            try
+            {
+                User userFromRepo = _repo.GetUserById(userId).Result;
+                if (userFromRepo == null)
+                    return BadRequest($"User with the id {userId} does not exist.");
+
+                post.User = userFromRepo;
+
+                _repo.CreatePost(post);
+>>>>>>> 88711e780fef8dcecdf1df1e02e5154d2c90b213
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
 
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Failed to save post to the database.");

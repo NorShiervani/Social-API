@@ -4,14 +4,24 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Social.Api.Tests;
+using Social.API;
 using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 
-namespace Social.API.Tests.RepositoryTesting
+namespace Social.Api.Tests
 {
-    public class CommentRepositoryTests
+    public class CommentRepoTests
     {
+        private readonly Mock<DataContext> _mockContext;
+        private readonly CommentRepository _mockRepo;
+
+        public CommentRepoTests()
+        {
+            _mockContext = new Mock<DataContext>();
+            _mockRepo = new CommentRepository(_mockContext.Object, Mock.Of<ILogger<CommentRepository>>());
+        }
+
         [Theory]
         [InlineData(2000)]
         [InlineData(6666)]
@@ -21,19 +31,15 @@ namespace Social.API.Tests.RepositoryTesting
         public async void GetComments_CommentsAmount_ReturnsInCorrectAmountOfComments(int incorrectAmountComments)
         {
             //Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<CommentRepository> logger = loggerFactory.CreateLogger<CommentRepository>();
             IList<Comment> comments = new List<Comment>();
             for (int i = 0; i < 2; i++)
             {
                 comments.Add(GenerateFake.Comment());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Comments).ReturnsDbSet(comments);
-            var commentRepository = new CommentRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Comments).ReturnsDbSet(comments);
 
             //Act
-            var commentsFromRepo = await commentRepository.GetComments();
+            var commentsFromRepo = await _mockRepo.GetComments();
 
             //Assert
             Assert.NotEqual(incorrectAmountComments, commentsFromRepo.Count());
@@ -41,28 +47,18 @@ namespace Social.API.Tests.RepositoryTesting
 
         [Theory]
         [InlineData(50)]
-        [InlineData(10)]
-        [InlineData(2222)]
-        [InlineData(10000)]
-        [InlineData(20000)]
         public async void GetComments_CommentsAmount_ReturnsCorrectAmountOfComments(int expectedAmountComments)
         {
             //Arrange
             IList<Comment> comments = new List<Comment>();
-            
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<CommentRepository> logger = loggerFactory.CreateLogger<CommentRepository>();
-
             for (int i = 0; i < expectedAmountComments; i++)
             {
                 comments.Add(GenerateFake.Comment());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Comments).ReturnsDbSet(comments);
-            var commentsRepository = new CommentRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Comments).ReturnsDbSet(comments);
 
             //Act
-            var commentsFromRepo = await commentsRepository.GetComments();
+            var commentsFromRepo = await _mockRepo.GetComments();
 
             //Assert
             Assert.Equal(expectedAmountComments, commentsFromRepo.Count());
