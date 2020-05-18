@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -13,28 +12,17 @@ namespace Social.API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly ISocialRepository _repo;
+        private readonly IPostRepository _repo;
         private readonly IMapper _mapper;
-        public PostController(ISocialRepository repo, IMapper mapper)
+        public PostController(IPostRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;
         }
 
         [HttpPost("{userId}")]
-        public async Task<ActionResult<Post>> CreatePost(int userId, [FromBody] Post post)
+        public ActionResult<Post> CreatePost(int userId, [FromBody] Post post)
         {
-<<<<<<< HEAD
-            User user = await _repo.GetUserById(userId);
-
-            if (user == null)
-                return BadRequest($"Could not create post. User with the Id '{userId}' was not found.");
-
-            post.User = user;
-            _repo.Create<Post>(post);
-
-            if (await _repo.Save())
-=======
             try
             {
                 User userFromRepo = _repo.GetUserById(userId).Result;
@@ -44,10 +32,13 @@ namespace Social.API.Controllers
                 post.User = userFromRepo;
 
                 _repo.CreatePost(post);
->>>>>>> 88711e780fef8dcecdf1df1e02e5154d2c90b213
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
-
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Failed to save post to the database.");
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+            }
         }
 
         [HttpGet]
@@ -55,29 +46,30 @@ namespace Social.API.Controllers
         {
             try
             {
-                IList<Post> postsFromRepo = await _repo.GetAll<Post>(x => x.User, x=> x.Likes);
+                var postsFromRepo = await _repo.GetAll(x => x.User, x => x.Likes, x => x.Comments);
+
                 return Ok(postsFromRepo);
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to retrieve posts. Exception thrown when attempting to retrieve posts: {e.Message}");
+                    $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
 
-        [HttpGet("{postId}", Name = "GetPostById")]
-        public async Task<IActionResult> GetPostById(int postId)
+        [HttpGet("{id}", Name = "GetPostById")]
+        public async Task<IActionResult> GetPostById(int id)
         {
             try
             {
-                var postsFromRepo = await _repo.GetPostById(postId, x => x.User, x=> x.Likes);
-                return Ok(postsFromRepo);
+                var postFromRepo = await _repo.GetPostById(id);
+
+                return Ok(postFromRepo);
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
-
+                    $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
 
@@ -92,7 +84,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete post. Post with Id {id} was not found.");
                 }
-                _repo.Delete(post);
+                _repo.DeletePost(post);
 
                 return NoContent();
             }
@@ -117,7 +109,7 @@ namespace Social.API.Controllers
                     return BadRequest($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
-                _repo.Update(post);
+                _repo.PutPost(post);
 
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }
