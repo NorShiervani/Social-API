@@ -4,7 +4,7 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public interface IConversationRepository
+    public interface IConversationRepository : IRepository<Conversation>
     {
         public Task<IEnumerable<Conversation>> GetConversations();
         public Task<Conversation> GetConversationById(int id);

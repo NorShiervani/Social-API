@@ -4,7 +4,7 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public interface IRoleRepository
+    public interface IRoleRepository  : IRepository<Role>
     {
         public Task<IEnumerable<Role>> GetRoles();
         public Task<Role> GetRoleById(int id);

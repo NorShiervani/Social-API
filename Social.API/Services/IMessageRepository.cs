@@ -4,7 +4,7 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public interface IMessageRepository
+    public interface IMessageRepository : IRepository<Message>
     {
         public Task<IEnumerable<Message>> GetMessages();
         public Task<Message> GetMessageById(int id);
