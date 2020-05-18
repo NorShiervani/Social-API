@@ -11,6 +11,8 @@ public class MappingProfile : Profile
         CreateMap<FakesForListDto, Fake>();
         CreateMap<UserForReturnDto,User>();
         CreateMap<User,UserForReturnDto>();
+        CreateMap<Conversation,ConversationForReturnDto>();
+        CreateMap<ConversationForReturnDto,Conversation>();
         CreateMap<Post,PostForReturnDto>();
         CreateMap<PostForReturnDto,Post>();
         CreateMap<UserConversator,UserConversatorForReturnDto>();
