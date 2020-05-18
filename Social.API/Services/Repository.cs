@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Social.API.Models;
 
 namespace Social.API.Services
 {
@@ -23,7 +24,7 @@ namespace Social.API.Services
         }
         public async Task<T> GetById(int id)
         {
-            return await table.FindAsync(id); 
+            return await table.FindAsync(id);
         }
         public async void Create(T entity)
         {
@@ -46,5 +47,12 @@ namespace Social.API.Services
             return (await _context.SaveChangesAsync()) >= 0;
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            _logger.LogInformation($"Retrieving user with the id {id}.");
+            var query = await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
+
+            return query;
+        }
     }
 }

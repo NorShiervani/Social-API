@@ -4,7 +4,7 @@ using Social.API.Models;
 
 namespace Social.API.Services
 {
-    public interface ICommentRepository
+    public interface ICommentRepository : IRepository<Comment>
     {
         public Task<IEnumerable<Comment>> GetComments();
         public Task<IEnumerable<Comment>> GetCommentsByPostId(int Id);
