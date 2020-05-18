@@ -18,7 +18,7 @@ using System.Collections;
 using Moq.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Social.API.Tests
+namespace Social.Api.Tests
 {
     public class TestRecieveUserData
 {

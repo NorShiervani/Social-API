@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Models;
 
-namespace Social.API
+namespace Social.Api.Tests
 {
     public class TestUserController : ControllerBase
     {

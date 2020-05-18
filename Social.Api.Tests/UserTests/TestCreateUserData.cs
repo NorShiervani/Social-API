@@ -1,4 +1,4 @@
-namespace Social.Api.Tests.UserTests
+namespace Social.Api.Tests
 {
     public class TestCreateUserData
     {

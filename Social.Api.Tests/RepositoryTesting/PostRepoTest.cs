@@ -12,7 +12,7 @@ using Moq.EntityFrameworkCore;
 using AutoFixture;
 using System;
 
-namespace Social.Api.Tests.PostTesting
+namespace Social.Api.Tests
 {
     public class TestRetrievePostData
     {   
