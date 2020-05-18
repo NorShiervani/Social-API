@@ -24,19 +24,6 @@ namespace Social.Api.Tests
 {
 
     [Fact]
-    public void GetUsers_Users_ReturnsCorrectUserCount()
-    {
-        var testUser = GetAllUsers();
-        var testUserList = new List<User>();
-        testUserList.Add(testUser[0]);
-
-        var controller = new TestUserController(testUserList);
-
-        var result = controller.GetAllUsers();
-        Assert.Equal(1, testUserList.Count);
-    }
-
-    [Fact]
     public async void GetUserById_UserExists_ReturnUser()
     {
         //Arrange
