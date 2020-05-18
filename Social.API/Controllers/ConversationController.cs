@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Models;
+using Social.API.Dtos;
 
 namespace Social.API.Services
 {
@@ -26,8 +27,8 @@ namespace Social.API.Services
             try
             {
                 var conversationsFromRepo = await _repo.GetConversations();
-
-                return Ok(conversationsFromRepo);
+                var conversationsToDto = _mapper.Map<ConversationForReturnDto[]>(conversationsFromRepo);
+                return Ok(conversationsToDto);
             }
             catch (Exception e)
             {
@@ -42,8 +43,9 @@ namespace Social.API.Services
         {
             try
             {
-                var conversationFromRepo = await _repo.GetConversationById(id);;
-                return Ok(conversationFromRepo);
+                var conversationFromRepo = await _repo.GetConversationById(id);
+                var conversationToDto = _mapper.Map<ConversationForReturnDto>(conversationFromRepo);
+                return Ok(conversationToDto);
             }
             catch (Exception e)
             {
