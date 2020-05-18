@@ -13,5 +13,12 @@ public class MappingProfile : Profile
         CreateMap<User,UserForReturnDto>();
         CreateMap<Conversation,ConversationForReturnDto>();
         CreateMap<ConversationForReturnDto,Conversation>();
+        CreateMap<Post,PostForReturnDto>();
+        CreateMap<PostForReturnDto,Post>();
+        CreateMap<UserConversator,UserConversatorForReturnDto>();
+        CreateMap<UserConversatorForReturnDto,UserConversator>();
+        CreateMap<LikeForReturnDto,Like>();
+        CreateMap<Like,LikeForReturnDto>();
+        CreateMap<Comment,CommentForReturnDto>();
     }
 }

@@ -8,7 +8,7 @@ using Social.API.Services;
 using Xunit;
 using Microsoft.Extensions.Logging;
 
-namespace Social.API.Tests.RepositoryTesting
+namespace Social.API.Tests
 {
     public class MessageRepoTests
     {

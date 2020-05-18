@@ -13,9 +13,9 @@ namespace Social.API.Dtos
         public bool IsSuspended { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<UserConversator> UserConversators { get; set; }
+        public ICollection<LikeForReturnDto> Likes { get; set; }
+        public ICollection<PostForReturnDto> Posts { get; set; }
+        public ICollection<CommentForReturnDto> Comments { get; set; }
+        public ICollection<UserConversatorForReturnDto> UserConversators { get; set; }
     }
 }
