@@ -8,7 +8,7 @@ using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 
-namespace Social.API.Tests.RepositoryTesting
+namespace Social.API.Tests
 {
     public class CommentRepositoryTests
     {
