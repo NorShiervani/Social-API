@@ -1,42 +1,39 @@
-**Sprint 1: Review**
+**Sprint 2: Review**
 
-Sekreterare: Samuel
+Sekreterare: Nor
 
 ****
 
 **Blev alla issues klara?**
 
-Ja, vi klarade av alla issues i ett tidigt skede och lade därför till ytterligare issues som också blev klara till sprintens slut.
+Nej, vi hade en del issues i Jira som inte blev klara. Det var en hel del issues från Automapping som inte blev klara eftersom vi inte riktigt förstod hur automapping fungerade. Vissa andra issues (som API requests) blev heller inte klara eftersom vi behövde tid att fundera över hur/om dessa skulle implementeras. Meddelande-delen i vår projekt var den mest komplicerade delen. 
 
 
 
 **Höll tidsplaneringen för issues?**
 
-Till en början var vi mycket generösa med vår tiduppskattning och issues gick mycket snabbare än vad vi hade tänkt. 
-
-Vissa issues tog däremot längre tid än vad som var uppskattat pg.a. research inom respektive områden. Detta har inneburit att vi lagt till en mängd issues löpande under sprintens gång. 
-
-Vi har haft ett övergripande tänk om att inte implementera allt för mycket funktionalitet med en gång och istället hålla det enkelt, framförallt gällande våra requests. Vi hade tankar om att endast implementera det mest grundläggande till en början.
+I vissa issues har tidsestimeringen varit rimlig men i andra issues har den vara mindre bra. Detta eftersom vi har behövt googla och diskutera i grupp. Detta har skett löpande när man gått ifrån det man har arbetat med och försökt hjälpa andra gruppmedlemmar med deras problem, vilket har ofta lett till att man har tappat tidsuppfattning av sin issue. I den här sprinten lade vi många fler issues jämfört med förra sprinten. Detta eftersom i den första sprinten så var vi tidspessimister och denna sprint blev vi tidsoptimister istället. Samtidigt så stod vi inför många nya begrepp och koncept i programmering i denna sprint jämfört med den första sprinten då vi endast sysslade med saker vi har gjort förut (EF, Code-first).
 
 
 
 **Har det kommit upp nya saker som skall läggas till på er backlog?**
 
-Många issuses som skapats har lagts till i backlogen och nästan direkt flyttats in i sprinten eftersom vi haft tid att jobba med dessa. 
-
-Issues för bl.a. generic repository har lagts till i backlogen och vi kommer jobba med dessa under nästa sprint. 
-
-Vi kommer även jobba mer med tester i nästa sprint, till en början tänker vi göra test för UserRepository och UserController. 
-
-Vi har haft en tanke på att implementera en användarroll men funderar på att skrota denna idén då vi tror att det kan komma att komplicera vårat API avsevärt. 
+Vi lade till Automapping i backloggen eftersom vi inte mappade något mot DTO:erna. Förutom detta så har vi även lagt till bug issue gällande Comment-delen i API:et, include fungerade inte som det skulle. Vi kommer även lägga issue(s) för uppdatering i det generiska repot så att repository kan inkludera alla önskvärda properties. Vi kommer även lägga till funktionalitet för Role-delen i projektet.
 
 
 
 **Förbättringar till nästa sprint **
 
-- Bättre kommunikation kring frånvaro.
-- Bättre tidsuppskattning kring issues.
-- Researcha mer/ läsa på ytterligare innan vi börjar jobba.
-- Ha mer konkreta mål i planeringen, kring vad vi ska uppnå med sprinten. 
-- Bli bättre på att dokumentera timetracking på issues. 
-- Bli bättre på att lägga till prioriteringsnivå på issues. 
+\- Bli bättre på att dokumentera timetracking på issues. 
+
+\- Bli bättre på att lägga till prioriteringsnivå på issues. 
+
+\- Researcha mer/ läsa på ytterligare innan vi börjar på ett nytt issue.
+
+\- Bättre tydlighet och relevans för vad vi ska uppnå i sprinten
+
+
+
+**Framtidssynpunkter från Samuel och Ahmad**
+
+Samuel: Man borde ha med include i API-adressen så att man kan filtrera/söka i en samling.
