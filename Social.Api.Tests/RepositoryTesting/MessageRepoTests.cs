@@ -13,6 +13,15 @@ namespace Social.Api.Tests
 {
     public class MessageRepoTests
     {
+        private readonly Mock<DataContext> _mockContext;
+        private readonly MessageRepository _mockRepo;
+
+        public MessageRepoTests()
+        {
+            _mockContext = new Mock<DataContext>();
+            _mockRepo = new MessageRepository(_mockContext.Object, Mock.Of<ILogger<MessageRepository>>());
+        }
+
         [Theory]
         [InlineData(2000)]
         [InlineData(6666)]
@@ -22,8 +31,6 @@ namespace Social.Api.Tests
         public async void GetMessageById_MessageExists_ReturnsCorrectMessageId(int expectedId)
         {
             // Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<MessageRepository> logger = loggerFactory.CreateLogger<MessageRepository>();
             IList<Message> messages = new List<Message> {
                     new Message() {
                        Id = expectedId,
@@ -32,12 +39,10 @@ namespace Social.Api.Tests
                     GenerateFake.Message(),
                     GenerateFake.Message()
             };
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Messages).ReturnsDbSet(messages);
-            var messageRepository = new MessageRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Messages).ReturnsDbSet(messages);
 
             // Act
-            var message = await messageRepository.GetMessageById(expectedId);
+            var message = await _mockRepo.GetMessageById(expectedId);
 
             // Assert
             Assert.Equal(expectedId, message.Id);
@@ -52,8 +57,6 @@ namespace Social.Api.Tests
         public async void GetMessageById_MessageNotExists_ReturnsNull(int nonExistantId)
         {
              // Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<MessageRepository> logger = loggerFactory.CreateLogger<MessageRepository>();
             IList<Message> messages = new List<Message> {
                     new Message() {
                        Id = 1000,
@@ -62,12 +65,10 @@ namespace Social.Api.Tests
                     GenerateFake.Message(),
                     GenerateFake.Message()
             };
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Messages).ReturnsDbSet(messages);
-            var messageRepository = new MessageRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Messages).ReturnsDbSet(messages);
 
             // Act
-            var message = await messageRepository.GetMessageById(nonExistantId);
+            var message = await _mockRepo.GetMessageById(nonExistantId);
 
             // Assert
             Assert.Null(message);
@@ -83,20 +84,14 @@ namespace Social.Api.Tests
         {
             //Arrange
             IList<Message> messages = new List<Message>();
-            
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<MessageRepository> logger = loggerFactory.CreateLogger<MessageRepository>();
-
             for (int i = 0; i < expectedAmountMessages; i++)
             {
                 messages.Add(GenerateFake.Message());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Messages).ReturnsDbSet(messages);
-            var messageRepository = new MessageRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Messages).ReturnsDbSet(messages);
 
             //Act
-            var messagesFromRepo = await messageRepository.GetMessages();
+            var messagesFromRepo = await _mockRepo.GetMessages();
 
             //Assert
             Assert.Equal(expectedAmountMessages, messagesFromRepo.Count());
@@ -112,20 +107,14 @@ namespace Social.Api.Tests
         {
             //Arrange
             IList<Message> messages = new List<Message>();
-            
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<MessageRepository> logger = loggerFactory.CreateLogger<MessageRepository>();
-
             for (int i = 0; i < 2; i++)
             {
                 messages.Add(GenerateFake.Message());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Messages).ReturnsDbSet(messages);
-            var messageRepository = new MessageRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Messages).ReturnsDbSet(messages);
 
             //Act
-            var messagesFromRepo = await messageRepository.GetMessages();
+            var messagesFromRepo = await _mockRepo.GetMessages();
 
             //Assert
             Assert.NotEqual(expectedAmountMessages, messagesFromRepo.Count());
