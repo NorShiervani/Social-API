@@ -19,9 +19,23 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        public Task<ActionResult<T>> Delete(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<T>> Delete(int id)
         {
-            throw new System.NotImplementedException();
+          try
+            {
+                var entity = await _repo.Delete(id);
+                if(entity == null)
+                {
+                    return NotFound();
+                }
+                return entity;
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
         [HttpGet("{id}")]
