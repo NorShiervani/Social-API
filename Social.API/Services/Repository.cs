@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,10 +20,20 @@ namespace Social.API.Services
             table = _context.Set<T>();
             _logger = logger;
         }
-        public async Task<IList<T>> GetAll()
+        public async Task<IList<T>> GetAll(params Expression<Func<T, object>>[] including)
         {
-            return await table.ToListAsync();
+            _logger.LogInformation($"Fetching entity list of type {typeof(T)} from the database.");
+            var query = _context.Set<T>().AsQueryable();
+            if (including != null)
+                including.ToList().ForEach(include =>
+                {
+                    if (include != null)
+                        query = query.Include(include);
+                });
+
+            return await query.ToListAsync();
         }
+        
         public async Task<T> GetById(int id)
         {
             return await table.FindAsync(id);
