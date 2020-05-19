@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -24,14 +25,16 @@ namespace Social.API.Controllers
         public async Task<ActionResult> GetLikes()
         {
             var likesFromRepo = await _repo.GetLikes();
-            return Ok(likesFromRepo);
+            var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+            return Ok(likesToDto);
         }
 
         [HttpGet("{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
             var likesFromRepo = await _repo.GetLikesByPostId(Id);
-            return Ok(likesFromRepo);
+            var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+            return Ok(likesToDto);
         }
 
     }
