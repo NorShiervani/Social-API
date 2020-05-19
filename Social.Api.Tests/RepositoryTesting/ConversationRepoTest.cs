@@ -13,6 +13,15 @@ namespace Social.Api.Tests
 {
     public class ConversationRepoTests
     {
+        private readonly Mock<DataContext> _mockContext;
+        private readonly ConversationRepository _mockRepo;
+
+        public ConversationRepoTests()
+        {
+            _mockContext = new Mock<DataContext>();
+            _mockRepo = new ConversationRepository(_mockContext.Object, Mock.Of<ILogger<ConversationRepository>>());
+        }
+
         [Theory]
         [InlineData(2000)]
         [InlineData(6666)]
@@ -22,8 +31,6 @@ namespace Social.Api.Tests
         public async void GetConversationById_ConversationExists_ReturnsCorrectConversationId(int expectedId)
         {
             // Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = expectedId,
@@ -32,12 +39,10 @@ namespace Social.Api.Tests
                     GenerateFake.Conversation(),
                     GenerateFake.Conversation()
             };
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
 
             // Act
-            var conversation = await conversationRepository.GetConversationById(expectedId);
+            var conversation = await _mockRepo.GetConversationById(expectedId);
 
             // Assert
             Assert.Equal(expectedId, conversation.Id);
@@ -52,8 +57,6 @@ namespace Social.Api.Tests
         public async void GetConversationById_ConversationNotExists_ReturnsNull(int nonExistantId)
         {
             // Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation> {
                     new Conversation() {
                        Id = 1000,
@@ -62,12 +65,10 @@ namespace Social.Api.Tests
                     GenerateFake.Conversation(),
                     GenerateFake.Conversation()
             };
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
 
             // Act
-            var conversation = await conversationRepository.GetConversationById(nonExistantId);
+            var conversation = await _mockRepo.GetConversationById(nonExistantId);
 
             // Assert
             Assert.Null(conversation);
@@ -83,20 +84,14 @@ namespace Social.Api.Tests
         {
             //Arrange
             IList<Conversation> conversations = new List<Conversation>();
-            
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
-
             for (int i = 0; i < expectedAmountConversations; i++)
             {
                 conversations.Add(GenerateFake.Conversation());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
 
             //Act
-            var conversationsFromRepo = await conversationRepository.GetConversations();
+            var conversationsFromRepo = await _mockRepo.GetConversations();
 
             //Assert
             Assert.Equal(expectedAmountConversations, conversationsFromRepo.Count());
@@ -111,19 +106,15 @@ namespace Social.Api.Tests
         public async void GetConversations_ConversationsAmount_ReturnsInCorrectAmountOfConversations(int incorrectAmountConversations)
         {
             //Arrange
-            ILoggerFactory loggerFactory = new LoggerFactory();    
-            ILogger<ConversationRepository> logger = loggerFactory.CreateLogger<ConversationRepository>();
             IList<Conversation> conversations = new List<Conversation>();
             for (int i = 0; i < 2; i++)
             {
                 conversations.Add(GenerateFake.Conversation());
             }
-            var dataContext = new Mock<DataContext>();
-            dataContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
-            var conversationRepository = new ConversationRepository(dataContext.Object, logger);
+            _mockContext.Setup(x => x.Conversations).ReturnsDbSet(conversations);
 
             //Act
-            var conversationsFromRepo = await conversationRepository.GetConversations();
+            var conversationsFromRepo = await _mockRepo.GetConversations();
 
             //Assert
             Assert.NotEqual(incorrectAmountConversations, conversationsFromRepo.Count());
