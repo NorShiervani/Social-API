@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -26,8 +27,8 @@ namespace Social.API.Controllers
             try
             {
             var commentsFromRepo = await _repo.GetComments();            
-
-            return Ok(commentsFromRepo);
+            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+            return Ok(commentsToDto);
             }
             catch (Exception e)
             {
@@ -42,8 +43,8 @@ namespace Social.API.Controllers
             try
             {
             var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
-
-            return Ok(commentsFromRepo);
+            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+            return Ok(commentsToDto);
             }
             catch (Exception e)
             {
