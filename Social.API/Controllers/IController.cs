@@ -9,8 +9,8 @@ namespace Social.API.Controllers
     {
         Task<ActionResult<T>> Get(int id);
         Task<ActionResult<T>> Delete(int id);
-        Task<ActionResult<T>> Post();
-        Task<ActionResult<T>> Put();
+        Task<ActionResult<T>> Post(T entity);
+        Task<ActionResult<T>> Put(int id, T entity);
     }
 
 }
