@@ -74,5 +74,19 @@ namespace Social.Api.Tests
             // Assert
             Assert.IsAssignableFrom<OkObjectResult>(response);
         }
+
+        [Fact]
+        public async Task GetPostsByUserId_ReturnsNoContent() 
+        {
+            // Arrange
+            _mockRepo.Setup(repo => repo.GetUserById(1))
+                .ReturnsAsync((User)null);
+
+            // Act
+            var response = await _userController.GetPostsByUserId(1);
+
+            // Assert
+            Assert.IsAssignableFrom<NoContentResult>(response);
+        }
     }
 }
