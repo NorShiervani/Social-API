@@ -10,9 +10,7 @@ using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 
-namespace Social.Api.Tests.ControllerTesting
-{
-    public class PostControllerTests
+ public class PostControllerTests
     {
         private readonly Mock<DataContext> _mockContext;
         private readonly Mock<IPostRepository> _mockRepo;
@@ -45,5 +43,4 @@ namespace Social.Api.Tests.ControllerTesting
             // Assert
             Assert.IsAssignableFrom<OkObjectResult>(response);
         }
-    }
-}
+ }
