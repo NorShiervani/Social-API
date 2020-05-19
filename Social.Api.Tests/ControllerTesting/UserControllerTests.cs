@@ -47,6 +47,20 @@ namespace Social.Api.Tests
         }
 
         [Fact]
+        public async Task GetUserById_ReturnsNoContent()
+        {
+            // Arrange
+            _mockRepo.Setup(repo => repo.GetUserById(1))
+                .ReturnsAsync((User)null);
+
+            // Act
+            var response = await _userController.GetUserById(1);
+
+            // Assert
+            Assert.IsAssignableFrom<NoContentResult>(response);
+        }
+
+        [Fact]
         public async Task GetUserById_ReturnsOk() 
         {
             // Arrange
