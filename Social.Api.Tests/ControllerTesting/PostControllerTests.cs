@@ -62,5 +62,21 @@ namespace Social.Api.Tests
             // Assert
             Assert.IsAssignableFrom<OkObjectResult>(response);
         }
+
+        [Fact]
+        public async Task CreatePost_UsingInvalidUserId_ReturnsBadRequest()
+        {
+            // Arrange
+            Post post = new Post() {
+                Text = "Test."
+            };
+            _mockRepo.Setup(repo => repo.GetUserById(-1));
+
+            // Act
+            var response = await _postController.CreatePost(-1, post);
+
+            // Assert
+            Assert.IsAssignableFrom<BadRequestObjectResult>(response);
+        }
     }
 }

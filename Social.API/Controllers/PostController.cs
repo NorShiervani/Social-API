@@ -23,11 +23,11 @@ namespace Social.API.Controllers
         }
 
         [HttpPost("{userId}")]
-        public ActionResult<Post> CreatePost(int userId, [FromBody] Post post)
+        public async Task<IActionResult> CreatePost(int userId, [FromBody] Post post)
         {
             try
             {
-                User userFromRepo = _repo.GetUserById(userId).Result;
+                var userFromRepo = await _repo.GetUserById(userId);
                 if (userFromRepo == null)
                     return BadRequest($"User with the id {userId} does not exist.");
 
