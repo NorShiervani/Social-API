@@ -43,8 +43,6 @@ namespace Social.API.Controllers
             }
         }
 
-
-
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {

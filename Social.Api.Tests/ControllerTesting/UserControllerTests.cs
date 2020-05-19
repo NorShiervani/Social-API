@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
+using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
 using Xunit;
@@ -40,6 +41,21 @@ namespace Social.Api.Tests
 
             // Act
             var response = await _userController.GetUsers();
+
+            // Assert
+            Assert.IsAssignableFrom<OkObjectResult>(response);
+        }
+
+        [Fact]
+        public async Task GetUserById_ReturnsOk() 
+        {
+            // Arrange
+            var user = GenerateFake.User();
+            _mockRepo.Setup(repo => repo.GetUserById(user.Id))
+                .ReturnsAsync(user);
+
+            // Act
+            var response = await _userController.GetUserById(user.Id);
 
             // Assert
             Assert.IsAssignableFrom<OkObjectResult>(response);
