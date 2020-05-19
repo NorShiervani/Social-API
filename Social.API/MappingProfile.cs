@@ -20,5 +20,8 @@ public class MappingProfile : Profile
         CreateMap<LikeForReturnDto,Like>();
         CreateMap<Like,LikeForReturnDto>();
         CreateMap<Comment,CommentForReturnDto>();
+        CreateMap<CommentForReturnDto,Comment>();
+        CreateMap<Message, MessageForReturnDto>();
+        CreateMap<MessageForReturnDto,Message>();
     }
 }

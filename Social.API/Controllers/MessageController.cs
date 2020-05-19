@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Dtos;
 using Social.API.Services;
 
 namespace Social.API.Controllers
@@ -20,13 +21,13 @@ namespace Social.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMessageById")]
-        public async Task<IActionResult> GetMessagesByUserId(int id)
+        public async Task<IActionResult> GetMessageById(int id)
         {
             try
             {
                 var messagesFromRepo = await _repo.GetMessageById(id);
-
-                return Ok(messagesFromRepo);
+                var messagesToDto = _mapper.Map<MessageForReturnDto>(messagesFromRepo);
+                return Ok(messagesToDto);
             }
             catch (Exception e)
             {
