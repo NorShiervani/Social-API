@@ -42,15 +42,16 @@ namespace Social.API.Controllers
             }
         }
 
+        [HttpPost]
         public Task<ActionResult<T>> Post(T entity)
         {
             throw new System.NotImplementedException();
         }
 
+        [HttpPut("{id}")]
         public Task<ActionResult<T>> Put(int id, T entity)
         {
             throw new System.NotImplementedException();
         }
     }
-
 }
