@@ -8,21 +8,22 @@ namespace Social.API.Controllers
 
     public class Controller<T, TRepository> : ControllerBase, IController<T> where T : class
     {
+        [HttpDelete("{id}")]
         public Task<ActionResult<T>> Delete(int id)
         {
             throw new System.NotImplementedException();
         }
-
+        [HttpGet("{id}")]
         public Task<ActionResult<T>> Get(int id)
         {
             throw new System.NotImplementedException();
         }
-
+        [HttpPost]
         public Task<ActionResult<T>> Post(T entity)
         {
             throw new System.NotImplementedException();
         }
-
+        [HttpPut("{id}")]
         public Task<ActionResult<T>> Put(int id, T entity)
         {
             throw new System.NotImplementedException();
