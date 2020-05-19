@@ -6,24 +6,24 @@ using Social.API.Services;
 namespace Social.API.Controllers
 {
 
-    public class Controller<TEntity, TRepository> : ControllerBase, IController<TEntity> where TEntity : class
+    public class Controller<T, TRepository> : ControllerBase, IController<T> where T : class
     {
-        public Task<ActionResult<TEntity>> Delete(int id)
+        public Task<ActionResult<T>> Delete(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<TEntity>> Get(int id)
+        public Task<ActionResult<T>> Get(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<TEntity>> Post(TEntity entity)
+        public Task<ActionResult<T>> Post(T entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<TEntity>> Put(int id, TEntity entity)
+        public Task<ActionResult<T>> Put(int id, T entity)
         {
             throw new System.NotImplementedException();
         }
