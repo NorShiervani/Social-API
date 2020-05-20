@@ -20,14 +20,14 @@ namespace Social.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<T>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
           try
             {
                 var entity = await _repo.Delete(id);
                 if(entity == null)
                 {
-                    return NotFound();
+                    return NotFound($"Could not find {id}");
                 }
                 _repo.Delete(entity);
                 if(await _repo.Save())
@@ -40,6 +40,7 @@ namespace Social.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpGet("{id}")]
