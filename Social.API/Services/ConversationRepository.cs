@@ -1,3 +1,5 @@
+using System.Net.Sockets;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,13 @@ namespace Social.API.Services
         {
             var query = await _context.Conversations.ToListAsync(); 
             
+            return query;
+        }
+
+        public async Task<IEnumerable<Conversation>> GetConversationsByUserId(int id)
+        {
+            
+            var query = await _context.Conversations.Where(x => x.UserConversators.Any(x => x.User.Id == id)).ToListAsync();
             return query;
         }
 
