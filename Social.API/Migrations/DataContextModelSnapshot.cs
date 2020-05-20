@@ -258,31 +258,6 @@ namespace Social.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Social.API.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rights")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Rights = 1,
-                            RoleName = "User"
-                        });
-                });
-
             modelBuilder.Entity("Social.API.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -310,15 +285,15 @@ namespace Social.API.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("Role")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValueSql("((0))");
 
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
 
@@ -333,7 +308,7 @@ namespace Social.API.Migrations
                             IsSuspended = false,
                             Lastname = "Doe",
                             Password = "4321234",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "LitteJohn2038"
                         },
                         new
@@ -346,7 +321,7 @@ namespace Social.API.Migrations
                             IsSuspended = false,
                             Lastname = "Plopinopel",
                             Password = "44321554",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "BigMan55"
                         },
                         new
@@ -359,7 +334,7 @@ namespace Social.API.Migrations
                             IsSuspended = false,
                             Lastname = "Orgonsk",
                             Password = "44515214",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "CrazyMama72"
                         });
                 });
@@ -433,15 +408,6 @@ namespace Social.API.Migrations
                     b.HasOne("Social.API.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Social.API.Models.User", b =>
-                {
-                    b.HasOne("Social.API.Models.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Social.API.Models.UserConversator", b =>

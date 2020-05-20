@@ -43,14 +43,16 @@ namespace Social.API.Controllers
             }
         }
 
-
-
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
+                if(userFromRepo == null)
+                {
+                    return NoContent();
+                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
                 return Ok(userToDto);
 
@@ -69,6 +71,10 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
+                if(userFromRepo == null)
+                {
+                    return NoContent();
+                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
                 return Ok(userToDto.Posts);
 
@@ -85,6 +91,10 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
+                if(userFromRepo == null)
+                {
+                    return NoContent();
+                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
                 return Ok(userToDto.Comments);
 

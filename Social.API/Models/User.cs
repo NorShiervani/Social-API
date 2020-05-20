@@ -13,10 +13,17 @@ namespace Social.API.Models
         public bool IsSuspended { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public int RoleId { get; set; }
         public ICollection<Like> Likes { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<UserConversator> UserConversators { get; set; }
+        public Role Role { get; set; }
+    }
+
+    public enum Role
+    {
+        Regular,
+        Moderator,
+        Administrator
     }
 }
