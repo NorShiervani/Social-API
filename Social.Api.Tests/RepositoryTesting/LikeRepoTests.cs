@@ -90,5 +90,21 @@ namespace Social.Api.Tests
             //Assert
             Assert.Equal(expectedAmountLikes, likesFromRepo.Count());
         }
+
+     
+        [Fact]
+        public async void GetLikes_LikesIsZero_ReturnsZeroLikes()
+        {
+            //arrange
+            IList<Like> likes = new List<Like>();
+            _mockContext.Setup(x => x.Likes).ReturnsDbSet(likes);
+             
+            //act
+            var likesFromRepo = await _mockRepo.GetLikesByPostId(44);
+
+            //assert
+            Assert.Equal(0, likes.Count());
+        }
+     
     }
 }
