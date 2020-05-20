@@ -27,7 +27,6 @@ namespace Social.API
 
             services.AddDbContext<DataContext>();
             
-            services.AddScoped<IFakeRepository, FakeRespository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
