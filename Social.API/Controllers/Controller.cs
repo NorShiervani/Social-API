@@ -29,7 +29,11 @@ namespace Social.API.Controllers
                 {
                     return NotFound();
                 }
-                return entity;
+                _repo.Delete(entity);
+                if(await _repo.Save())
+                {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
