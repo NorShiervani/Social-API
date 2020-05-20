@@ -54,6 +54,23 @@ namespace Social.API.Services
             }
             
         }
+        
+        [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
+        public async Task<IActionResult> GetConversationsUserById(int id)
+        {
+            try
+            {
+                var conversationFromRepo = await _repo.GetConversationsByUserId(id);
+                var conversationToDto = _mapper.Map<ConversationForReturnDto[]>(conversationFromRepo);
+                return Ok(conversationToDto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve conversation. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+            
+        }
         [HttpPost]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
