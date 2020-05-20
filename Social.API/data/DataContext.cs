@@ -2,49 +2,43 @@ using Social.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Social.API.Models.Fake;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Social.API
 {
     public class DataContext : DbContext
     {
-    private readonly IConfiguration _configuration;
-    public DataContext(IConfiguration _configuration, DbContextOptions<DataContext> options) : base(options) 
-    {
-        this._configuration = _configuration;
-    }
+        private readonly IConfiguration _configuration;
+        public DataContext(IConfiguration _configuration, DbContextOptions<DataContext> options) : base(options)
+        {
+            this._configuration = _configuration;
+        }
 
-    public DataContext()
-    {
-    }
+        public DataContext()
+        {
+        }
 
-    public virtual DbSet<Fake> Fake { get; set; }
-    public virtual DbSet<User> Users { get; set; }
-    public virtual DbSet<Like> Likes { get; set; }
-    public virtual DbSet<Post> Posts { get; set; }
-    public virtual DbSet<Comment> Comments { get; set; }
-    public virtual DbSet<Role> Roles { get; set; }
-    public virtual DbSet<UserConversator> UserConversators { get; set; }
-    public virtual DbSet<Message> Messages { get; set; }
-    public virtual DbSet<Conversation> Conversations { get; set; }
+        public virtual DbSet<Fake> Fake { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Like> Likes { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<UserConversator> UserConversators { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Conversation> Conversations { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
             optionsBuilder.UseSqlite(_configuration.GetConnectionString("SocialNetworkDb"));
-    }
-      
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Fake>().HasData(new Fake{Id = 1, Name = "Bill"});
-            modelBuilder.Entity<Fake>().HasData(new Fake{Id = 2, Name = "Shaun"});
-            modelBuilder.Entity<Fake>().HasData(new Fake{Id = 3, Name = "Hillary"});
-            modelBuilder.Entity<Fake>().HasData(new Fake{Id = 4, Name = "Emma"});
-            
-            modelBuilder.Entity<Role>().HasData(new
-            {
-                Id = 1,
-                RoleName = "User",
-                Rights = 1
-            });
+            modelBuilder.Entity<Fake>().HasData(new Fake { Id = 1, Name = "Bill" });
+            modelBuilder.Entity<Fake>().HasData(new Fake { Id = 2, Name = "Shaun" });
+            modelBuilder.Entity<Fake>().HasData(new Fake { Id = 3, Name = "Hillary" });
+            modelBuilder.Entity<Fake>().HasData(new Fake { Id = 4, Name = "Emma" });
+
             modelBuilder.Entity<User>().HasData(
                 new
                 {
@@ -57,7 +51,7 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "England",
                     City = "Brighton",
-                    RoleId = 1
+                    Role = Role.Regular
                 }
             );
             modelBuilder.Entity<User>().HasData(
@@ -72,7 +66,7 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "USA",
                     City = "El Paso",
-                    RoleId = 1
+                    Role = Role.Regular
                 }
             );
             modelBuilder.Entity<User>().HasData(
@@ -87,7 +81,7 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "Ukraine",
                     City = "Kiev",
-                    RoleId = 1
+                    Role = Role.Regular
                 }
             );
 
@@ -115,7 +109,6 @@ namespace Social.API
                     UserId = 3
                 }
             );
-
             modelBuilder.Entity<Post>().HasData(
                 new
                 {
@@ -140,15 +133,15 @@ namespace Social.API
                     UserId = 3
                 }
             );
-             modelBuilder.Entity<Comment>().HasData(
-                new
-                {
-                    Id = 1,
-                    Text = "Cool yo!",
-                    PostId = 3,
-                    UserId = 1
-                }
-            );
+            modelBuilder.Entity<Comment>().HasData(
+               new
+               {
+                   Id = 1,
+                   Text = "Cool yo!",
+                   PostId = 3,
+                   UserId = 1
+               }
+           );
             modelBuilder.Entity<Comment>().HasData(
                 new
                 {
@@ -248,7 +241,15 @@ namespace Social.API
                     ConversationId = 1
                 }
             );
-            
+
+            var playerTypeConverter = new EnumToNumberConverter<Role, int>();
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Role)
+                    .HasConversion(playerTypeConverter)
+                    .HasDefaultValueSql("((0))");
+            });
         }
     }
 }

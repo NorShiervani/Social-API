@@ -13,6 +13,7 @@ namespace Social.API.Dtos
         public bool IsSuspended { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
+        public Role Role { get; set; }
         public ICollection<LikeForReturnDto> Likes { get; set; }
         public ICollection<PostForReturnDto> Posts { get; set; }
         public ICollection<CommentForReturnDto> Comments { get; set; }

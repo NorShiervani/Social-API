@@ -20,7 +20,7 @@ namespace Social.Api.Tests
                 IsSuspended = false,
                 Country = fake.Address.Country(),
                 City = fake.Address.City(),
-                RoleId = 1
+                Role = Role.Regular
             };
         }
 
