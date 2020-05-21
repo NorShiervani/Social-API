@@ -144,10 +144,10 @@ namespace Social.API.Controllers
                "delete",
                "DELETE"));
 
-            // links.Add(
-            // new LinkDto(_urlHelper.Link(nameof(UpdateCommentById), new { id = id, Comment = "" }),
-            // "update",
-            // "PUT"));
+            links.Add(
+            new LinkDto(_urlHelper.Link(nameof(UpdateCommentById), new { id = id }),
+            "update",
+            "PUT"));
 
             return links;
         }
