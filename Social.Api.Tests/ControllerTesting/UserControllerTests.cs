@@ -12,19 +12,21 @@ using Xunit;
 
 namespace Social.Api.Tests
 {
-    public class UsersControllerTests
+    public class UserControllerTests
     {
         private readonly Mock<DataContext> _mockContext;
         private readonly Mock<IUserRepository> _mockRepo;
         private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<IUrlHelper> _urlHelper;
         private readonly UserController _userController;
 
-        public UsersControllerTests()
+        public UserControllerTests()
         {
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IUserRepository>();
             _mockMapper = new Mock<IMapper>();
-            _userController = new UserController(_mockRepo.Object, _mockMapper.Object);
+            _urlHelper = new Mock<IUrlHelper>();
+            _userController = new UserController(_mockRepo.Object, _mockMapper.Object, _urlHelper.Object);
         }
 
         [Fact]
