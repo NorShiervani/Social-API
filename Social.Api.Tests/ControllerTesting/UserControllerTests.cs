@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
@@ -18,13 +19,15 @@ namespace Social.Api.Tests
         private readonly Mock<IUserRepository> _mockRepo;
         private readonly Mock<IMapper> _mockMapper;
         private readonly UserController _userController;
+        private readonly Mock<IUrlHelper> _mockUrlHelper;
 
         public UserControllerTests()
         {
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IUserRepository>();
             _mockMapper = new Mock<IMapper>();
-            _userController = new UserController(_mockRepo.Object, _mockMapper.Object);
+            _mockUrlHelper = new Mock<IUrlHelper>();
+            _userController = new UserController(_mockRepo.Object, _mockMapper.Object, _mockUrlHelper.Object);
         }
 
         [Fact]

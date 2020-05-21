@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
 using Social.API.Models;
@@ -24,18 +26,59 @@ namespace Social.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetLikes()
         {
-            var likesFromRepo = await _repo.GetLikes();
-            var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
-            return Ok(likesToDto);
+            try
+            {
+                var likesFromRepo = await _repo.GetLikes();
+                var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+                return Ok(likesToDto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve likes. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
         }
 
-        [HttpGet("{Id}", Name = "GetLikesByPostId")]
+        [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
-            var likesFromRepo = await _repo.GetLikesByPostId(Id);
-            var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
-            return Ok(likesToDto);
+            try
+            {
+                var likesFromRepo = await _repo.GetLikesByPostId(Id);
+                var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+                return Ok(likesToDto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve likes. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+
         }
+
+        [HttpDelete("{id}", Name = "DeleteLikeById")]
+        public async Task<IActionResult> DeleteLikeById(int id)
+        {
+            try
+            {
+                var post = await _repo.GetById(id);
+
+                if (post == null)
+                {
+                    return BadRequest($"Could not delete like. Like with Id {id} was not found.");
+                }
+                _repo.DeleteLike(post);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the like. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+
+        }
+
 
     }
 }

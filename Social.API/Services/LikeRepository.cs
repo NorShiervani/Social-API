@@ -20,7 +20,7 @@ namespace Social.API.Services
             var query = await _context.Likes.Include(x => x.User).Include(x => x.Post).ToListAsync();
             return query;
         }
-
+        
         public async Task<IEnumerable<Like>> GetLikesByPostId(int Id)
         {
             var query = await _context.Likes.Include(x => x.User).Include(x => x.Post).Where(x => x.Post.Id == Id).ToListAsync();

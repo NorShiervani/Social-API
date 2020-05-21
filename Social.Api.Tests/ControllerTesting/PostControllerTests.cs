@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
@@ -20,14 +20,15 @@ namespace Social.Api.Tests
         private readonly Mock<IUrlHelper> _urlHelper;
         private readonly Mock<IMapper> _mockMapper;
         private readonly PostController _postController;
+        private readonly Mock<IUrlHelper> _mockUrlHelper;
        
         public PostControllerTests()
         {
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IPostRepository>();
             _mockMapper = new Mock<IMapper>();
-            _urlHelper = new Mock<IUrlHelper>();
-            _postController = new PostController(_urlHelper.Object, _mockRepo.Object, _mockMapper.Object);
+            _mockUrlHelper = new Mock<IUrlHelper>();
+            _postController = new PostController(_urlHelper, _mockRepo.Object, _mockMapper.Object);
         }
 
         [Fact]
