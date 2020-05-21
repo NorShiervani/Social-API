@@ -8,5 +8,6 @@ namespace Social.API.Services
     {
         Task<IEnumerable<Like>> GetLikes();
         Task<IEnumerable<Like>> GetLikesByPostId(int Id);
+        Task<Post> GetPostById(int postId);
     }
 }
