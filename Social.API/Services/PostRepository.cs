@@ -28,13 +28,6 @@ namespace Social.API.Services
             await Save();
         }
 
-        public async Task<Post> GetPostById(int id)
-        {
-            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id); 
-            
-            return query;
-        }
-
         public async Task<IEnumerable<Post>> GetPosts()
         {
             var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 

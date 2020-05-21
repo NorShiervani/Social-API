@@ -17,35 +17,29 @@ namespace Social.API.Services
         }
         public async Task<Conversation> CreateConversation(Conversation conversation)
         {
-            Create(conversation);
+            await Create(conversation);
             await Save();
             return conversation;
         }
 
         public async Task<Conversation> GetConversationById(int id)
         {
-            var query = await _context.Conversations.FirstOrDefaultAsync(x => x.Id == id); 
-
-            return query;
+            return await _context.Conversations.FirstOrDefaultAsync(x => x.Id == id); 
         }
 
         public async Task<IEnumerable<Conversation>> GetConversations()
         {
-            var query = await _context.Conversations.ToListAsync(); 
-            
-            return query;
+            return await _context.Conversations.ToListAsync(); 
         }
 
         public async Task<IEnumerable<Conversation>> GetConversationsByUserId(int id)
         {
-            
-            var query = await _context.Conversations.Where(x => x.UserConversators.Any(x => x.User.Id == id)).ToListAsync();
-            return query;
+            return await _context.Conversations.Where(x => x.UserConversators.Any(x => x.User.Id == id)).ToListAsync();
         }
 
         public async Task<Conversation> UpdateConversation(Conversation conversation)
         {
-            Update(conversation);
+            await Update(conversation);
             await Save();
             return conversation;
         }

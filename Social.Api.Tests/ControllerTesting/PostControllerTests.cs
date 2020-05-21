@@ -17,7 +17,7 @@ namespace Social.Api.Tests
     {
         private readonly Mock<DataContext> _mockContext;
         private readonly Mock<IPostRepository> _mockRepo;
-        private readonly IUrlHelper _urlHelper;
+        private readonly Mock<IUrlHelper> _urlHelper;
         private readonly Mock<IMapper> _mockMapper;
         private readonly PostController _postController;
         private readonly Mock<IUrlHelper> _mockUrlHelper;
@@ -28,7 +28,7 @@ namespace Social.Api.Tests
             _mockRepo = new Mock<IPostRepository>();
             _mockMapper = new Mock<IMapper>();
             _mockUrlHelper = new Mock<IUrlHelper>();
-            _postController = new PostController(_urlHelper, _mockRepo.Object, _mockMapper.Object);
+            _postController = new PostController(_mockUrlHelper.Object, _mockRepo.Object, _mockMapper.Object);
         }
 
         [Fact]
@@ -63,20 +63,20 @@ namespace Social.Api.Tests
             var response = await _postController.GetPostById(post.Id);
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         [Fact]
         public async Task CreatePost_UsingInvalidUserId_ReturnsBadRequest()
         {
             // Arrange
-            Post post = new Post() {
+            PostToCreateDto post = new PostToCreateDto {
                 Text = "Test."
             };
             _mockRepo.Setup(repo => repo.GetUserById(-1));
 
             // Act
-            var response = await _postController.CreatePost(-1, post);
+            var response = await _postController.CreatePost(post);
 
             // Assert
             Assert.IsAssignableFrom<BadRequestObjectResult>(response);
