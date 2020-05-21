@@ -67,7 +67,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete like. Like with Id {id} was not found.");
                 }
-                _repo.DeleteLike(post);
+                await _repo.Delete(post);
 
                 return NoContent();
             }
@@ -78,7 +78,5 @@ namespace Social.API.Controllers
             }
 
         }
-
-
     }
 }

@@ -20,6 +20,7 @@ namespace Social.API.Services
             table = _context.Set<T>();
             _logger = logger;
         }
+        
         public async Task<IList<T>> GetAll(params Expression<Func<T, object>>[] including)
         {
             _logger.LogInformation($"Fetching entity list of type {typeof(T)} from the database.");
@@ -38,21 +39,28 @@ namespace Social.API.Services
         {
             return await table.FindAsync(id);
         }
+
         public async Task Create(T entity)
         {
             _logger.LogInformation($"Adding object of type {entity.GetType()}");
             await table.AddAsync(entity);
+            await Save();
         }
+
         public async Task Update(T entity)
         {
             _logger.LogInformation($"Updating object of type {entity.GetType()}");
             _context.Update(entity);
+            await Save();
         }
+
         public async Task Delete(T entity)
         {
             _logger.LogInformation($"Deleting object of type {entity.GetType()}");
             table.Remove(entity);
+            await Save();
         }
+
         public async Task<bool> Save()
         {
             _logger.LogInformation("Saving changes");
@@ -62,9 +70,10 @@ namespace Social.API.Services
         public async Task<User> GetUserById(int id)
         {
             _logger.LogInformation($"Retrieving user with the id {id}.");
-            var query = await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
-
-            return query;
+            return await _context.Users.Include(u => u.Posts)
+                .Include(p => p.Comments)
+                .Include(p => p.Likes)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

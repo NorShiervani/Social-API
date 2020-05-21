@@ -40,7 +40,7 @@ namespace Social.API.Controllers
                     User = userFromRepo
                 };
 
-                _repo.CreatePost(post);
+                await _repo.Create(post);
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }
             catch (Exception e)
@@ -130,7 +130,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete post. Post with Id {id} was not found.");
                 }
-                _repo.DeletePost(post);
+                await _repo.Delete(post);
 
                 return NoContent();
             }
@@ -154,7 +154,7 @@ namespace Social.API.Controllers
                     return BadRequest($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
-                _repo.PutPost(post);
+                await _repo.Update(post);
 
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }

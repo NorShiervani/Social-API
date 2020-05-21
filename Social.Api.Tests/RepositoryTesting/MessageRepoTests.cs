@@ -23,11 +23,10 @@ namespace Social.Api.Tests
         }
 
         [Theory]
-        [InlineData(2000)]
-        [InlineData(6666)]
-        [InlineData(5000)]
-        [InlineData(1000)]
-        [InlineData(1313)]
+        [InlineData(10)]
+        [InlineData(20)]
+        [InlineData(50)]
+        [InlineData(100)]
         public async void GetMessageById_MessageExists_ReturnsCorrectMessageId(int expectedId)
         {
             // Arrange
@@ -49,11 +48,10 @@ namespace Social.Api.Tests
         }
 
         [Theory]
-        [InlineData(2000)]
-        [InlineData(6666)]
-        [InlineData(5000)]
-        [InlineData(1001)]
-        [InlineData(1313)]
+        [InlineData(10)]
+        [InlineData(20)]
+        [InlineData(50)]
+        [InlineData(100)]
         public async void GetMessageById_MessageNotExists_ReturnsNull(int nonExistantId)
         {
              // Arrange
@@ -77,9 +75,8 @@ namespace Social.Api.Tests
         [Theory]
         [InlineData(50)]
         [InlineData(10)]
-        [InlineData(2222)]
-        [InlineData(1000)]
-        [InlineData(2000)]
+        [InlineData(60)]
+        [InlineData(100)]
         public async void GetMessages_MessagesAmount_ReturnsCorrectAmountOfMessages(int expectedAmountMessages)
         {
             //Arrange
@@ -100,9 +97,7 @@ namespace Social.Api.Tests
         [Theory]
         [InlineData(50)]
         [InlineData(10)]
-        [InlineData(2222)]
-        [InlineData(10000)]
-        [InlineData(20000)]
+        [InlineData(100)]
         public async void GetMessages_MessagesAmount_ReturnsInCorrectAmountOfMessages(int expectedAmountMessages)
         {
             //Arrange

@@ -18,36 +18,29 @@ namespace Social.API.Services
         
         public async void CreatePost(Post post)
         { 
-            Create(post);
-            await Save();
+            await Create(post);
         }
 
         public async void DeletePost(Post post)
         {
-            Delete(post);
-            await Save();
+            await Delete(post);
         }
 
         public async Task<Post> GetPostById(int id)
         {
-            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id); 
-            
-            return query;
+            return await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id); 
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
-            
-            return query;
+            return await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
         }
 
         public async void PutPost(Post post)
         {
-            Update(post);
             try
             {
-                await Save();
+                await Update(post);
             }
             catch (DbUpdateConcurrencyException)
             {
