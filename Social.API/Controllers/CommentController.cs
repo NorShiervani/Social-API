@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,20 +17,23 @@ namespace Social.API.Controllers
     {
         private readonly ICommentRepository _repo;
         private readonly IMapper _mapper;
-        public CommentController(ICommentRepository repo, IMapper mapper)
+        private readonly IUrlHelper _urlHelper;
+        public CommentController(ICommentRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _repo = repo;
             _mapper = mapper;
+            _urlHelper = urlHelper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetComments")]
         public async Task<IActionResult> GetComments()
         {
             try
             {
             var commentsFromRepo = await _repo.GetComments();            
             var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
-            return Ok(commentsToDto);
+            var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
+            return Ok(toReturn);
             }
             catch (Exception e)
             {
@@ -68,7 +73,7 @@ namespace Social.API.Controllers
             } 
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateCommentById")]
         public IActionResult UpdateCommentById(int id, Comment comment)
         {   
             try
@@ -88,7 +93,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name ="DeleteCommentById")]
         public async Task<IActionResult> DeleteCommentById(int id)
         {
             try
@@ -108,5 +113,46 @@ namespace Social.API.Controllers
                 $"Failed to delete comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+
+
+            private dynamic ExpandSingleItem(CommentForReturnDto commentDto)
+        {
+            var links = GetLinks(commentDto.Id);
+
+            var resourceToReturn = commentDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetComments), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetCommentsByPostId), new { id = id }),
+              "getCommentByPostId",
+              "GET"));
+
+            links.Add(
+               new LinkDto(_urlHelper.Link(nameof(DeleteCommentById), new { id = id }),
+               "delete",
+               "DELETE"));
+
+            // links.Add(
+            // new LinkDto(_urlHelper.Link(nameof(UpdateCommentById), new { id = id, Comment = "" }),
+            // "update",
+            // "PUT"));
+
+            return links;
+        }
+
+
+
     }
 }
