@@ -7,10 +7,6 @@ namespace Social.API.Services
 {
     public interface IUserRepository : IRepository<User>
     {
-        public Task<IEnumerable<User>> GetUsers();
-        public void CreateUser(User user);
-        public void UpdateUser(User user);
-        public void DeleteUser(User user);
-        
+        Task<IEnumerable<User>> GetUsers();
     }
 }

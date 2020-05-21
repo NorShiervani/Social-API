@@ -32,7 +32,7 @@ namespace Social.Api.Tests
         }
 
         [Fact]
-        public async Task GetPosts_ReturnsOk()
+        public async Task GetPosts_ReturnsObject()
         {
             // Arrange
             IList<Post> posts = new List<Post> {
@@ -47,7 +47,7 @@ namespace Social.Api.Tests
             var response = await _postController.GetPosts();
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         
@@ -70,7 +70,7 @@ namespace Social.Api.Tests
         public async Task CreatePost_UsingInvalidUserId_ReturnsBadRequest()
         {
             // Arrange
-            PostToCreateDto post = new PostToCreateDto() {
+            PostToCreateDto post = new PostToCreateDto {
                 Text = "Test."
             };
             _mockRepo.Setup(repo => repo.GetUserById(-1));
