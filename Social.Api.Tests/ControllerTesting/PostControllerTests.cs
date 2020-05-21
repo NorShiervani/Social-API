@@ -70,7 +70,7 @@ namespace Social.Api.Tests
         public async Task CreatePost_UsingInvalidUserId_ReturnsBadRequest()
         {
             // Arrange
-            PostToCreateDto post = new PostToCreateDto() {
+            PostToCreateDto post = new PostToCreateDto {
                 Text = "Test."
             };
             _mockRepo.Setup(repo => repo.GetUserById(-1));
