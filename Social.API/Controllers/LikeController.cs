@@ -56,24 +56,30 @@ namespace Social.API.Controllers
 
         }
 
-        [HttpPost("{postId}")]
-        public async Task<IActionResult> CreateLike(int userId, int postId, Like like)
+        [HttpPost(Name = "CreateLike")]
+        public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
         {
             try
             {
-                var likeFromRepo = await _repo.GetById(postId);
-                if (likeFromRepo == null)
-                    return BadRequest($"Post with the id {postId} does not exist.");
+                var userFromRepo = await _repo.GetUserById(likeToCreateDto.UserId);
+                if (userFromRepo == null)
+                    return BadRequest($"User with the id {userFromRepo.Id} does not exist.");
+                var postFromRepo = await _repo.GetPostById(likeToCreateDto.PostId);
+                if (postFromRepo == null)
+                    return BadRequest($"Post with the id {postFromRepo.Id} does not exist.");
 
-               
 
-                _repo.CreateLike(post);
-                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+                Like like = new Like() {
+                    User = userFromRepo,
+                    Post = postFromRepo
+                };
+                _repo.Create(like);
+                return NoContent();
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+                    $"Failed to create the like. Exception thrown when attempting to add data to the database: {e.Message}");
             }
         }
 
@@ -88,7 +94,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete like. Like with Id {id} was not found.");
                 }
-                _repo.DeleteLike(post);
+                _repo.Delete(post);
 
                 return NoContent();
             }

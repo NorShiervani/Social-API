@@ -66,5 +66,13 @@ namespace Social.API.Services
 
             return query;
         }
+
+        public async Task<Post> GetPostById(int id)
+        {
+            _logger.LogInformation($"Retrieving user with the id {id}.");
+            var query = await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
+
+            return query;
+        }
     }
 }
