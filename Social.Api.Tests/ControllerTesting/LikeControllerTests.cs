@@ -46,5 +46,24 @@ namespace Social.Api.Tests.ControllerTesting
             // Assert
             Assert.IsAssignableFrom<OkObjectResult>(response);
         }
+
+        [Fact]
+        public async Task GetLikesByPostId_ReturnsOk()
+        {
+            // Arrange
+            IList<Like> likes = new List<Like> {
+                    GenerateFake.Like(),
+                    GenerateFake.Like(),
+                    GenerateFake.Like()
+            };
+            _mockRepo.Setup(repo => repo.GetLikesByPostId(1))
+                .ReturnsAsync(likes);
+
+            // Act
+            var response = await _likesController.GetLikesByPostId(1);
+
+            // Assert
+            Assert.IsAssignableFrom<OkObjectResult>(response);
+        }
     }
 }
