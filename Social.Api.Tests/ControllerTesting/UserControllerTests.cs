@@ -64,7 +64,7 @@ namespace Social.Api.Tests
         }
 
         [Fact]
-        public async Task GetUserById_ReturnsOk() 
+        public async Task GetUserById_ReturnsObject() 
         {
             // Arrange
             var user = GenerateFake.User();
@@ -75,7 +75,7 @@ namespace Social.Api.Tests
             var response = await _userController.GetUserById(user.Id);
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         [Fact]

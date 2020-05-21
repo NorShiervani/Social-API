@@ -53,12 +53,12 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpPost("post/{postId}")]
-        public ActionResult<Comment> CreateComment(int postId, [FromBody] Comment comment)
+        [HttpPost]
+        public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
             try
             {
-                _repo.CreateComment(postId, comment);
+                await _repo.CreateComment(1, comment);
                 return CreatedAtAction(nameof(GetCommentsByPostId), new { id = comment.Id }, comment);
             }
             catch (Exception e)
@@ -99,7 +99,7 @@ namespace Social.API.Controllers
                     return NotFound("There was no comment with that Id");
                 }
 
-                _repo.DeleteComment(comment);
+                await _repo.Delete(comment);
                 return NoContent();
             }
             catch (Exception e)

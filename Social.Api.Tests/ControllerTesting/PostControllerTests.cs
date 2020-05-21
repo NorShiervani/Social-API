@@ -32,7 +32,7 @@ namespace Social.Api.Tests
         }
 
         [Fact]
-        public async Task GetPosts_ReturnsOk()
+        public async Task GetPosts_ReturnsObject()
         {
             // Arrange
             IList<Post> posts = new List<Post> {
@@ -47,7 +47,7 @@ namespace Social.Api.Tests
             var response = await _postController.GetPosts();
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         

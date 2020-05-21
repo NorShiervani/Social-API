@@ -11,11 +11,10 @@ namespace Social.API.Services
     {
         Task<IList<T>> GetAll(params Expression<Func<T, object>>[] including);
         Task<T> GetById(int id);
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task Create(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
         Task<bool> Save();
-        public Task<User> GetUserById(int id);
-        public Task<Post> GetPostById(int id);
+        Task<User> GetUserById(int id);
     }
 }

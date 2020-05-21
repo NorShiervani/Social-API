@@ -137,7 +137,7 @@ namespace Social.API.Services
         {
             try
             {
-                await _repo.CreateConversation(conversation);
+                await _repo.Create(conversation);
                 return Ok(conversation);
             }
             catch (Exception e)
@@ -156,7 +156,7 @@ namespace Social.API.Services
             }
             try
             {
-                await _repo.UpdateConversation(conversation);
+                await _repo.Update(conversation);
                 return Ok(conversation);
             }
             catch (Exception e)

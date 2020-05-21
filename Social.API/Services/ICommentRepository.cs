@@ -6,11 +6,10 @@ namespace Social.API.Services
 {
     public interface ICommentRepository : IRepository<Comment>
     {
-        public Task<IEnumerable<Comment>> GetComments();
-        public Task<IEnumerable<Comment>> GetCommentsByPostId(int Id);
-        public Task<Comment> GetCommentByPostId(int Id);
-        public void CreateComment(int postId, Comment comment);
-        public void UpdateComment(int commentId, Comment comment);
-        public void DeleteComment(Comment comment);
+        Task<IEnumerable<Comment>> GetComments();
+        Task<IEnumerable<Comment>> GetCommentsByPostId(int Id);
+        Task<Comment> GetCommentByPostId(int Id);
+        Task CreateComment(int id, Comment comment);
+        Task UpdateComment(int id, Comment comment);
     }
 }

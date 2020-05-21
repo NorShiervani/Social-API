@@ -15,28 +15,22 @@ namespace Social.API.Services
         }
         public async void CreateMessage(Message message)
         {
-            Create(message);
-            await Save();
+            await Create(message);
         }
 
         public async void DeleteMessage(Message message)
         {
-            Delete(message);
-            await Save();
+            await Delete(message);
         }
 
         public async Task<Message> GetMessageById(int id)
         {
-            var query = await _context.Messages.Include(m => m.UserConversator).ThenInclude(u => u.Conversation).FirstOrDefaultAsync(x => x.Id == id); 
-            
-            return query;
+            return await _context.Messages.Include(m => m.UserConversator).ThenInclude(u => u.Conversation).FirstOrDefaultAsync(x => x.Id == id); 
         }
 
         public async Task<IEnumerable<Message>> GetMessages()
         {
-            var query = await _context.Messages.ToListAsync(); 
-            
-            return query;
+            return await _context.Messages.ToListAsync(); 
         }
     }
 }

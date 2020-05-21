@@ -26,7 +26,6 @@ namespace Social.Api.Tests
         [InlineData(622)]
         [InlineData(123)]
         [InlineData(100)]
-        [InlineData(10001)]
         public async void GetLikesByPostId_LikesCount_ReturnsZero(int nonExistantPostId)
         {
             // Arrange
@@ -49,7 +48,6 @@ namespace Social.Api.Tests
         [InlineData(622)]
         [InlineData(123)]
         [InlineData(100)]
-        [InlineData(10001)]
         public async void GetLikeByPostId_LikesExist_ReturnsNotNull(int ExistantPostId)
         {
             // Arrange
