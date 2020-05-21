@@ -116,7 +116,7 @@ namespace Social.API.Services
 
             links.Add(
               new LinkDto(_urlHelper.Link(nameof(GetConversationById), new { id = id }),
-              "get",
+              "self",
               "GET"));
 
             links.Add(
