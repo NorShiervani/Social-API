@@ -38,17 +38,17 @@ namespace Social.API.Services
         {
             return await table.FindAsync(id);
         }
-        public async void Create(T entity)
+        public async Task Create(T entity)
         {
             _logger.LogInformation($"Adding object of type {entity.GetType()}");
             await table.AddAsync(entity);
         }
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
             _logger.LogInformation($"Updating object of type {entity.GetType()}");
             _context.Update(entity);
         }
-        public void Delete(T entity)
+        public async Task Delete(T entity)
         {
             _logger.LogInformation($"Deleting object of type {entity.GetType()}");
             table.Remove(entity);
