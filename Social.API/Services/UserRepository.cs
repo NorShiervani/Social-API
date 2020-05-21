@@ -15,27 +15,9 @@ namespace Social.API.Services
             _context = context;
         }
 
-        public async void CreateUser(User user)
-        {
-            Create(user);
-            await Save();
-        }
-        public async void UpdateUser(User user)
-        {
-            Update(user);
-            await Save();
-        }
-        public async void DeleteUser(User user)
-        {
-            Delete(user);
-            await Save();
-        }
-
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var query = await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
-            
-            return query;
+            return await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
         }
     }
 }

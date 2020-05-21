@@ -23,11 +23,11 @@ namespace Social.Api.Tests
         }
 
         [Theory]
-        [InlineData(2000)]
-        [InlineData(6666)]
-        [InlineData(5000)]
-        [InlineData(1000)]
-        [InlineData(1313)]
+        [InlineData(10)]
+        [InlineData(20)]
+        [InlineData(50)]
+        [InlineData(100)]
+        [InlineData(200)]
         public async void GetConversationById_ConversationExists_ReturnsCorrectConversationId(int expectedId)
         {
             // Arrange
@@ -49,11 +49,9 @@ namespace Social.Api.Tests
         }
 
         [Theory]
-        [InlineData(2000)]
-        [InlineData(6666)]
-        [InlineData(5000)]
-        [InlineData(1001)]
-        [InlineData(1313)]
+        [InlineData(20)]
+        [InlineData(300)]
+        [InlineData(400)]
         public async void GetConversationById_ConversationNotExists_ReturnsNull(int nonExistantId)
         {
             // Arrange

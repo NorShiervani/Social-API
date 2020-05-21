@@ -46,10 +46,6 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
                 return Ok(ExpandSingleItem(userToDto));
 
@@ -113,7 +109,7 @@ namespace Social.API.Controllers
                 {
                     throw new Exception("User already exists");
                 }
-                _repo.CreateUser(newUser);
+                _repo.Create(newUser);
                 return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
 
             }
@@ -134,7 +130,7 @@ namespace Social.API.Controllers
                     return BadRequest("Wrong userId");
                 }
 
-                _repo.UpdateUser(user);
+                _repo.Update(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
             }
             catch (Exception e)
@@ -155,7 +151,7 @@ namespace Social.API.Controllers
                     return NotFound("There was no user with that Id");
                 }
 
-                _repo.DeleteUser(user);
+                await _repo.Delete(user);
                 return NoContent();
             }
             catch (Exception e)

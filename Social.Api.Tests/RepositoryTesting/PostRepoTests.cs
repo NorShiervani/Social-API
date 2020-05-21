@@ -30,7 +30,6 @@ namespace Social.Api.Tests
         [InlineData(554)]
         [InlineData(32)]
         [InlineData(345)]
-        [InlineData(5434)]
         public async void GetPostById_PostExists_ReturnsCorrectPostId(int expectedId)
         {
             // Arrange
@@ -57,7 +56,6 @@ namespace Social.Api.Tests
         [InlineData(53)]
         [InlineData(59)]
         [InlineData(151)]
-        [InlineData(157)]
         public async void GetPosts_PostsAmount_ReturnsCorrectAmountOfPosts(int expectedAmountPosts)
         {
             //Arrange

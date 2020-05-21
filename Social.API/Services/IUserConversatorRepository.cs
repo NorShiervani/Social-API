@@ -6,8 +6,8 @@ namespace Social.API.Services
 {
     public interface IUserConversatorRepository : IRepository<UserConversator>
     {
-        public Task<IEnumerable<UserConversator>> GetUserConversators();
-        public Task<UserConversator> GetUserConversatorById(int id);
-        public void CreateUserConversator(UserConversator userConversator);
+        Task<IEnumerable<UserConversator>> GetUserConversators();
+        Task<UserConversator> GetUserConversatorById(int id);
+        Task CreateUserConversator(UserConversator userConversator);
     }
 }

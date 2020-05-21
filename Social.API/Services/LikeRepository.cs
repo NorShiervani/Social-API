@@ -22,19 +22,17 @@ namespace Social.API.Services
         
         public async Task<IEnumerable<Like>> GetLikesByPostId(int Id)
         {
-            var query = await _context.Likes.Include(x => x.User).Include(x => x.Post).Where(x => x.Post.Id == Id).ToListAsync();
-            return query;
+            return await _context.Likes.Include(x => x.User).Include(x => x.Post).Where(x => x.Post.Id == Id).ToListAsync();
         }
+        
         public async void DeleteLike(Like like)
         {
             await Delete(like);
-            await Save();
         }
 
         public async void CreateLike(Like like)
         {
             await Create(like);
-            await Save();
         }
     }
 }

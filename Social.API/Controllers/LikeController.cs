@@ -73,7 +73,7 @@ namespace Social.API.Controllers
                     User = userFromRepo,
                     Post = postFromRepo
                 };
-                _repo.Create(like);
+                await _repo.Create(like);
                 return NoContent();
             }
             catch (Exception e)
@@ -94,7 +94,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete like. Like with Id {id} was not found.");
                 }
-                _repo.Delete(post);
+                await _repo.Delete(post);
 
                 return NoContent();
             }
@@ -105,7 +105,5 @@ namespace Social.API.Controllers
             }
 
         }
-
-
     }
 }
