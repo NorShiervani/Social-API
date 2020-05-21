@@ -51,7 +51,7 @@ namespace Social.API.Controllers
                     Text = messageToCreateDto.Text,
                     UserConversator = userConversatorFromRepo
                 };
-                _repo.Create(message);
+                await _repo.Create(message);
                 return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
             }
             catch (Exception e)
