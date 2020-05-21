@@ -17,5 +17,6 @@ namespace Social.API.Services
         Task<bool> Save();
         public Task<User> GetUserById(int id);
         public Task<Post> GetPostById(int id);
+        Task<UserConversator> GetUserConversatorById(int id);
     }
 }
