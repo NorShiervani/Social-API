@@ -1,5 +1,6 @@
   
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,9 +16,11 @@ namespace Social.API.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repo;
+        private readonly IUrlHelper _urlHelper;
         private readonly IMapper _mapper;
-        public PostController(IPostRepository repo, IMapper mapper)
+        public PostController(IUrlHelper urlHelper, IPostRepository repo, IMapper mapper)
         {
+            _urlHelper = urlHelper;
             _mapper = mapper;
             _repo = repo;
         }
@@ -66,7 +69,7 @@ namespace Social.API.Controllers
             {
                 var postFromRepo = await _repo.GetPostById(id);
                 var postToDto = _mapper.Map<PostForReturnDto>(postFromRepo);
-                return Ok(postToDto);
+                return Ok(ExpandSingleItem(postToDto));
             }
             catch (Exception e)
             {
@@ -75,7 +78,39 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        private dynamic ExpandSingleItem(PostForReturnDto postDto)
+        {
+            var links = GetLinks(postDto.Id);
+
+            var resourceToReturn = postDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetPostById), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(DeletePostById), new { id = id }),
+              "delete",
+              "DELETE"));
+
+            links.Add(
+               new LinkDto(_urlHelper.Link(nameof(UpdatePostText), new { id = id, text = "" }),
+               "update",
+               "PUT"));
+
+            return links;
+        }
+
+        [HttpDelete("{id}", Name = "DeletePostById")]
         public async Task<IActionResult> DeletePostById(int id)
         {
             try
@@ -98,8 +133,7 @@ namespace Social.API.Controllers
 
         }
 
-        
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdatePostText")]
         public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
         {
             try 

@@ -17,6 +17,7 @@ namespace Social.Api.Tests
     {
         private readonly Mock<DataContext> _mockContext;
         private readonly Mock<IPostRepository> _mockRepo;
+        private readonly IUrlHelper _urlHelper;
         private readonly Mock<IMapper> _mockMapper;
         private readonly PostController _postController;
        
@@ -25,7 +26,7 @@ namespace Social.Api.Tests
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IPostRepository>();
             _mockMapper = new Mock<IMapper>();
-            _postController = new PostController(_mockRepo.Object, _mockMapper.Object);
+            _postController = new PostController(_urlHelper, _mockRepo.Object, _mockMapper.Object);
         }
 
         [Fact]
