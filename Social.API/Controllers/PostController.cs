@@ -1,6 +1,7 @@
   
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -25,16 +26,19 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        [HttpPost("{userId}")]
-        public async Task<IActionResult> CreatePost(int userId, [FromBody] Post post)
+        [HttpPost(Name = "CreatePost")]
+        public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
         {
             try
             {
-                var userFromRepo = await _repo.GetUserById(userId);
+                var userFromRepo = await _repo.GetUserById(postToCreateDto.UserId);
                 if (userFromRepo == null)
-                    return BadRequest($"User with the id {userId} does not exist.");
-
-                post.User = userFromRepo;
+                    return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
+                
+                Post post = new Post() {
+                    Text = postToCreateDto.Text,
+                    User = userFromRepo
+                };
 
                 _repo.CreatePost(post);
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
@@ -52,8 +56,8 @@ namespace Social.API.Controllers
             try
             {
                 var postsFromRepo = await _repo.GetAll(x => x.User, x => x.Likes, x => x.Comments);
-                var postsToDto = _mapper.Map<PostForReturnDto[]>(postsFromRepo);
-                return Ok(postsToDto);
+                var toReturn = postsFromRepo.Select(x => ExpandSingleItem(x));
+                return Ok(toReturn);
             }
             catch (Exception e)
             {
@@ -68,8 +72,7 @@ namespace Social.API.Controllers
             try
             {
                 var postFromRepo = await _repo.GetPostById(id);
-                var postToDto = _mapper.Map<PostForReturnDto>(postFromRepo);
-                return Ok(ExpandSingleItem(postToDto));
+                return Ok(ExpandSingleItem(postFromRepo));
             }
             catch (Exception e)
             {
@@ -78,9 +81,10 @@ namespace Social.API.Controllers
             }
         }
 
-        private dynamic ExpandSingleItem(PostForReturnDto postDto)
+        private dynamic ExpandSingleItem(Post post)
         {
-            var links = GetLinks(postDto.Id);
+            var links = GetLinks(post);
+            PostForReturnDto postDto = _mapper.Map<PostForReturnDto>(post);
 
             var resourceToReturn = postDto.ToDynamic() as IDictionary<string, object>;
             resourceToReturn.Add("links", links);
@@ -88,25 +92,30 @@ namespace Social.API.Controllers
             return resourceToReturn;
         }
 
-        private IEnumerable<LinkDto> GetLinks(int id)
+        private IEnumerable<LinkDto> GetLinks(Post post)
         {
             var links = new List<LinkDto>();
 
             links.Add(
-              new LinkDto(_urlHelper.Link(nameof(GetPostById), new { id = id }),
+              new LinkDto(_urlHelper.Link(nameof(GetPostById), new { id = post.Id }),
               "self",
               "GET"));
 
             links.Add(
-              new LinkDto(_urlHelper.Link(nameof(DeletePostById), new { id = id }),
+              new LinkDto(_urlHelper.Link(nameof(DeletePostById), new { id = post.Id }),
               "delete",
               "DELETE"));
 
             links.Add(
-               new LinkDto(_urlHelper.Link(nameof(UpdatePostText), new { id = id, text = "" }),
+               new LinkDto(_urlHelper.Link(nameof(UpdatePostText), new { id = post.Id }),
                "update",
                "PUT"));
 
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(CreatePost), null),
+              "create",
+              "POST"));
+              
             return links;
         }
 
