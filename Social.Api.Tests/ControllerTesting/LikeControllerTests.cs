@@ -18,6 +18,7 @@ namespace Social.Api.Tests.ControllerTesting
         private readonly Mock<IUrlHelper> _urlHelper;
         private readonly Mock<IMapper> _mockMapper;
         private readonly LikeController _likesController;
+        
 
         public LikeControllerTests()
         {
@@ -25,7 +26,7 @@ namespace Social.Api.Tests.ControllerTesting
             _mockRepo = new Mock<ILikeRepository>();
             _mockMapper = new Mock<IMapper>();
             _urlHelper = new Mock<IUrlHelper>();
-            _likesController = new LikeController(_mockRepo.Object, _mockMapper.Object);
+            _likesController = new LikeController(_mockRepo.Object, _mockMapper.Object, _urlHelper.Object);
         }
 
         [Fact]
