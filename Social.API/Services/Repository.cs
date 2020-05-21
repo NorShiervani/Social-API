@@ -81,5 +81,11 @@ namespace Social.API.Services
             _logger.LogInformation($"Retrieving user with the id {id}.");
             return await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<UserConversator> GetUserConversatorById(int id)
+        {
+            _logger.LogInformation($"Retrieving userconversator with the id {id}.");
+            return await _context.UserConversators.Include(u => u.User).Include(c => c.Conversation).FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

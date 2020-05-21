@@ -16,5 +16,9 @@ namespace Social.API.Services
         Task Delete(T entity);
         Task<bool> Save();
         Task<User> GetUserById(int id);
+        Task<Post> GetPostById(int id);
+        Task<UserConversator> GetUserConversatorById(int id);
+
+
     }
 }
