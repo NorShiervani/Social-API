@@ -56,6 +56,27 @@ namespace Social.API.Controllers
 
         }
 
+        [HttpPost("{postId}")]
+        public async Task<IActionResult> CreateLike(int userId, int postId, Like like)
+        {
+            try
+            {
+                var likeFromRepo = await _repo.GetById(postId);
+                if (likeFromRepo == null)
+                    return BadRequest($"Post with the id {postId} does not exist.");
+
+               
+
+                _repo.CreateLike(post);
+                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+            }
+        }
+
         [HttpDelete("{id}", Name = "DeleteLikeById")]
         public async Task<IActionResult> DeleteLikeById(int id)
         {
