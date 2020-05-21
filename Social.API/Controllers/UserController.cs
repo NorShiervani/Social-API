@@ -103,7 +103,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateUser")]
         public ActionResult<User> CreateUser(User newUser)
         {
             try
@@ -145,7 +145,7 @@ namespace Social.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFakeById(int id)
+        public async Task<IActionResult> DeleteUserById(int id)
         {
             try
             {
@@ -164,7 +164,6 @@ namespace Social.API.Controllers
                 $"Failed to delete user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
-
 
          private dynamic ExpandSingleItem(UserForReturnDto userDto)
         {
@@ -197,7 +196,7 @@ namespace Social.API.Controllers
 
             links.Add(
                new LinkDto(_urlHelper.Link(nameof(UpdateUserById), new { id = id }),
-               "update",
+               "updateUser",
                "PUT"));
 
             return links;
