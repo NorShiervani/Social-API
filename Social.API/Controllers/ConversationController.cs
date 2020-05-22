@@ -32,9 +32,7 @@ namespace Social.API.Services
             {
                 var conversationsFromRepo = await _repo.GetConversations();
                 var conversationsToDto = _mapper.Map<ConversationForReturnDto[]>(conversationsFromRepo);
-                var links = CreateLinksForCollection();
-                var toReturn = conversationsToDto.Select(x => ExpandSingleItem(x));
-                return Ok(toReturn);
+                return Ok(conversationsToDto);
             }
             catch (Exception e)
             {
@@ -44,7 +42,7 @@ namespace Social.API.Services
 
         }
 
-        [HttpGet("{id}", Name = "GetConversationById")]
+        [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
             try
@@ -62,7 +60,7 @@ namespace Social.API.Services
             
         }
         
-        [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
+        [HttpGet("user/{Id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
             try
@@ -87,7 +85,6 @@ namespace Social.API.Services
             links.Add(
              new LinkDto(_urlHelper.Link(nameof(CreateConversation), null), "create", "POST"));
 
-            // self 
             links.Add(
              new LinkDto(_urlHelper.Link(nameof(GetConversations), new
              {

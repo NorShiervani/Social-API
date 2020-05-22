@@ -25,6 +25,22 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+        [HttpGet("{Id}", Name = "GetCommentById")]
+        public async Task<IActionResult> GetCommentById(int id)
+        {
+            try
+            {
+            var commentFromRepo = await _repo.GetById(id);            
+            var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
+            return Ok(ExpandSingleItem(commentToDto));
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+        }
+
         [HttpGet(Name = "GetComments")]
         public async Task<IActionResult> GetComments()
         {
@@ -42,7 +58,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpGet("{Id}", Name = "GetCommentsByPostId")]
+        [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
             try
@@ -58,13 +74,13 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
             try
             {
                 await _repo.CreateComment(1, comment);
-                return CreatedAtAction(nameof(GetCommentsByPostId), new { id = comment.Id }, comment);
+                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
             }
             catch (Exception e)
             {
@@ -73,7 +89,7 @@ namespace Social.API.Controllers
             } 
         }
 
-        [HttpPut("{id}", Name = "UpdateCommentById")]
+        [HttpPut("{Id}", Name = "UpdateCommentById")]
         public IActionResult UpdateCommentById(int id, Comment comment)
         {   
             try
@@ -84,7 +100,7 @@ namespace Social.API.Controllers
                 }
 
                 _repo.UpdateComment(id, comment);
-                return CreatedAtAction(nameof(GetCommentsByPostId), new { id = comment.Id}, comment);
+                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
             }
             catch (Exception e)
             {
@@ -93,7 +109,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpDelete("{id}", Name ="DeleteCommentById")]
+        [HttpDelete("{Id}", Name ="DeleteCommentById")]
         public async Task<IActionResult> DeleteCommentById(int id)
         {
             try
@@ -114,7 +130,6 @@ namespace Social.API.Controllers
             }
         }
 
-
         private dynamic ExpandSingleItem(CommentForReturnDto commentDto)
         {
             var links = GetLinks(commentDto.Id);
@@ -130,14 +145,14 @@ namespace Social.API.Controllers
             var links = new List<LinkDto>();
 
             links.Add(
-              new LinkDto(_urlHelper.Link(nameof(GetComments), new { id = id }),
+              new LinkDto(_urlHelper.Link(nameof(GetCommentById), new { id = id }),
               "self",
               "GET"));
 
             links.Add(
-              new LinkDto(_urlHelper.Link(nameof(GetCommentsByPostId), new { id = id }),
-              "getCommentByPostId",
-              "GET"));
+              new LinkDto(_urlHelper.Link(nameof(CreateComment), new { id = id }),
+              "create",
+              "POST"));
 
             links.Add(
                new LinkDto(_urlHelper.Link(nameof(DeleteCommentById), new { id = id }),
