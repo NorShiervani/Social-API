@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,12 @@ namespace Social.API.Controllers
     {
         private readonly IMessageRepository _repo;
         private readonly IMapper _mapper;
-        public MessageController(IMessageRepository repo, IMapper mapper)
+        private readonly IUrlHelper _urlHelper;
+        public MessageController(IMessageRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
             _repo = repo;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet("{id}", Name = "GetMessageById")]
@@ -26,16 +29,15 @@ namespace Social.API.Controllers
         {
             try
             {
-                var messagesFromRepo = await _repo.GetMessageById(id);
-                var messagesToDto = _mapper.Map<MessageForReturnDto>(messagesFromRepo);
-                return Ok(messagesToDto);
+                var messageFromRepo = await _repo.GetMessageById(id);
+                var messageToDto = _mapper.Map<MessageForReturnDto>(messageFromRepo);
+                return Ok(ExpandSingleItem(messageToDto));
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve message. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
-
         }
 
         [HttpPost(Name = "CreateMessage")]
@@ -62,5 +64,26 @@ namespace Social.API.Controllers
             } 
         }
 
+        private dynamic ExpandSingleItem(MessageForReturnDto messageDto)
+        {
+            var links = GetLinks(messageDto.Id);
+
+            var resourceToReturn = messageDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetMessageById), new { id = id }),
+              "self",
+              "GET"));
+
+            return links;
+        }
     }
 }
