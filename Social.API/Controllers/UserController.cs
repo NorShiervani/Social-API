@@ -78,6 +78,7 @@ namespace Social.API.Controllers
                 $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+        
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
