@@ -36,7 +36,8 @@ namespace Social.Api.Tests
             IList<Post> posts = new List<Post> {
                     new Post() {
                        Id = expectedId,
-                       Text = $"This post should have the Id {expectedId}."
+                       Text = $"This post should have the Id {expectedId}.",
+                       Created = DateTime.Now
                     },
                     GenerateFake.Post(),
                     GenerateFake.Post()

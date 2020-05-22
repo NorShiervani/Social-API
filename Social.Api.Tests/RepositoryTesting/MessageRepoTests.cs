@@ -8,6 +8,7 @@ using Social.API.Services;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Social.API;
+using System;
 
 namespace Social.Api.Tests
 {
@@ -58,7 +59,8 @@ namespace Social.Api.Tests
             IList<Message> messages = new List<Message> {
                     new Message() {
                        Id = 1000,
-                       Text = "This should work."
+                       Text = "This should work.",
+                       Created = DateTime.Now
                     },
                     GenerateFake.Message(),
                     GenerateFake.Message()

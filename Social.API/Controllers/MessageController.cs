@@ -49,6 +49,7 @@ namespace Social.API.Controllers
                 
                 Message message = new Message() {
                     Text = messageToCreateDto.Text,
+                    Created = DateTime.Now,
                     UserConversator = userConversatorFromRepo
                 };
                 await _repo.Create(message);

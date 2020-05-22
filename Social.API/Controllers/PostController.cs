@@ -37,6 +37,7 @@ namespace Social.API.Controllers
                 
                 Post post = new Post() {
                     Text = postToCreateDto.Text,
+                    Created = DateTime.Now,
                     User = userFromRepo
                 };
 
