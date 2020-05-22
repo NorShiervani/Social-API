@@ -130,7 +130,7 @@ namespace Social.API.Controllers
             }
         }
 
-            private dynamic ExpandSingleItem(CommentForReturnDto commentDto)
+        private dynamic ExpandSingleItem(CommentForReturnDto commentDto)
         {
             var links = GetLinks(commentDto.Id);
 
