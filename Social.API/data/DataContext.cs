@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Social.API.Models.Fake;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 
 namespace Social.API
 {
@@ -51,6 +52,8 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "England",
                     City = "Brighton",
+                    DateRegistered = DateTime.Now,
+                    Birthdate = DateTime.Now.AddYears(-18),
                     Role = Role.Regular
                 }
             );
@@ -66,6 +69,8 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "USA",
                     City = "El Paso",
+                    DateRegistered = DateTime.Now,
+                    Birthdate = DateTime.Now.AddYears(-23),
                     Role = Role.Regular
                 }
             );
@@ -81,6 +86,8 @@ namespace Social.API
                     IsSuspended = false,
                     Country = "Ukraine",
                     City = "Kiev",
+                    DateRegistered = DateTime.Now,
+                    Birthdate = DateTime.Now.AddYears(-45),
                     Role = Role.Regular
                 }
             );
@@ -114,6 +121,7 @@ namespace Social.API
                 {
                     Id = 1,
                     Text = "Hey everybody! You all good?",
+                    Created = DateTime.Now,
                     UserId = 2
                 }
             );
@@ -122,6 +130,7 @@ namespace Social.API
                 {
                     Id = 2,
                     Text = "Having the most lovely",
+                    Created = DateTime.Now,
                     UserId = 1
                 }
             );
@@ -130,6 +139,7 @@ namespace Social.API
                 {
                     Id = 3,
                     Text = "Russia... Is not very nice(to us)...",
+                    Created = DateTime.Now,
                     UserId = 3
                 }
             );
@@ -138,6 +148,7 @@ namespace Social.API
                {
                    Id = 1,
                    Text = "Cool yo!",
+                   Created = DateTime.Now,
                    PostId = 3,
                    UserId = 1
                }
@@ -147,6 +158,7 @@ namespace Social.API
                 {
                     Id = 2,
                     Text = "Fast as fuck!",
+                    Created = DateTime.Now,
                     PostId = 2,
                     UserId = 2
                 }
@@ -157,6 +169,7 @@ namespace Social.API
                 {
                     Id = 3,
                     Text = "Uuugghhh.",
+                    Created = DateTime.Now,
                     PostId = 3,
                     UserId = 3
                 }
@@ -166,6 +179,7 @@ namespace Social.API
                 {
                     Id = 4,
                     Text = "Haha awesome!",
+                    Created = DateTime.Now,
                     PostId = 3,
                     UserId = 2
                 }
@@ -184,6 +198,7 @@ namespace Social.API
                 {
                     Id = 1,
                     Text = "Hello friends!",
+                    Created = DateTime.Now,
                     UserConversatorId = 1
                 }
             );
@@ -193,6 +208,7 @@ namespace Social.API
                 {
                     Id = 2,
                     Text = "Hello!",
+                    Created = DateTime.Now,
                     UserConversatorId = 2
                 }
             );
@@ -202,6 +218,7 @@ namespace Social.API
                 {
                     Id = 3,
                     Text = "What up?!",
+                    Created = DateTime.Now,
                     UserConversatorId = 1
                 }
             );
@@ -211,6 +228,7 @@ namespace Social.API
                 {
                     Id = 4,
                     Text = "Doing laundry, and you?",
+                    Created = DateTime.Now,
                     UserConversatorId = 2
                 }
             );
@@ -220,6 +238,7 @@ namespace Social.API
                 {
                     Id = 5,
                     Text = "Eating breakfast, and staying chill!",
+                    Created = DateTime.Now,
                     UserConversatorId = 1
                 }
             );

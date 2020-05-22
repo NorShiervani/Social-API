@@ -20,6 +20,8 @@ namespace Social.Api.Tests
                 IsSuspended = false,
                 Country = fake.Address.Country(),
                 City = fake.Address.City(),
+                DateRegistered = DateTime.Now,
+                Birthdate = DateTime.Now.AddYears(-random.Next(18, 65)),
                 Role = Role.Regular
             };
         }
@@ -31,6 +33,7 @@ namespace Social.Api.Tests
             return new Comment() {
                 Id = random.Next(1000, 10000),
                 Text = fake.Lorem.Sentence(),
+                Created = DateTime.Now,
                 User = User(),
                 Post = Post()
             };
@@ -43,6 +46,7 @@ namespace Social.Api.Tests
             return new Post() {
                 Id = random.Next(1000, 10000),
                 Text = fake.Lorem.Sentence(),
+                Created = DateTime.Now,
                 User = User()
             };   
         }
@@ -64,6 +68,7 @@ namespace Social.Api.Tests
             return new Message() {
                 Id = random.Next(1000, 10000),
                 Text = fake.Lorem.Sentence(),
+                Created = DateTime.Now,
                 UserConversator = UserConversator()
             };
         }

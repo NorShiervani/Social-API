@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Social.API.Models
@@ -13,6 +14,8 @@ namespace Social.API.Models
         public bool IsSuspended { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
+        public DateTime DateRegistered { get; set; }
+        public DateTime Birthdate { get; set; }
         public ICollection<Like> Likes { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
