@@ -64,6 +64,31 @@ namespace Social.API.Controllers
             } 
         }
 
+
+        [HttpDelete("{id}", Name = "DeleteMessageById")]
+        public async Task<IActionResult> DeleteMessageById(int id)
+        {
+            try
+            {
+                var message = await _repo.GetMessageById(id);
+
+                if (message == null)
+                {
+                    return BadRequest($"Could not delete message. Message with Id {id} was not found.");
+                }
+                await _repo.Delete(message);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the message. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+
+        }
+
+
         private dynamic ExpandSingleItem(MessageForReturnDto messageDto)
         {
             var links = GetLinks(messageDto.Id);
@@ -82,6 +107,11 @@ namespace Social.API.Controllers
               new LinkDto(_urlHelper.Link(nameof(GetMessageById), new { id = id }),
               "self",
               "GET"));
+
+            links.Add(
+             new LinkDto(_urlHelper.Link(nameof(DeleteMessageById), new { id = id }),
+             "delete",
+             "DELETE"));
 
             return links;
         }
