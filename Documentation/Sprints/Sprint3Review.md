@@ -36,12 +36,14 @@ Vi ska fixa delete i MessageControllern och lägga till CRUD-funktioner till var
 
 **Framtidssynpunkter från Nor och Aron**
 
-- HATEOAS
+- ~~HATEOAS~~
 - Strukturera om API:et
   - Kontroller i API
+    - Samtliga ska ha CRUD metoder
     - Användare: Unik mejladress och användarnamn.
-    - Kan ej lägga till post, message, comment like om användare ej existerar.
-- Tester för samtliga controllers.
+      - Unik constraint
+    - ~~Kan ej lägga till post, message, comment like om användare ej existerar.~~
+- Liknande tester för samtliga controllers.
 - Generic Repository behövs tillämpas i Controller.
-- Sök/filtrering i GetAll-metoder.
-- Pagination.
+- Sök/filtrering i GetAll-metoder. 
+  - User ?name=
