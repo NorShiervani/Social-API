@@ -4,6 +4,7 @@ using Social.API.Models.Fake;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Social.API
 {
@@ -35,6 +36,9 @@ namespace Social.API
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().HasIndex(n => n.Username).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(n => n.Email).IsUnique();
+
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 1, Name = "Bill" });
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 2, Name = "Shaun" });
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 3, Name = "Hillary" });
