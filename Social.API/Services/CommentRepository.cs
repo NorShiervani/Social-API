@@ -43,7 +43,7 @@ namespace Social.API.Services
 
         public async Task<IEnumerable<Comment>> GetComments()
         {
-            return await _context.Comments.ToListAsync();
+            return await _context.Comments.Include(x => x.Post).ToListAsync();
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int Id)
