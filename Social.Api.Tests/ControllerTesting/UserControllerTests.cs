@@ -39,7 +39,7 @@ namespace Social.Api.Tests
                     GenerateFake.User(),
                     GenerateFake.User()
             };
-            _mockRepo.Setup(repo => repo.GetUsers())
+            _mockRepo.Setup(repo => repo.GetUsers(""))
                 .ReturnsAsync(users);
 
             // Act

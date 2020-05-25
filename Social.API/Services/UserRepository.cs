@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Social.API.Models;
+using System.Linq;
 using Social.API.Models.Fake;
 
 namespace Social.API.Services
@@ -15,9 +16,15 @@ namespace Social.API.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers(string userName)
         {
-            return await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
+            if(string.IsNullOrEmpty(userName))
+            {
+                return await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
+            }
+
+            return await _context.Users.Where(u=>u.Username.ToLower() == userName.ToLower()).Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync();
+            
         }
     }
 }
