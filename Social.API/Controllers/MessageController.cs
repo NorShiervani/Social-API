@@ -88,6 +88,27 @@ namespace Social.API.Controllers
 
         }
 
+        [HttpPut("{id}", Name = "UpdateMessage")]
+        public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
+        {
+            try
+            {
+                var oldMessage = await _repo.GetMessageById(id);
+                if(oldMessage == null)
+                {
+                    return NotFound($"We could not find any message with that Id: {id}");
+                }
+
+                var updatedMessage = _mapper.Map(message, oldMessage);
+                await _repo.Update(updatedMessage);
+                
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");                
+            }
+        }
 
         private dynamic ExpandSingleItem(MessageForReturnDto messageDto)
         {
