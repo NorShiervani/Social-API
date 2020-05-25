@@ -1,11 +1,12 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
+using Social.API.Models;
 using Social.API.Services;
-
-
+using Xunit;
 
 namespace Social.Api.Tests.ControllerTesting
 {
@@ -25,6 +26,20 @@ namespace Social.Api.Tests.ControllerTesting
             _mockMapper = new Mock<IMapper>();
             _urlHelper = new Mock<IUrlHelper>();
             _commentController = new CommentController(_mockRepo.Object, _mockMapper.Object, _urlHelper.Object);
+        }
+
+        [Fact]
+        public async Task GetCommentById_ReturnsObjectResult()
+        {
+            // Arrange
+            Comment comment = GenerateFake.Comment();
+            _mockRepo.Setup(repo => repo.GetCommentByPostId(1)).ReturnsAsync(comment);
+
+            // Act
+            var response = await _commentController.GetCommentById(1);
+
+            // Assert
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
     }
 }
