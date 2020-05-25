@@ -7,6 +7,6 @@ namespace Social.API.Services
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<IEnumerable<User>> GetUsers();
+        Task<IEnumerable<User>> GetUsers(string userName);
     }
 }

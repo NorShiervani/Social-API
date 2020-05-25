@@ -25,11 +25,11 @@ namespace Social.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers(string userName = "")
         {
             try
             {
-                var usersFromRepo = await _repo.GetUsers();
+                var usersFromRepo = await _repo.GetUsers(userName);
                 var usersToDto = _mapper.Map<UserForReturnDto[]>(usersFromRepo);
                 return Ok(usersToDto);
             }
@@ -99,7 +99,8 @@ namespace Social.API.Controllers
                 $"Failed to retrieve comments. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
-
+        
+        
         [HttpPost(Name = "CreateUser")]
         public ActionResult<User> CreateUser(User newUser)
         {
@@ -110,6 +111,7 @@ namespace Social.API.Controllers
                 {
                     throw new Exception("User already exists");
                 }
+                
                 _repo.Create(newUser);
                 return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
 
