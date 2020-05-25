@@ -9,7 +9,7 @@ using Social.API.Models;
 using Social.API.Services;
 using Xunit;
 
-namespace Social.Api.Tests.ControllerTesting
+namespace Social.Api.Tests
 {
     public class LikeControllerTests
     {
