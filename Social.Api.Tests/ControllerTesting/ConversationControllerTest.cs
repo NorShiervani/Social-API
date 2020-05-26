@@ -29,6 +29,25 @@ namespace Social.Api.Tests
             }
 
 
+
+
+
+            [Fact]
+            public async Task GetConversationsById_ReturnsObjectResult()
+            {
+                // Arrange
+                var conversation= GenerateFake.Conversation();
+        
+                _mockRepo.Setup( repo =>  repo.GetConversationById(conversation.Id))
+                .ReturnsAsync(conversation);
+
+                // Act
+                var response = await _conversationController.GetConversationById(1);
+
+                // Assert
+                Assert.IsAssignableFrom<ObjectResult>(response);
+
+            }
     }
 
 }
