@@ -79,7 +79,7 @@ namespace Social.API.Controllers
         {
             try
             {
-                await _repo.CreateComment(1, comment);
+                await _repo.Create(comment);
                 return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
             }
             catch (Exception e)
@@ -99,7 +99,7 @@ namespace Social.API.Controllers
                     return BadRequest("Wrong commentId");
                 }
 
-                _repo.UpdateComment(id, comment);
+                _repo.Update(comment);
                 return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
             }
             catch (Exception e)
@@ -114,6 +114,7 @@ namespace Social.API.Controllers
         {
             try
             {
+                
                 var comment = await _repo.GetCommentByPostId(id);
                 if (comment == null)
                 {
