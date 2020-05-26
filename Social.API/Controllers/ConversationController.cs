@@ -173,7 +173,7 @@ namespace Social.API.Services
 
             if(conversation == null){
 
-                return BadRequest($"Could not delete Conversation. Conversation with Id{id} was not found");
+                return NotFound($"Could not delete Conversation. Conversation with Id{id} was not found");
             }
             await _repo.Delete(conversation);
 
