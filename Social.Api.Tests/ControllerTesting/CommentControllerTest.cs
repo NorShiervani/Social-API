@@ -53,9 +53,9 @@ namespace Social.Api.Tests.ControllerTesting
                 GenerateFake.Comment(),
                 GenerateFake.Comment(),
                 GenerateFake.Comment(),
-                GenerateFake.Comment(),
+                GenerateFake.Comment()
             };
-            _mockRepo.Setup(repo => repo.GetCommentsByPostId(1)).ReturnsAsync(comments);;
+            _mockRepo.Setup(repo => repo.GetCommentsByPostId(1)).ReturnsAsync(comments);
             
             // Act
             var response = await _commentController.GetCommentsByPostId(1);
