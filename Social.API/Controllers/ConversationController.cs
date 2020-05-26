@@ -163,5 +163,29 @@ namespace Social.API.Services
             }
         }
         
+        [HttpDelete("{id}", Name ="DeleteConversation")]
+        public async Task<IActionResult> DeleteConversationById(int id)
+        {
+        try
+        {
+
+            var conversation = await _repo.GetConversationById(id);
+
+            if(conversation == null){
+
+                return BadRequest($"Could not delete Conversation. Conversation with Id{id} was not found");
+            }
+            await _repo.Delete(conversation);
+
+            return NoContent();
+
+        }
+        catch(Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to delete the conversation, exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+
+        }
     }
 }
