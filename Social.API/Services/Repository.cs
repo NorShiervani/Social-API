@@ -44,7 +44,6 @@ namespace Social.API.Services
         {
             _logger.LogInformation($"Adding object of type {entity.GetType()}");
             await table.AddAsync(entity);
-            await Save();
         }
 
         public async Task Update(T entity)

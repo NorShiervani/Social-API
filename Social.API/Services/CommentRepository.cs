@@ -26,6 +26,7 @@ namespace Social.API.Services
             comment.Post = post;
             await Create(comment);
         }
+        
         public async Task UpdateComment(int commentId, Comment comment)
         {
             comment = _context.Comments.FirstOrDefault(x => x.Id == commentId);
