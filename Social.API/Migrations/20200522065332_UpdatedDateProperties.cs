@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Social.API.Migrations
 {
-    public partial class IntitialWithDataSeedAndUpdatedModels : Migration
+    public partial class UpdatedDateProperties : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,20 +34,6 @@ namespace Social.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleName = table.Column<string>(nullable: true),
-                    Rights = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -60,17 +47,13 @@ namespace Social.API.Migrations
                     IsSuspended = table.Column<bool>(nullable: false),
                     Country = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
-                    RoleId = table.Column<int>(nullable: false)
+                    DateRegistered = table.Column<DateTime>(nullable: false),
+                    Birthdate = table.Column<DateTime>(nullable: false),
+                    Role = table.Column<int>(nullable: false, defaultValueSql: "((0))")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +63,7 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -126,6 +110,7 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
                     PostId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: true)
                 },
@@ -179,6 +164,7 @@ namespace Social.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
                     UserConversatorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -191,6 +177,11 @@ namespace Social.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Conversations",
+                columns: new[] { "Id", "ConversationName" },
+                values: new object[] { 1, "The cool guys!" });
 
             migrationBuilder.InsertData(
                 table: "Fake",
@@ -213,39 +204,64 @@ namespace Social.API.Migrations
                 values: new object[] { 4, "Emma" });
 
             migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Rights", "RoleName" },
-                values: new object[] { 1, 1, "User" });
+                table: "Users",
+                columns: new[] { "Id", "Birthdate", "City", "Country", "DateRegistered", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "Username" },
+                values: new object[] { 1, new DateTime(2002, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(6407), "Brighton", "England", new DateTime(2020, 5, 22, 8, 53, 31, 727, DateTimeKind.Local).AddTicks(6789), "jd@example.com", "John", false, "Doe", "4321234", "LitteJohn2038" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
-                values: new object[] { 1, "Brighton", "England", "jd@example.com", "John", false, "Doe", "4321234", 1, "LitteJohn2038" });
+                columns: new[] { "Id", "Birthdate", "City", "Country", "DateRegistered", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "Username" },
+                values: new object[] { 2, new DateTime(1997, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9798), "El Paso", "USA", new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9762), "pp@example.com", "Patrick", false, "Plopinopel", "44321554", "BigMan55" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
-                values: new object[] { 2, "El Paso", "USA", "pp@example.com", "Patrick", false, "Plopinopel", "44321554", 1, "BigMan55" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "City", "Country", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "RoleId", "Username" },
-                values: new object[] { 3, "Kiev", "Ukraine", "cmso@example.com", "Svetlana", false, "Orgonsk", "44515214", 1, "CrazyMama72" });
+                columns: new[] { "Id", "Birthdate", "City", "Country", "DateRegistered", "Email", "Firstname", "IsSuspended", "Lastname", "Password", "Username" },
+                values: new object[] { 3, new DateTime(1975, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9900), "Kiev", "Ukraine", new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9891), "cmso@example.com", "Svetlana", false, "Orgonsk", "44515214", "CrazyMama72" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Text", "UserId" },
-                values: new object[] { 2, "Having the most lovely", 1 });
+                columns: new[] { "Id", "Created", "Text", "UserId" },
+                values: new object[] { 2, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2611), "Having the most lovely", 1 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Text", "UserId" },
-                values: new object[] { 1, "Hey everybody! You all good?", 2 });
+                columns: new[] { "Id", "Created", "Text", "UserId" },
+                values: new object[] { 1, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(1415), "Hey everybody! You all good?", 2 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Text", "UserId" },
-                values: new object[] { 3, "Russia... Is not very nice(to us)...", 3 });
+                columns: new[] { "Id", "Created", "Text", "UserId" },
+                values: new object[] { 3, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2700), "Russia... Is not very nice(to us)...", 3 });
+
+            migrationBuilder.InsertData(
+                table: "UserConversators",
+                columns: new[] { "Id", "ConversationId", "UserId" },
+                values: new object[] { 1, 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "UserConversators",
+                columns: new[] { "Id", "ConversationId", "UserId" },
+                values: new object[] { 2, 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "Created", "PostId", "Text", "UserId" },
+                values: new object[] { 2, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4180), 2, "Fast as fuck!", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "Created", "PostId", "Text", "UserId" },
+                values: new object[] { 1, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2838), 3, "Cool yo!", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "Created", "PostId", "Text", "UserId" },
+                values: new object[] { 3, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4273), 3, "Uuugghhh.", 3 });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "Created", "PostId", "Text", "UserId" },
+                values: new object[] { 4, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4309), 3, "Haha awesome!", 2 });
 
             migrationBuilder.InsertData(
                 table: "Likes",
@@ -261,6 +277,31 @@ namespace Social.API.Migrations
                 table: "Likes",
                 columns: new[] { "Id", "PostId", "UserId" },
                 values: new object[] { 3, 1, 3 });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Created", "Text", "UserConversatorId" },
+                values: new object[] { 1, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(5389), "Hello friends!", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Created", "Text", "UserConversatorId" },
+                values: new object[] { 3, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6478), "What up?!", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Created", "Text", "UserConversatorId" },
+                values: new object[] { 5, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6540), "Eating breakfast, and staying chill!", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Created", "Text", "UserConversatorId" },
+                values: new object[] { 2, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6393), "Hello!", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Created", "Text", "UserConversatorId" },
+                values: new object[] { 4, new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6513), "Doing laundry, and you?", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -301,11 +342,6 @@ namespace Social.API.Migrations
                 name: "IX_UserConversators_UserId",
                 table: "UserConversators",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -333,9 +369,6 @@ namespace Social.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }

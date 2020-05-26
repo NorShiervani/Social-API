@@ -26,7 +26,6 @@ namespace Social.Api.Tests
         [InlineData(622)]
         [InlineData(123)]
         [InlineData(100)]
-        [InlineData(10001)]
         public async void GetLikesByPostId_LikesCount_ReturnsZero(int nonExistantPostId)
         {
             // Arrange
@@ -49,7 +48,6 @@ namespace Social.Api.Tests
         [InlineData(622)]
         [InlineData(123)]
         [InlineData(100)]
-        [InlineData(10001)]
         public async void GetLikeByPostId_LikesExist_ReturnsNotNull(int ExistantPostId)
         {
             // Arrange
@@ -90,5 +88,21 @@ namespace Social.Api.Tests
             //Assert
             Assert.Equal(expectedAmountLikes, likesFromRepo.Count());
         }
+
+     
+        [Fact]
+        public async void GetLikes_LikesIsZero_ReturnsZeroLikes()
+        {
+            //arrange
+            IList<Like> likes = new List<Like>();
+            _mockContext.Setup(x => x.Likes).ReturnsDbSet(likes);
+             
+            //act
+            var likesFromRepo = await _mockRepo.GetLikesByPostId(44);
+
+            //assert
+            Assert.Equal(0, likes.Count());
+        }
+     
     }
 }

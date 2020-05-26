@@ -1,5 +1,7 @@
   
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,25 +17,31 @@ namespace Social.API.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repo;
+        private readonly IUrlHelper _urlHelper;
         private readonly IMapper _mapper;
-        public PostController(IPostRepository repo, IMapper mapper)
+        public PostController(IUrlHelper urlHelper, IPostRepository repo, IMapper mapper)
         {
+            _urlHelper = urlHelper;
             _mapper = mapper;
             _repo = repo;
         }
 
-        [HttpPost("{userId}")]
-        public async Task<IActionResult> CreatePost(int userId, [FromBody] Post post)
+        [HttpPost(Name = "CreatePost")]
+        public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
         {
             try
             {
-                var userFromRepo = await _repo.GetUserById(userId);
+                var userFromRepo = await _repo.GetUserById(postToCreateDto.UserId);
                 if (userFromRepo == null)
-                    return BadRequest($"User with the id {userId} does not exist.");
+                    return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
+                
+                Post post = new Post() {
+                    Text = postToCreateDto.Text,
+                    Created = DateTime.Now,
+                    User = userFromRepo
+                };
 
-                post.User = userFromRepo;
-
-                _repo.CreatePost(post);
+                await _repo.Create(post);
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }
             catch (Exception e)
@@ -49,8 +57,8 @@ namespace Social.API.Controllers
             try
             {
                 var postsFromRepo = await _repo.GetAll(x => x.User, x => x.Likes, x => x.Comments);
-                var postsToDto = _mapper.Map<PostForReturnDto[]>(postsFromRepo);
-                return Ok(postsToDto);
+                var toReturn = postsFromRepo.Select(x => ExpandSingleItem(x));
+                return Ok(toReturn);
             }
             catch (Exception e)
             {
@@ -65,8 +73,7 @@ namespace Social.API.Controllers
             try
             {
                 var postFromRepo = await _repo.GetPostById(id);
-                var postToDto = _mapper.Map<PostForReturnDto>(postFromRepo);
-                return Ok(postToDto);
+                return Ok(ExpandSingleItem(postFromRepo));
             }
             catch (Exception e)
             {
@@ -75,7 +82,45 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        private dynamic ExpandSingleItem(Post post)
+        {
+            var links = GetLinks(post);
+            PostForReturnDto postDto = _mapper.Map<PostForReturnDto>(post);
+
+            var resourceToReturn = postDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(Post post)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetPostById), new { id = post.Id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(DeletePostById), new { id = post.Id }),
+              "delete",
+              "DELETE"));
+
+            links.Add(
+               new LinkDto(_urlHelper.Link(nameof(UpdatePostText), new { id = post.Id }),
+               "update",
+               "PUT"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(CreatePost), null),
+              "create",
+              "POST"));
+              
+            return links;
+        }
+
+        [HttpDelete("{id}", Name = "DeletePostById")]
         public async Task<IActionResult> DeletePostById(int id)
         {
             try
@@ -86,7 +131,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest($"Could not delete post. Post with Id {id} was not found.");
                 }
-                _repo.DeletePost(post);
+                await _repo.Delete(post);
 
                 return NoContent();
             }
@@ -98,8 +143,7 @@ namespace Social.API.Controllers
 
         }
 
-        
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdatePostText")]
         public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
         {
             try 
@@ -111,7 +155,7 @@ namespace Social.API.Controllers
                     return BadRequest($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
-                _repo.PutPost(post);
+                await _repo.Update(post);
 
                 return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
             }

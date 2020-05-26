@@ -9,8 +9,8 @@ using Social.API;
 namespace Social.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200508075609_AdditionalDataSeed")]
-    partial class AdditionalDataSeed
+    [Migration("20200522065332_UpdatedDateProperties")]
+    partial class UpdatedDateProperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,9 @@ namespace Social.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("INTEGER");
@@ -45,6 +48,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2838),
                             PostId = 3,
                             Text = "Cool yo!",
                             UserId = 1
@@ -52,6 +56,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 2,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4180),
                             PostId = 2,
                             Text = "Fast as fuck!",
                             UserId = 2
@@ -59,6 +64,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 3,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4273),
                             PostId = 3,
                             Text = "Uuugghhh.",
                             UserId = 3
@@ -66,6 +72,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 4,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4309),
                             PostId = 3,
                             Text = "Haha awesome!",
                             UserId = 2
@@ -176,6 +183,9 @@ namespace Social.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
 
@@ -192,30 +202,35 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(5389),
                             Text = "Hello friends!",
                             UserConversatorId = 1
                         },
                         new
                         {
                             Id = 2,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6393),
                             Text = "Hello!",
                             UserConversatorId = 2
                         },
                         new
                         {
                             Id = 3,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6478),
                             Text = "What up?!",
                             UserConversatorId = 1
                         },
                         new
                         {
                             Id = 4,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6513),
                             Text = "Doing laundry, and you?",
                             UserConversatorId = 2
                         },
                         new
                         {
                             Id = 5,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6540),
                             Text = "Eating breakfast, and staying chill!",
                             UserConversatorId = 1
                         });
@@ -226,6 +241,9 @@ namespace Social.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
@@ -243,45 +261,23 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(1415),
                             Text = "Hey everybody! You all good?",
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2611),
                             Text = "Having the most lovely",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
+                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2700),
                             Text = "Russia... Is not very nice(to us)...",
                             UserId = 3
-                        });
-                });
-
-            modelBuilder.Entity("Social.API.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rights")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Rights = 1,
-                            RoleName = "User"
                         });
                 });
 
@@ -291,10 +287,16 @@ namespace Social.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateRegistered")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -312,15 +314,15 @@ namespace Social.API.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("Role")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValueSql("((0))");
 
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
 
@@ -328,40 +330,46 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
+                            Birthdate = new DateTime(2002, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(6407),
                             City = "Brighton",
                             Country = "England",
+                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 727, DateTimeKind.Local).AddTicks(6789),
                             Email = "jd@example.com",
                             Firstname = "John",
                             IsSuspended = false,
                             Lastname = "Doe",
                             Password = "4321234",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "LitteJohn2038"
                         },
                         new
                         {
                             Id = 2,
+                            Birthdate = new DateTime(1997, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9798),
                             City = "El Paso",
                             Country = "USA",
+                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9762),
                             Email = "pp@example.com",
                             Firstname = "Patrick",
                             IsSuspended = false,
                             Lastname = "Plopinopel",
                             Password = "44321554",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "BigMan55"
                         },
                         new
                         {
                             Id = 3,
+                            Birthdate = new DateTime(1975, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9900),
                             City = "Kiev",
                             Country = "Ukraine",
+                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9891),
                             Email = "cmso@example.com",
                             Firstname = "Svetlana",
                             IsSuspended = false,
                             Lastname = "Orgonsk",
                             Password = "44515214",
-                            RoleId = 1,
+                            Role = 0,
                             Username = "CrazyMama72"
                         });
                 });
@@ -435,15 +443,6 @@ namespace Social.API.Migrations
                     b.HasOne("Social.API.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Social.API.Models.User", b =>
-                {
-                    b.HasOne("Social.API.Models.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Social.API.Models.UserConversator", b =>

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
@@ -17,19 +17,22 @@ namespace Social.Api.Tests
     {
         private readonly Mock<DataContext> _mockContext;
         private readonly Mock<IPostRepository> _mockRepo;
+        private readonly Mock<IUrlHelper> _urlHelper;
         private readonly Mock<IMapper> _mockMapper;
         private readonly PostController _postController;
+        private readonly Mock<IUrlHelper> _mockUrlHelper;
        
         public PostControllerTests()
         {
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IPostRepository>();
             _mockMapper = new Mock<IMapper>();
-            _postController = new PostController(_mockRepo.Object, _mockMapper.Object);
+            _mockUrlHelper = new Mock<IUrlHelper>();
+            _postController = new PostController(_mockUrlHelper.Object, _mockRepo.Object, _mockMapper.Object);
         }
 
         [Fact]
-        public async Task GetPosts_ReturnsOk()
+        public async Task GetPosts_ReturnsObject()
         {
             // Arrange
             IList<Post> posts = new List<Post> {
@@ -44,7 +47,7 @@ namespace Social.Api.Tests
             var response = await _postController.GetPosts();
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         
@@ -60,20 +63,20 @@ namespace Social.Api.Tests
             var response = await _postController.GetPostById(post.Id);
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         [Fact]
         public async Task CreatePost_UsingInvalidUserId_ReturnsBadRequest()
         {
             // Arrange
-            Post post = new Post() {
+            PostToCreateDto post = new PostToCreateDto {
                 Text = "Test."
             };
             _mockRepo.Setup(repo => repo.GetUserById(-1));
 
             // Act
-            var response = await _postController.CreatePost(-1, post);
+            var response = await _postController.CreatePost(post);
 
             // Assert
             Assert.IsAssignableFrom<BadRequestObjectResult>(response);

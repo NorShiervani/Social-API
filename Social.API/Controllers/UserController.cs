@@ -1,17 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Social.API.Services;
 using AutoMapper;
 using Social.API.Dtos;
-using System.Linq;
-using Social.API.Models.Fake;
-using System.Net.Http;
 using Social.API.Models;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections;
 
 namespace Social.API.Controllers
 {
@@ -20,19 +15,21 @@ namespace Social.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
+        private readonly IUrlHelper _urlHelper;
         private readonly IMapper _mapper;
-        public UserController(IUserRepository repo, IMapper mapper)
+        public UserController(IUserRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
             _repo = repo;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers(string userName = "")
         {
             try
             {
-                var usersFromRepo = await _repo.GetUsers();
+                var usersFromRepo = await _repo.GetUsers(userName);
                 var usersToDto = _mapper.Map<UserForReturnDto[]>(usersFromRepo);
                 return Ok(usersToDto);
             }
@@ -49,12 +46,8 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
-                return Ok(userToDto);
+                return Ok(ExpandSingleItem(userToDto));
 
             }
             catch (Exception e)
@@ -65,7 +58,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpGet("{id}/posts", Name = "GetUserPostsById")]
+        [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
             try
@@ -85,12 +78,17 @@ namespace Social.API.Controllers
                 $"Failed to retrieve posts. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+        
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
+                if(userFromRepo == null)
+                {
+                    return NoContent();
+                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
                 return Ok(userToDto.Comments);
 
@@ -101,8 +99,9 @@ namespace Social.API.Controllers
                 $"Failed to retrieve comments. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
-
-        [HttpPost]
+        
+        
+        [HttpPost(Name = "CreateUser")]
         public ActionResult<User> CreateUser(User newUser)
         {
             try
@@ -112,7 +111,8 @@ namespace Social.API.Controllers
                 {
                     throw new Exception("User already exists");
                 }
-                _repo.CreateUser(newUser);
+                
+                _repo.Create(newUser);
                 return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
 
             }
@@ -123,7 +123,7 @@ namespace Social.API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateUserById" )]
         public IActionResult UpdateUserById(int id, User user)
         {   
             try
@@ -133,7 +133,7 @@ namespace Social.API.Controllers
                     return BadRequest("Wrong userId");
                 }
 
-                _repo.UpdateUser(user);
+                _repo.Update(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
             }
             catch (Exception e)
@@ -144,7 +144,7 @@ namespace Social.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFakeById(int id)
+        public async Task<IActionResult> DeleteUserById(int id)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace Social.API.Controllers
                     return NotFound("There was no user with that Id");
                 }
 
-                _repo.DeleteUser(user);
+                await _repo.Delete(user);
                 return NoContent();
             }
             catch (Exception e)
@@ -163,5 +163,46 @@ namespace Social.API.Controllers
                 $"Failed to delete user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
+
+         private dynamic ExpandSingleItem(UserForReturnDto userDto)
+        {
+            var links = GetLinks(userDto.Id);
+
+            var resourceToReturn = userDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetUserById), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetPostsByUserId), new { id = id }),
+              "getPost",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetCommentsByUserId), new { id = id }),
+              "getComment",
+              "GET"));
+
+            links.Add(
+               new LinkDto(_urlHelper.Link(nameof(UpdateUserById), new { id = id }),
+               "updateUser",
+               "PUT"));
+
+            return links;
+        }
+
+
+        
+
     }
 }

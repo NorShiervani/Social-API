@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using Social.API;
 using Social.API.Controllers;
@@ -18,13 +19,15 @@ namespace Social.Api.Tests
         private readonly Mock<IUserRepository> _mockRepo;
         private readonly Mock<IMapper> _mockMapper;
         private readonly UserController _userController;
+        private readonly Mock<IUrlHelper> _mockUrlHelper;
 
         public UserControllerTests()
         {
             _mockContext = new Mock<DataContext>();
             _mockRepo = new Mock<IUserRepository>();
             _mockMapper = new Mock<IMapper>();
-            _userController = new UserController(_mockRepo.Object, _mockMapper.Object);
+            _mockUrlHelper = new Mock<IUrlHelper>();
+            _userController = new UserController(_mockRepo.Object, _mockMapper.Object, _mockUrlHelper.Object);
         }
 
         [Fact]
@@ -36,7 +39,7 @@ namespace Social.Api.Tests
                     GenerateFake.User(),
                     GenerateFake.User()
             };
-            _mockRepo.Setup(repo => repo.GetUsers())
+            _mockRepo.Setup(repo => repo.GetUsers(""))
                 .ReturnsAsync(users);
 
             // Act
@@ -61,7 +64,7 @@ namespace Social.Api.Tests
         }
 
         [Fact]
-        public async Task GetUserById_ReturnsOk() 
+        public async Task GetUserById_ReturnsObject() 
         {
             // Arrange
             var user = GenerateFake.User();
@@ -72,18 +75,18 @@ namespace Social.Api.Tests
             var response = await _userController.GetUserById(user.Id);
 
             // Assert
-            Assert.IsAssignableFrom<OkObjectResult>(response);
+            Assert.IsAssignableFrom<ObjectResult>(response);
         }
 
         [Fact]
-        public async Task GetPostsByUserId_ReturnsNoContent() 
+        public async Task GetCommentsByUserId_ReturnsNoContent() 
         {
             // Arrange
             _mockRepo.Setup(repo => repo.GetUserById(1))
                 .ReturnsAsync((User)null);
 
             // Act
-            var response = await _userController.GetPostsByUserId(1);
+            var response = await _userController.GetCommentsByUserId(1);
 
             // Assert
             Assert.IsAssignableFrom<NoContentResult>(response);

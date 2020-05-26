@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Models;
 using Social.API.Services;
 
 namespace Social.API.Controllers
@@ -14,10 +16,12 @@ namespace Social.API.Controllers
     {
         private readonly IMessageRepository _repo;
         private readonly IMapper _mapper;
-        public MessageController(IMessageRepository repo, IMapper mapper)
+        private readonly IUrlHelper _urlHelper;
+        public MessageController(IMessageRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
             _repo = repo;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet("{id}", Name = "GetMessageById")]
@@ -25,17 +29,112 @@ namespace Social.API.Controllers
         {
             try
             {
-                var messagesFromRepo = await _repo.GetMessageById(id);
-                var messagesToDto = _mapper.Map<MessageForReturnDto>(messagesFromRepo);
-                return Ok(messagesToDto);
+                var messageFromRepo = await _repo.GetMessageById(id);
+                var messageToDto = _mapper.Map<MessageForReturnDto>(messageFromRepo);
+                return Ok(ExpandSingleItem(messageToDto));
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve message. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+        }
+
+        [HttpPost(Name = "CreateMessage")]
+        public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
+        {
+            try
+            {
+                var userConversatorFromRepo = await _repo.GetUserConversatorById(messageToCreateDto.UserConversatorId);
+                 if (userConversatorFromRepo == null)
+                    return BadRequest($"UserConversator with the id {userConversatorFromRepo.Id} does not exist.");
+                
+                Message message = new Message() {
+                    Text = messageToCreateDto.Text,
+                    Created = DateTime.Now,
+                    UserConversator = userConversatorFromRepo
+                };
+                await _repo.Create(message);
+                return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the comment. Exception thrown when attempting to add data to the database: {e.Message}");
+            } 
+        }
+
+
+        [HttpDelete("{id}", Name = "DeleteMessageById")]
+        public async Task<IActionResult> DeleteMessageById(int id)
+        {
+            try
+            {
+                var message = await _repo.GetMessageById(id);
+
+                if (message == null)
+                {
+                    return BadRequest($"Could not delete message. Message with Id {id} was not found.");
+                }
+                await _repo.Delete(message);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the message. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
 
         }
 
+        [HttpPut("{id}", Name = "UpdateMessage")]
+        public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
+        {
+            try
+            {
+                var oldMessage = await _repo.GetMessageById(id);
+                if(oldMessage == null)
+                {
+                    return NotFound($"We could not find any message with that Id: {id}");
+                }
+
+                var updatedMessage = _mapper.Map(message, oldMessage);
+                await _repo.Update(updatedMessage);
+                
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");                
+            }
+        }
+
+        private dynamic ExpandSingleItem(MessageForReturnDto messageDto)
+        {
+            var links = GetLinks(messageDto.Id);
+
+            var resourceToReturn = messageDto.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetMessageById), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+             new LinkDto(_urlHelper.Link(nameof(DeleteMessageById), new { id = id }),
+             "delete",
+             "DELETE"));
+
+            return links;
+        }
     }
 }

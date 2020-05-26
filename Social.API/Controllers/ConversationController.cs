@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Models;
 using Social.API.Dtos;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Social.API.Services
 {
@@ -15,13 +17,15 @@ namespace Social.API.Services
     {
         private readonly IConversationRepository _repo;
         private readonly IMapper _mapper;
-        public ConversationController(IConversationRepository repo, IMapper mapper)
+        private readonly IUrlHelper _urlHelper;
+        public ConversationController(IConversationRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
             _repo = repo;
+            _urlHelper = urlHelper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetConversations")]
         public async Task<IActionResult> GetConversations()
         {
             try
@@ -38,14 +42,15 @@ namespace Social.API.Services
 
         }
 
-        [HttpGet("{id}", Name = "GetConversationById")]
+        [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
             try
             {
                 var conversationFromRepo = await _repo.GetConversationById(id);
                 var conversationToDto = _mapper.Map<ConversationForReturnDto>(conversationFromRepo);
-                return Ok(conversationToDto);
+                var links = CreateLinksForCollection();
+                return Ok(ExpandSingleItem(conversationToDto));
             }
             catch (Exception e)
             {
@@ -54,12 +59,82 @@ namespace Social.API.Services
             }
             
         }
-        [HttpPost]
+        
+        [HttpGet("user/{Id}", Name = "GetConversationsByUserId")]
+        public async Task<IActionResult> GetConversationsByUserId(int id)
+        {
+            try
+            {
+                var conversationFromRepo = await _repo.GetConversationsByUserId(id);
+                var conversationToDto = _mapper.Map<ConversationForReturnDto[]>(conversationFromRepo);
+                var toReturn = conversationToDto.Select(x => ExpandSingleItem(x));
+                return Ok(toReturn);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to retrieve conversation. Exception thrown when attempting to retrieve data from the database: {e.Message}");
+            }
+            
+        }
+
+        private List<LinkDto> CreateLinksForCollection()
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+             new LinkDto(_urlHelper.Link(nameof(CreateConversation), null), "create", "POST"));
+
+            links.Add(
+             new LinkDto(_urlHelper.Link(nameof(GetConversations), new
+             {
+             }), "self", "GET"));
+
+            links.Add(new LinkDto(_urlHelper.Link(nameof(GetConversationById), new
+            {
+            }), "first", "GET"));   
+
+            return links;
+        }
+
+        private dynamic ExpandSingleItem(ConversationForReturnDto conversation)
+        {
+            var links = GetLinks(conversation.Id);
+
+            var resourceToReturn = conversation.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(int id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetConversationById), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(CreateConversation), null),
+              "create",
+              "POST"));
+
+            links.Add(
+               new LinkDto(_urlHelper.Link(nameof(UpdateConversation), new { id = id }),
+               "update",
+               "PUT"));
+
+            return links;
+        }
+
+        [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
             try
             {
-                await _repo.CreateConversation(conversation);
+                await _repo.Create(conversation);
                 return Ok(conversation);
             }
             catch (Exception e)
@@ -69,7 +144,7 @@ namespace Social.API.Services
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name ="UpdateConversation")]
         public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
         {
             if(id != conversation.Id)
@@ -78,7 +153,7 @@ namespace Social.API.Services
             }
             try
             {
-                await _repo.UpdateConversation(conversation);
+                await _repo.Update(conversation);
                 return Ok(conversation);
             }
             catch (Exception e)

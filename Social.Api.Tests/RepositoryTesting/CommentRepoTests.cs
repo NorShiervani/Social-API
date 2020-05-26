@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.EntityFrameworkCore;
@@ -23,11 +24,11 @@ namespace Social.Api.Tests
         }
 
         [Theory]
-        [InlineData(2000)]
-        [InlineData(6666)]
-        [InlineData(5000)]
-        [InlineData(1000)]
-        [InlineData(1313)]
+        [InlineData(5)]
+        [InlineData(10)]
+        [InlineData(20)]
+        [InlineData(50)]
+        [InlineData(100)]
         public async void GetComments_CommentsAmount_ReturnsInCorrectAmountOfComments(int incorrectAmountComments)
         {
             //Arrange

@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Social.API.Services;
 using AutoMapper;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Social.API
 {
@@ -27,7 +30,6 @@ namespace Social.API
 
             services.AddDbContext<DataContext>();
             
-            services.AddScoped<IFakeRepository, FakeRespository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
@@ -36,6 +38,14 @@ namespace Social.API
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IUserConversatorRepository, UserConversatorRepository>();
             
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper>(x =>
+            {
+                var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+                var factory = x.GetRequiredService<IUrlHelperFactory>();
+                return factory.GetUrlHelper(actionContext);
+            });
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());

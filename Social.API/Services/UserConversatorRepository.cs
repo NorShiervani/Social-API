@@ -15,24 +15,14 @@ namespace Social.API.Services
             _context = context;
         }
 
-        public async void CreateUserConversator(UserConversator userConversator)
+        public async Task CreateUserConversator(UserConversator userConversator)
         {
-            Create(userConversator);
-            await Save();
-        }
-
-        public async Task<UserConversator> GetUserConversatorById(int id)
-        {
-            var query = await _context.UserConversators.FirstOrDefaultAsync(x => x.Id == id); 
-
-            return query;
+            await Create(userConversator);
         }
 
         public async Task<IEnumerable<UserConversator>> GetUserConversators()
         {
-            var query = await _context.UserConversators.ToListAsync(); 
-            
-            return query;
+            return await _context.UserConversators.ToListAsync(); 
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Social.Api.Tests
                        IsSuspended = false,
                        Country = "Sweden",
                        City = "Göteborg",
-                       RoleId = 1
+                       Role = Role.Regular
                     },
                     GenerateFake.User(),
                     GenerateFake.User()
@@ -78,7 +78,7 @@ namespace Social.Api.Tests
                        IsSuspended = false,
                        Country = "Sweden",
                        City = "Göteborg",
-                       RoleId = 1
+                       Role = Role.Regular
                     },
                     GenerateFake.User(),
                     GenerateFake.User()
