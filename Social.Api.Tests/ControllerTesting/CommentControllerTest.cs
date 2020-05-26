@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -33,13 +34,34 @@ namespace Social.Api.Tests.ControllerTesting
         {
             // Arrange
             Comment comment = GenerateFake.Comment();
-            _mockRepo.Setup(repo => repo.GetCommentByPostId(1)).ReturnsAsync(comment);
+            _mockRepo.Setup(repo => repo.GetById(1)).ReturnsAsync(comment);
 
             // Act
             var response = await _commentController.GetCommentById(1);
 
             // Assert
             Assert.IsAssignableFrom<ObjectResult>(response);
+        }
+
+        [Fact]
+        public async Task GetCommentsByPostId_ReturnsOk()
+        {
+            // Arrange
+            IList<Comment> comments = new List<Comment>{
+                GenerateFake.Comment(),
+                GenerateFake.Comment(),
+                GenerateFake.Comment(),
+                GenerateFake.Comment(),
+                GenerateFake.Comment(),
+                GenerateFake.Comment()
+            };
+            _mockRepo.Setup(repo => repo.GetCommentsByPostId(1)).ReturnsAsync(comments);
+            
+            // Act
+            var response = await _commentController.GetCommentsByPostId(1);
+
+            // Assert
+            Assert.IsAssignableFrom<OkObjectResult>(response);
         }
     }
 }
