@@ -10,11 +10,8 @@ namespace Social.API.Services
 {
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        private readonly DataContext _context;
         public CommentRepository(DataContext context, ILogger<CommentRepository> logger) : base(context, logger)
-        {
-            _context = context;
-        }
+        { }
 
         public async Task<IEnumerable<Comment>> GetComments()
         {

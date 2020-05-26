@@ -8,12 +8,8 @@ namespace Social.API.Services
 {
     public class UserConversatorRepository : Repository<UserConversator>, IUserConversatorRepository
     {
-        
-        private readonly DataContext _context;
         public UserConversatorRepository(DataContext context, ILogger<UserConversatorRepository> logger) : base(context, logger)
-        {
-            _context = context;
-        }
+        { }
 
         public async Task CreateUserConversator(UserConversator userConversator)
         {

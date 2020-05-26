@@ -10,17 +10,8 @@ namespace Social.API.Services
 {
     public class ConversationRepository : Repository<Conversation>,IConversationRepository
     {
-        private readonly DataContext _context;
         public ConversationRepository(DataContext context, ILogger<ConversationRepository> logger) : base(context, logger)
-        {
-            _context = context;
-        }
-        public async Task<Conversation> CreateConversation(Conversation conversation)
-        {
-            await Create(conversation);
-            await Save();
-            return conversation;
-        }
+        { }
 
         public async Task<Conversation> GetConversationById(int id)
         {
@@ -35,13 +26,6 @@ namespace Social.API.Services
         public async Task<IEnumerable<Conversation>> GetConversationsByUserId(int id)
         {
             return await _context.Conversations.Where(x => x.UserConversators.Any(x => x.User.Id == id)).ToListAsync();
-        }
-
-        public async Task<Conversation> UpdateConversation(Conversation conversation)
-        {
-            await Update(conversation);
-            await Save();
-            return conversation;
         }
     }
 }

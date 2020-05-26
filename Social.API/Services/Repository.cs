@@ -11,7 +11,7 @@ namespace Social.API.Services
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private DataContext _context;
+        protected readonly DataContext _context;
         protected readonly ILogger<Repository<T>> _logger;
         private DbSet<T> table = null;
         public Repository(DataContext _context, ILogger<Repository<T>> logger)
