@@ -50,7 +50,6 @@ namespace Social.API.Services
         {
             _logger.LogInformation($"Updating object of type {entity.GetType()}");
             _context.Update(entity);
-            await Save();
         }
 
         public async Task Delete(T entity)

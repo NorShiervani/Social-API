@@ -9,7 +9,5 @@ namespace Social.API.Services
         Task<IEnumerable<Comment>> GetComments();
         Task<IEnumerable<Comment>> GetCommentsByPostId(int Id);
         Task<Comment> GetCommentByPostId(int Id);
-        Task CreateComment(int id, Comment comment);
-        Task UpdateComment(int id, Comment comment);
     }
 }

@@ -79,7 +79,7 @@ namespace Social.API.Controllers
         {
             try
             {
-                await _repo.CreateComment(1, comment);
+                await _repo.Create(comment);
                 if(await _repo.Save()) {
                     
                     return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
@@ -102,7 +102,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest("Wrong commentId");
                 }
-                await _repo.UpdateComment(id, comment);
+                await _repo.Update(comment);
                 if(await _repo.Save()) {
                     return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
                 }
@@ -127,13 +127,16 @@ namespace Social.API.Controllers
                 }
 
                 await _repo.Delete(comment);
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to delete comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(CommentForReturnDto commentDto)

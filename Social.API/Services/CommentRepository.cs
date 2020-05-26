@@ -15,32 +15,6 @@ namespace Social.API.Services
         {
             _context = context;
         }
-        
-        public async Task CreateComment(int postId, Comment comment)
-        {
-            var post = _context.Posts.FirstOrDefault(x => x.Id == postId);
-
-            if (post == null)
-                throw new Exception($"Could not create comment, post with the id {postId} was not found.");
-
-            comment.Post = post;
-            await Create(comment);
-        }
-        
-        public async Task UpdateComment(int commentId, Comment comment)
-        {
-            comment = _context.Comments.FirstOrDefault(x => x.Id == commentId);
-
-            if (comment == null)
-                throw new Exception($"Could not create comment, post with the id {commentId} was not found.");
-
-            await Update(comment);
-        }
-
-        public async void DeleteComment(Comment comment)
-        {
-            await Delete(comment);
-        }
 
         public async Task<IEnumerable<Comment>> GetComments()
         {
