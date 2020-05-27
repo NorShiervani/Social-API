@@ -102,7 +102,7 @@ namespace Social.API.Controllers
         
         
         [HttpPost(Name = "CreateUser")]
-        public ActionResult<User> CreateUser(User newUser)
+        public async Task<ActionResult<User>> CreateUser(User newUser)
         {
             try
             {
@@ -112,8 +112,10 @@ namespace Social.API.Controllers
                     throw new Exception("User already exists");
                 }
                 
-                _repo.Create(newUser);
-                return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+                await _repo.Create(newUser);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+                }
 
             }
             catch (Exception e)
@@ -121,10 +123,11 @@ namespace Social.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to create user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpPut("{id}", Name = "UpdateUserById" )]
-        public IActionResult UpdateUserById(int id, User user)
+        public async Task<IActionResult> UpdateUserById(int id, User user)
         {   
             try
             {
@@ -133,14 +136,17 @@ namespace Social.API.Controllers
                     return BadRequest("Wrong userId");
                 }
 
-                _repo.Update(user);
-                return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
+                await _repo.Update(user);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to update user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -155,13 +161,16 @@ namespace Social.API.Controllers
                 }
 
                 await _repo.Delete(user);
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to delete user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
          private dynamic ExpandSingleItem(UserForReturnDto userDto)
