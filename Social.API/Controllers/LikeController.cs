@@ -26,6 +26,9 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+        /// <summary>
+        /// Gets all Likes
+        /// </summary>
         [HttpGet(Name = "GetLikes")]
         public async Task<ActionResult> GetLikes()
         {
@@ -43,6 +46,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Likes that belongs to a PostId
+        /// </summary>
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
@@ -60,6 +66,9 @@ namespace Social.API.Controllers
 
         }
 
+        /// <summary>
+        /// Create a Like
+        /// </summary>
         [HttpPost(Name = "CreateLike")]
         public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
         {
@@ -89,6 +98,9 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Delete a Like by its Id
+        /// </summary>
         [HttpDelete("{id}", Name = "RemoveLikeById")]
         public async Task<IActionResult> RemoveLikeById(int id)
         {
