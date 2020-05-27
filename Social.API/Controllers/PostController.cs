@@ -96,7 +96,7 @@ namespace Social.API.Controllers
                 {
                     return NotFound($"Could not delete post. Post with Id {id} was not found.");
                 }
-                await _repo.Delete(post);
+                _repo.Delete(post);
                 if(await _repo.Save()) {
                     return NoContent();
                 }
@@ -121,7 +121,7 @@ namespace Social.API.Controllers
                     return NotFound($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
-                await _repo.Update(post);
+                _repo.Update(post);
                 if(await _repo.Save()) {
                     return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
                 }

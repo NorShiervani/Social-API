@@ -106,7 +106,7 @@ namespace Social.API.Services
             }
             try
             {
-                await _repo.Update(conversation);
+                _repo.Update(conversation);
                 
                 if(await _repo.Save()) {
                     return Ok(conversation);
@@ -130,8 +130,9 @@ namespace Social.API.Services
 
                     return NotFound($"Could not delete Conversation. Conversation with Id{id} was not found");
                 }
+                _repo.Delete(conversation);
                 if(await _repo.Save()) {
-                    await _repo.Delete(conversation);
+                    return NoContent();
                 }
                 return NoContent();
             }

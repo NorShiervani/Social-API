@@ -136,7 +136,7 @@ namespace Social.API.Controllers
                     return BadRequest("Wrong userId");
                 }
 
-                await _repo.Update(user);
+                _repo.Update(user);
                 if(await _repo.Save()) {
                     return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
                 }
@@ -160,7 +160,7 @@ namespace Social.API.Controllers
                     return NotFound("There was no user with that Id");
                 }
 
-                await _repo.Delete(user);
+                _repo.Delete(user);
                 if(await _repo.Save()) {
                     return NoContent();
                 }

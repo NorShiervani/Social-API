@@ -100,7 +100,7 @@ namespace Social.API.Controllers
                 {
                     return NotFound($"Could not delete like. Like with Id {id} was not found.");
                 }
-                await _repo.Delete(post);
+                _repo.Delete(post);
                 if(await _repo.Save()) {
                     return NoContent();
                 }
