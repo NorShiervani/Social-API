@@ -11,6 +11,7 @@ using Social.API.Services;
 
 namespace Social.API.Controllers
 {
+    [Produces("application/json")]
     [Route("api/v1.0/comments")]
     [ApiController]
     public class CommentController : ControllerBase
@@ -18,6 +19,10 @@ namespace Social.API.Controllers
         private readonly ICommentRepository _repo;
         private readonly IMapper _mapper;
         private readonly IUrlHelper _urlHelper;
+
+        /// <summary>
+        /// Constructor for CommentController
+        /// </summary>
         public CommentController(ICommentRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _repo = repo;
@@ -25,6 +30,9 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+        /// <summary>
+        /// Get a single comment by Id
+        /// </summary>
         [HttpGet("{Id}", Name = "GetCommentById")]
         public async Task<IActionResult> GetCommentById(int id)
         {
@@ -41,6 +49,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all comments
+        /// </summary>
         [HttpGet(Name = "GetComments")]
         public async Task<IActionResult> GetComments()
         {
@@ -58,6 +69,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get comments by Post ID
+        /// </summary>
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
@@ -74,6 +88,10 @@ namespace Social.API.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Creates a Comment.
+        /// </summary>
         [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
@@ -93,6 +111,9 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Updates comment by Id
+        /// </summary>
         [HttpPut("{Id}", Name = "UpdateCommentById")]
         public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
@@ -115,6 +136,10 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
+        /// <param name="id"></param>   
         [HttpDelete("{Id}", Name ="DeleteCommentById")]
         public async Task<IActionResult> DeleteCommentById(int id)
         {
