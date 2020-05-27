@@ -26,31 +26,6 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
-        [HttpPost(Name = "CreatePost")]
-        public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
-        {
-            try
-            {
-                var userFromRepo = await _repo.GetUserById(postToCreateDto.UserId);
-                if (userFromRepo == null)
-                    return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
-                
-                Post post = new Post() {
-                    Text = postToCreateDto.Text,
-                    Created = DateTime.Now,
-                    User = userFromRepo
-                };
-
-                await _repo.Create(post);
-                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
-            }
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
@@ -80,6 +55,83 @@ namespace Social.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to retrieve the post. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+        }
+
+        [HttpPost(Name = "CreatePost")]
+        public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
+        {
+            try
+            {
+                var userFromRepo = await _repo.GetUserById(postToCreateDto.UserId);
+                if (userFromRepo == null)
+                    return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
+                
+                Post post = new Post() {
+                    Text = postToCreateDto.Text,
+                    Created = DateTime.Now,
+                    User = userFromRepo
+                };
+
+                await _repo.Create(post);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to create the post. Exception thrown when attempting to add data to the database: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}", Name = "DeletePostById")]
+        public async Task<IActionResult> DeletePostById(int id)
+        {
+            try
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return NotFound($"Could not delete post. Post with Id {id} was not found.");
+                }
+                _repo.Delete(post);
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to delete the post. Exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("{id}", Name = "UpdatePostText")]
+        public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
+        {
+            try 
+            {
+                var post = await _repo.GetPostById(id);
+
+                if (post == null)
+                {
+                    return NotFound($"Could not update post. Post with Id {id} was not found.");
+                }
+                post.Text = updatedText;
+                _repo.Update(post);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Failed to update the post. Exception thrown when attempting to update data in the database: {e.Message}");
+            }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(Post post)
@@ -118,52 +170,6 @@ namespace Social.API.Controllers
               "POST"));
               
             return links;
-        }
-
-        [HttpDelete("{id}", Name = "DeletePostById")]
-        public async Task<IActionResult> DeletePostById(int id)
-        {
-            try
-            {
-                var post = await _repo.GetPostById(id);
-
-                if (post == null)
-                {
-                    return BadRequest($"Could not delete post. Post with Id {id} was not found.");
-                }
-                await _repo.Delete(post);
-
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to delete the post. Exception thrown when attempting to delete data from the database: {e.Message}");
-            }
-
-        }
-
-        [HttpPut("{id}", Name = "UpdatePostText")]
-        public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
-        {
-            try 
-            {
-                var post = await _repo.GetPostById(id);
-
-                if (post == null)
-                {
-                    return BadRequest($"Could not update post. Post with Id {id} was not found.");
-                }
-                post.Text = updatedText;
-                await _repo.Update(post);
-
-                return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Failed to update the post. Exception thrown when attempting to update data in the database: {e.Message}");
-            }
         }
     }
 }

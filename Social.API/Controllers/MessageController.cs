@@ -47,7 +47,7 @@ namespace Social.API.Controllers
             {
                 var userConversatorFromRepo = await _repo.GetUserConversatorById(messageToCreateDto.UserConversatorId);
                  if (userConversatorFromRepo == null)
-                    return BadRequest($"UserConversator with the id {userConversatorFromRepo.Id} does not exist.");
+                    return NotFound($"UserConversator with the id {userConversatorFromRepo.Id} does not exist.");
                 
                 Message message = new Message() {
                     Text = messageToCreateDto.Text,
@@ -55,15 +55,17 @@ namespace Social.API.Controllers
                     UserConversator = userConversatorFromRepo
                 };
                 await _repo.Create(message);
-                return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the comment. Exception thrown when attempting to add data to the database: {e.Message}");
             } 
+            return BadRequest();
         }
-
 
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
@@ -74,18 +76,19 @@ namespace Social.API.Controllers
 
                 if (message == null)
                 {
-                    return BadRequest($"Could not delete message. Message with Id {id} was not found.");
+                    return NotFound($"Could not delete message. Message with Id {id} was not found.");
                 }
-                await _repo.Delete(message);
-
-                return NoContent();
+                _repo.Delete(message);
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to delete the message. Exception thrown when attempting to delete data from the database: {e.Message}");
             }
-
+            return BadRequest();
         }
 
         [HttpPut("{id}", Name = "UpdateMessage")]
@@ -100,14 +103,16 @@ namespace Social.API.Controllers
                 }
 
                 var updatedMessage = _mapper.Map(message, oldMessage);
-                await _repo.Update(updatedMessage);
-                
-                return NoContent();
+                _repo.Update(updatedMessage);
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");                
             }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(MessageForReturnDto messageDto)

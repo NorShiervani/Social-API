@@ -12,8 +12,8 @@ namespace Social.API.Services
         Task<IList<T>> GetAll(params Expression<Func<T, object>>[] including);
         Task<T> GetById(int id);
         Task Create(T entity);
-        Task Update(T entity);
-        Task Delete(T entity);
+        void Update(T entity);
+        void Delete(T entity);
         Task<bool> Save();
         Task<User> GetUserById(int id);
         Task<Post> GetPostById(int id);

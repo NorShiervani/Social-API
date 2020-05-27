@@ -67,24 +67,26 @@ namespace Social.API.Controllers
             {
                 var userFromRepo = await _repo.GetUserById(likeToCreateDto.UserId);
                 if (userFromRepo == null)
-                    return BadRequest($"User with the id {userFromRepo.Id} does not exist.");
+                    return NotFound($"User with the id {userFromRepo.Id} does not exist.");
                 var postFromRepo = await _repo.GetPostById(likeToCreateDto.PostId);
                 if (postFromRepo == null)
-                    return BadRequest($"Post with the id {postFromRepo.Id} does not exist.");
-
+                    return NotFound($"Post with the id {postFromRepo.Id} does not exist.");
 
                 Like like = new Like() {
                     User = userFromRepo,
                     Post = postFromRepo
                 };
                 await _repo.Create(like);
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the like. Exception thrown when attempting to add data to the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpDelete("{id}", Name = "RemoveLikeById")]
@@ -96,21 +98,22 @@ namespace Social.API.Controllers
 
                 if (post == null)
                 {
-                    return BadRequest($"Could not delete like. Like with Id {id} was not found.");
+                    return NotFound($"Could not delete like. Like with Id {id} was not found.");
                 }
-                await _repo.Delete(post);
-
-                return NoContent();
+                _repo.Delete(post);
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to delete the like. Exception thrown when attempting to delete data from the database: {e.Message}");
             }
-
+            return BadRequest();
         }
 
- private dynamic ExpandSingleItem(LikeForReturnDto likeDto)
+        private dynamic ExpandSingleItem(LikeForReturnDto likeDto)
         {
             var links = GetLinks(likeDto.Id);
 
@@ -138,13 +141,7 @@ namespace Social.API.Controllers
                new LinkDto(_urlHelper.Link(nameof(RemoveLikeById), new { id = id }),
                "delete",
                "DELETE"));
-
-          
-
             return links;
         }
-
-
-
     }
 }

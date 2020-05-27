@@ -97,21 +97,25 @@ namespace Social.API.Controllers
         {
             try
             {
-                await _repo.CreateComment(1, comment);
-                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
+                await _repo.Create(comment);
+                if(await _repo.Save()) {
+                    
+                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the comment. Exception thrown when attempting to add data to the database: {e.Message}");
             } 
+            return BadRequest();
         }
 
         /// <summary>
         /// Updates comment by Id
         /// </summary>
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public IActionResult UpdateCommentById(int id, Comment comment)
+        public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
             try
             {
@@ -119,15 +123,17 @@ namespace Social.API.Controllers
                 {
                     return BadRequest("Wrong commentId");
                 }
-
-                _repo.UpdateComment(id, comment);
-                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
+                _repo.Update(comment);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to update comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         /// <summary>
@@ -139,20 +145,24 @@ namespace Social.API.Controllers
         {
             try
             {
+                
                 var comment = await _repo.GetCommentByPostId(id);
                 if (comment == null)
                 {
                     return NotFound("There was no comment with that Id");
                 }
 
-                await _repo.Delete(comment);
-                return NoContent();
+                _repo.Delete(comment);
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to delete comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(CommentForReturnDto commentDto)
