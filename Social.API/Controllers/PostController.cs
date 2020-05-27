@@ -94,7 +94,7 @@ namespace Social.API.Controllers
 
                 if (post == null)
                 {
-                    return BadRequest($"Could not delete post. Post with Id {id} was not found.");
+                    return NotFound($"Could not delete post. Post with Id {id} was not found.");
                 }
                 await _repo.Delete(post);
                 if(await _repo.Save()) {
@@ -118,7 +118,7 @@ namespace Social.API.Controllers
 
                 if (post == null)
                 {
-                    return BadRequest($"Could not update post. Post with Id {id} was not found.");
+                    return NotFound($"Could not update post. Post with Id {id} was not found.");
                 }
                 post.Text = updatedText;
                 await _repo.Update(post);
