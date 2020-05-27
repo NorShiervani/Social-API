@@ -120,6 +120,7 @@ namespace Social.API.Controllers
         {
             try
             {
+                
                 var comment = await _repo.GetCommentByPostId(id);
                 if (comment == null)
                 {
