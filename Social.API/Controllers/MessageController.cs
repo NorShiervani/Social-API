@@ -47,7 +47,7 @@ namespace Social.API.Controllers
             {
                 var userConversatorFromRepo = await _repo.GetUserConversatorById(messageToCreateDto.UserConversatorId);
                  if (userConversatorFromRepo == null)
-                    return BadRequest($"UserConversator with the id {userConversatorFromRepo.Id} does not exist.");
+                    return NotFound($"UserConversator with the id {userConversatorFromRepo.Id} does not exist.");
                 
                 Message message = new Message() {
                     Text = messageToCreateDto.Text,
@@ -76,7 +76,7 @@ namespace Social.API.Controllers
 
                 if (message == null)
                 {
-                    return BadRequest($"Could not delete message. Message with Id {id} was not found.");
+                    return NotFound($"Could not delete message. Message with Id {id} was not found.");
                 }
                 await _repo.Delete(message);
                 if(await _repo.Save()) {

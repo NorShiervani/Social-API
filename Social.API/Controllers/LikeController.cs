@@ -67,10 +67,10 @@ namespace Social.API.Controllers
             {
                 var userFromRepo = await _repo.GetUserById(likeToCreateDto.UserId);
                 if (userFromRepo == null)
-                    return BadRequest($"User with the id {userFromRepo.Id} does not exist.");
+                    return NotFound($"User with the id {userFromRepo.Id} does not exist.");
                 var postFromRepo = await _repo.GetPostById(likeToCreateDto.PostId);
                 if (postFromRepo == null)
-                    return BadRequest($"Post with the id {postFromRepo.Id} does not exist.");
+                    return NotFound($"Post with the id {postFromRepo.Id} does not exist.");
 
                 Like like = new Like() {
                     User = userFromRepo,
@@ -98,7 +98,7 @@ namespace Social.API.Controllers
 
                 if (post == null)
                 {
-                    return BadRequest($"Could not delete like. Like with Id {id} was not found.");
+                    return NotFound($"Could not delete like. Like with Id {id} was not found.");
                 }
                 await _repo.Delete(post);
                 if(await _repo.Save()) {
