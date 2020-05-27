@@ -9,11 +9,8 @@ namespace Social.API.Services
 {
     public class LikeRepository : Repository<Like>, ILikeRepository
     {
-        private readonly DataContext _context;
         public LikeRepository(DataContext context, ILogger<LikeRepository> logger) : base(context, logger)
-        {
-            _context = context;
-        }
+        { }
 
         public async Task<IEnumerable<Like>> GetLikes()
         {
