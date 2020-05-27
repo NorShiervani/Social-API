@@ -78,6 +78,70 @@ namespace Social.API.Services
             
         }
 
+
+        [HttpPost(Name = "CreateConversation")]
+        public async Task<IActionResult> CreateConversation(Conversation conversation)
+        {
+            try
+            {
+                await _repo.Create(conversation);
+                if(await _repo.Save()) {
+                    return Ok(conversation);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to create conversation. Exception thrown when attempting to add data to the database: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("{id}", Name ="UpdateConversation")]
+        public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
+        {
+            if(id != conversation.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _repo.Update(conversation);
+                
+                if(await _repo.Save()) {
+                    return Ok(conversation);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Failed to update converation. Exception thrown when attempting to update data from the database: {e.Message}");
+            }
+            return BadRequest();
+        }
+        
+        [HttpDelete("{id}", Name ="DeleteConversation")]
+        public async Task<IActionResult> DeleteConversationById(int id)
+        {
+            try
+            {
+                var conversation = await _repo.GetConversationById(id);
+                if(conversation == null){
+
+                    return NotFound($"Could not delete Conversation. Conversation with Id{id} was not found");
+                }
+                if(await _repo.Save()) {
+                    await _repo.Delete(conversation);
+                }
+                return NoContent();
+            }
+            catch(Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Failed to delete the conversation, exception thrown when attempting to delete data from the database: {e.Message}");
+            }
+        }
+        
         private List<LinkDto> CreateLinksForCollection()
         {
             var links = new List<LinkDto>();
@@ -127,65 +191,6 @@ namespace Social.API.Services
                "PUT"));
 
             return links;
-        }
-
-        [HttpPost(Name = "CreateConversation")]
-        public async Task<IActionResult> CreateConversation(Conversation conversation)
-        {
-            try
-            {
-                await _repo.Create(conversation);
-                return Ok(conversation);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Failed to create conversation. Exception thrown when attempting to add data to the database: {e.Message}");
-            }
-        }
-
-        [HttpPut("{id}", Name ="UpdateConversation")]
-        public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
-        {
-            if(id != conversation.Id)
-            {
-                return BadRequest();
-            }
-            try
-            {
-                await _repo.Update(conversation);
-                return Ok(conversation);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Failed to update converation. Exception thrown when attempting to update data from the database: {e.Message}");
-            }
-        }
-        
-        [HttpDelete("{id}", Name ="DeleteConversation")]
-        public async Task<IActionResult> DeleteConversationById(int id)
-        {
-        try
-        {
-
-            var conversation = await _repo.GetConversationById(id);
-
-            if(conversation == null){
-
-                return NotFound($"Could not delete Conversation. Conversation with Id{id} was not found");
-            }
-            await _repo.Delete(conversation);
-
-            return NoContent();
-
-        }
-        catch(Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                $"Failed to delete the conversation, exception thrown when attempting to delete data from the database: {e.Message}");
-            }
-
         }
     }
 }

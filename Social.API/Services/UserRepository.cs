@@ -9,12 +9,9 @@ using Social.API.Models.Fake;
 namespace Social.API.Services
 {
     public class UserRepository : Repository<User>, IUserRepository
-    {
-        private readonly DataContext _context;
+    {        
         public UserRepository(DataContext context, ILogger<UserRepository> logger) :base(context,logger)
-        {
-            _context = context;
-        }
+        { }
 
         public async Task<IEnumerable<User>> GetUsers(string userName)
         {
