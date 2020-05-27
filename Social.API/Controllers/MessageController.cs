@@ -55,15 +55,17 @@ namespace Social.API.Controllers
                     UserConversator = userConversatorFromRepo
                 };
                 await _repo.Create(message);
-                return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetMessageById), new { id = message.Id }, message);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the comment. Exception thrown when attempting to add data to the database: {e.Message}");
             } 
+            return BadRequest();
         }
-
 
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
@@ -77,15 +79,16 @@ namespace Social.API.Controllers
                     return NotFound($"Could not delete message. Message with Id {id} was not found.");
                 }
                 await _repo.Delete(message);
-
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to delete the message. Exception thrown when attempting to delete data from the database: {e.Message}");
             }
-
+            return BadRequest();
         }
 
         [HttpPut("{id}", Name = "UpdateMessage")]
@@ -101,13 +104,15 @@ namespace Social.API.Controllers
 
                 var updatedMessage = _mapper.Map(message, oldMessage);
                 await _repo.Update(updatedMessage);
-                
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");                
             }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(MessageForReturnDto messageDto)

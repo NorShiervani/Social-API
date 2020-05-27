@@ -12,7 +12,6 @@ namespace Social.API.Services
     {
         public CommentRepository(DataContext context, ILogger<CommentRepository> logger) : base(context, logger)
         { }
-        
         public async Task<IEnumerable<Comment>> GetComments()
         {
             return await _context.Comments.Include(x => x.Post).ToListAsync();

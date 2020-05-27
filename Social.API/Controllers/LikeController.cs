@@ -72,19 +72,21 @@ namespace Social.API.Controllers
                 if (postFromRepo == null)
                     return NotFound($"Post with the id {postFromRepo.Id} does not exist.");
 
-
                 Like like = new Like() {
                     User = userFromRepo,
                     Post = postFromRepo
                 };
                 await _repo.Create(like);
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the like. Exception thrown when attempting to add data to the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpDelete("{id}", Name = "RemoveLikeById")]
@@ -99,18 +101,19 @@ namespace Social.API.Controllers
                     return NotFound($"Could not delete like. Like with Id {id} was not found.");
                 }
                 await _repo.Delete(post);
-
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to delete the like. Exception thrown when attempting to delete data from the database: {e.Message}");
             }
-
+            return BadRequest();
         }
 
- private dynamic ExpandSingleItem(LikeForReturnDto likeDto)
+        private dynamic ExpandSingleItem(LikeForReturnDto likeDto)
         {
             var links = GetLinks(likeDto.Id);
 
@@ -138,13 +141,7 @@ namespace Social.API.Controllers
                new LinkDto(_urlHelper.Link(nameof(RemoveLikeById), new { id = id }),
                "delete",
                "DELETE"));
-
-          
-
             return links;
         }
-
-
-
     }
 }
