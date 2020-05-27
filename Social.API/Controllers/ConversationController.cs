@@ -141,7 +141,7 @@ namespace Social.API.Services
         }
 
         /// <summary>
-        /// Deletes a specific TodoItem.
+        /// Deletes a specific Conversation.
         /// </summary>
         
         [HttpDelete("{id}", Name ="DeleteConversation")]
