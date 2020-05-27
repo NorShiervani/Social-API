@@ -24,6 +24,10 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+        
+        /// <summary>
+        /// Get a single message by Id
+        /// </summary>
         [HttpGet("{id}", Name = "GetMessageById")]
         public async Task<IActionResult> GetMessageById(int id)
         {
@@ -40,6 +44,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a new message
+        /// </summary>
         [HttpPost(Name = "CreateMessage")]
         public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
         {
@@ -67,6 +74,9 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Delete a single message by Id
+        /// </summary>
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
         {
@@ -91,6 +101,10 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+
+        /// <summary>
+        /// Update a single message
+        /// </summary>
         [HttpPut("{id}", Name = "UpdateMessage")]
         public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
         {
