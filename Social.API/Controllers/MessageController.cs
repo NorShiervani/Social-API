@@ -78,7 +78,7 @@ namespace Social.API.Controllers
                 {
                     return NotFound($"Could not delete message. Message with Id {id} was not found.");
                 }
-                await _repo.Delete(message);
+                _repo.Delete(message);
                 if(await _repo.Save()) {
                     return NoContent();
                 }
@@ -103,7 +103,7 @@ namespace Social.API.Controllers
                 }
 
                 var updatedMessage = _mapper.Map(message, oldMessage);
-                await _repo.Update(updatedMessage);
+                _repo.Update(updatedMessage);
                 if(await _repo.Save()) {
                     return NoContent();
                 }

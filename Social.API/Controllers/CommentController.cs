@@ -102,7 +102,7 @@ namespace Social.API.Controllers
                 {
                     return BadRequest("Wrong commentId");
                 }
-                await _repo.Update(comment);
+                _repo.Update(comment);
                 if(await _repo.Save()) {
                     return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
                 }
@@ -127,7 +127,7 @@ namespace Social.API.Controllers
                     return NotFound("There was no comment with that Id");
                 }
 
-                await _repo.Delete(comment);
+                _repo.Delete(comment);
                 if(await _repo.Save()) {
                     return NoContent();
                 }

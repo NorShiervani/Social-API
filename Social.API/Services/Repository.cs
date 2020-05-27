@@ -46,17 +46,16 @@ namespace Social.API.Services
             await table.AddAsync(entity);
         }
 
-        public async Task Update(T entity)
+        public void Update(T entity)
         {
             _logger.LogInformation($"Updating object of type {entity.GetType()}");
             _context.Update(entity);
         }
 
-        public async Task Delete(T entity)
+        public void Delete(T entity)
         {
             _logger.LogInformation($"Deleting object of type {entity.GetType()}");
             table.Remove(entity);
-            await Save();
         }
 
         public async Task<bool> Save()
