@@ -14,12 +14,6 @@ namespace Social.API.Services
         {
             _context = context;
         }
-
-        public async Task CreateUserConversator(UserConversator userConversator)
-        {
-            await Create(userConversator);
-        }
-
         public async Task<IEnumerable<UserConversator>> GetUserConversators()
         {
             return await _context.UserConversators.ToListAsync(); 

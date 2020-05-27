@@ -24,15 +24,5 @@ namespace Social.API.Services
         {
             return await _context.Likes.Include(x => x.User).Include(x => x.Post).Where(x => x.Post.Id == Id).ToListAsync();
         }
-        
-        public async void DeleteLike(Like like)
-        {
-            await Delete(like);
-        }
-
-        public async void CreateLike(Like like)
-        {
-            await Create(like);
-        }
     }
 }
