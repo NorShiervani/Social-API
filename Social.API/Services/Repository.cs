@@ -11,7 +11,7 @@ namespace Social.API.Services
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private DataContext _context;
+        protected readonly DataContext _context;
         protected readonly ILogger<Repository<T>> _logger;
         private DbSet<T> table = null;
         public Repository(DataContext _context, ILogger<Repository<T>> logger)
@@ -44,14 +44,12 @@ namespace Social.API.Services
         {
             _logger.LogInformation($"Adding object of type {entity.GetType()}");
             await table.AddAsync(entity);
-            await Save();
         }
 
         public async Task Update(T entity)
         {
             _logger.LogInformation($"Updating object of type {entity.GetType()}");
             _context.Update(entity);
-            await Save();
         }
 
         public async Task Delete(T entity)

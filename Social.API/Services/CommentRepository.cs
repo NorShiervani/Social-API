@@ -10,12 +10,16 @@ namespace Social.API.Services
 {
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        private readonly DataContext _context;
         public CommentRepository(DataContext context, ILogger<CommentRepository> logger) : base(context, logger)
+<<<<<<< HEAD
         {
             _context = context;
         }
         
+=======
+        { }
+
+>>>>>>> master
         public async Task<IEnumerable<Comment>> GetComments()
         {
             return await _context.Comments.Include(x => x.Post).ToListAsync();

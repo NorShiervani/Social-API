@@ -80,17 +80,21 @@ namespace Social.API.Controllers
             try
             {
                 await _repo.Create(comment);
-                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
+                if(await _repo.Save()) {
+                    
+                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Failed to create the comment. Exception thrown when attempting to add data to the database: {e.Message}");
             } 
+            return BadRequest();
         }
 
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public IActionResult UpdateCommentById(int id, Comment comment)
+        public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
             try
             {
@@ -98,15 +102,17 @@ namespace Social.API.Controllers
                 {
                     return BadRequest("Wrong commentId");
                 }
-
-                _repo.Update(comment);
-                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
+                await _repo.Update(comment);
+                if(await _repo.Save()) {
+                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, comment);
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to update comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         [HttpDelete("{Id}", Name ="DeleteCommentById")]
@@ -122,13 +128,16 @@ namespace Social.API.Controllers
                 }
 
                 await _repo.Delete(comment);
-                return NoContent();
+                if(await _repo.Save()) {
+                    return NoContent();
+                }
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to delete comment. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
+            return BadRequest();
         }
 
         private dynamic ExpandSingleItem(CommentForReturnDto commentDto)

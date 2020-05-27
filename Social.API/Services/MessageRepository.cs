@@ -8,11 +8,9 @@ namespace Social.API.Services
 {
     public class MessageRepository : Repository<Message>, IMessageRepository
     {
-        private readonly DataContext _context;
         public MessageRepository(DataContext context, ILogger<MessageRepository> logger) : base(context, logger)
-        {
-            _context = context;
-        }
+        { }
+        
         public async void CreateMessage(Message message)
         {
             await Create(message);

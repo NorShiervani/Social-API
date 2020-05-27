@@ -10,11 +10,8 @@ namespace Social.API.Services
 {
     public class PostRepository : Repository<Post>, IPostRepository
     {
-        private readonly DataContext _context;
         public PostRepository(DataContext context, ILogger<PostRepository> logger):base(context, logger)
-        {
-            _context = context;
-        }
+        { }
         
         public async void CreatePost(Post post)
         { 
