@@ -23,7 +23,9 @@ namespace Social.API.Controllers
             _repo = repo;
             _urlHelper = urlHelper;
         }
-
+        /// <summary>
+        /// Gets all the users
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
         {
@@ -40,6 +42,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get a single User by Id
+        /// </summary>
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -58,6 +63,9 @@ namespace Social.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all the posts by a single user
+        /// </summary>
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
@@ -79,6 +87,9 @@ namespace Social.API.Controllers
             }
         }
         
+        /// <summary>
+        /// Get all the comments by a single user
+        /// </summary>
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
@@ -100,7 +111,9 @@ namespace Social.API.Controllers
             }
         }
         
-        
+        /// <summary>
+        /// Create a new user
+        /// </summary>
         [HttpPost(Name = "CreateUser")]
         public async Task<ActionResult<User>> CreateUser(User newUser)
         {
@@ -126,6 +139,9 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Update a single user
+        /// </summary>
         [HttpPut("{id}", Name = "UpdateUserById" )]
         public async Task<IActionResult> UpdateUserById(int id, User user)
         {   
@@ -149,6 +165,9 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Delete a single user
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {

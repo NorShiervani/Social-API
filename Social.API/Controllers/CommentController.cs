@@ -137,7 +137,7 @@ namespace Social.API.Controllers
         }
 
         /// <summary>
-        /// Deletes a specific TodoItem.
+        /// Deletes a specific comment.
         /// </summary>
         /// <param name="id"></param>   
         [HttpDelete("{Id}", Name ="DeleteCommentById")]
