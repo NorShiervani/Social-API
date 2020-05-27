@@ -59,7 +59,7 @@ namespace Social.API
 
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1", Description = "A web api we did for a school project"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Social API", Version = "v1", Description = "A web api we did for a school project"});
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
