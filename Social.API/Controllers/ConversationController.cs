@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Social.API.Services
 {
+    [Produces("application/json")]
     [Route("api/v1.0/conversations")]
     [ApiController]
     public class ConversationController : ControllerBase
@@ -18,6 +19,10 @@ namespace Social.API.Services
         private readonly IConversationRepository _repo;
         private readonly IMapper _mapper;
         private readonly IUrlHelper _urlHelper;
+
+        /// <summary>
+        /// Constructor for ConversationController
+        /// </summary>
         public ConversationController(IConversationRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
@@ -25,6 +30,10 @@ namespace Social.API.Services
             _urlHelper = urlHelper;
         }
 
+        /// <summary>
+        /// Get all Conversations
+        /// </summary>
+        
         [HttpGet(Name = "GetConversations")]
         public async Task<IActionResult> GetConversations()
         {
@@ -41,7 +50,9 @@ namespace Social.API.Services
             }
 
         }
-
+        /// <summary>
+        /// Get a single Conversation by Id
+        /// </summary>
         [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
@@ -60,6 +71,9 @@ namespace Social.API.Services
             
         }
         
+        /// <summary>
+        /// Get Conversations by User ID
+        /// </summary>
         [HttpGet("user/{Id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
@@ -78,7 +92,9 @@ namespace Social.API.Services
             
         }
 
-
+        /// <summary>
+        /// Creates a Conversation.
+        /// </summary>
         [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
@@ -96,6 +112,10 @@ namespace Social.API.Services
             }
             return BadRequest();
         }
+
+        /// <summary>
+        /// Updates Conversation by Id
+        /// </summary>
 
         [HttpPut("{id}", Name ="UpdateConversation")]
         public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
@@ -119,6 +139,10 @@ namespace Social.API.Services
             }
             return BadRequest();
         }
+
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
         
         [HttpDelete("{id}", Name ="DeleteConversation")]
         public async Task<IActionResult> DeleteConversationById(int id)
