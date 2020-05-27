@@ -17,6 +17,9 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Gets all UserConversators
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetUserConversators()
         {
@@ -25,6 +28,9 @@ namespace Social.API.Controllers
             return Ok(conversatorsFromRepo);
         }
 
+        /// <summary>
+        /// Gets a UserConversator by Id.
+        /// </summary>
         [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<IActionResult> GetUserConversatorById(int id)
         {
