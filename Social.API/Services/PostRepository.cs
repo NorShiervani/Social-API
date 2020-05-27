@@ -12,11 +12,6 @@ namespace Social.API.Services
     {
         public PostRepository(DataContext context, ILogger<PostRepository> logger):base(context, logger)
         { }
-        
-        public async void CreatePost(Post post)
-        { 
-            await Create(post);
-        }
         public async Task<IEnumerable<Post>> GetPosts()
         {
             return await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 

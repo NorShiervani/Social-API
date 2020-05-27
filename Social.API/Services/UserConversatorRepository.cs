@@ -10,12 +10,6 @@ namespace Social.API.Services
     {
         public UserConversatorRepository(DataContext context, ILogger<UserConversatorRepository> logger) : base(context, logger)
         { }
-
-        public async Task CreateUserConversator(UserConversator userConversator)
-        {
-            await Create(userConversator);
-        }
-
         public async Task<IEnumerable<UserConversator>> GetUserConversators()
         {
             return await _context.UserConversators.ToListAsync(); 
