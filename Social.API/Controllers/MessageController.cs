@@ -31,7 +31,7 @@ namespace Social.API.Controllers
           ///<remarks>
         ///Sample Request: 
         ///
-        ///    GET /message
+        ///    GET /message/1
         ///     {
         ///        "Id" : 1
         ///        "text" : "Hello friends!"
@@ -133,7 +133,7 @@ namespace Social.API.Controllers
         ///<remarks>
         ///Sample Request: 
         ///
-        ///    PUT /message
+        ///    PUT /message/7
         ///     {
         ///        "Id" : 7
         ///        "text" : "No, the earth is in fact round. You Goofball."

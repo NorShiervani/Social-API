@@ -12,7 +12,7 @@ namespace Social.API.Services
         { }
         public async Task<IEnumerable<UserConversator>> GetUserConversators()
         {
-            return await _context.UserConversators.ToListAsync(); 
+            return await _context.UserConversators.Include(y =>y.User).ToListAsync(); 
         }
     }
 }
