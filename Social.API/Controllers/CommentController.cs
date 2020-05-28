@@ -33,6 +33,20 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get a single comment by Id
         /// </summary>
+        ///<remarks>
+        ///
+        ///Sample Request:
+        ///
+        ///     GET / comment
+        ///     {
+        ///         "id": 1  
+        ///         "Text": "Hi there this is a sample text"
+        ///         "Created":[]
+        ///         "Post":[]
+        ///         "User":[]
+        ///     }
+        ///
+        ///</remarks>
         [HttpGet("{Id}", Name = "GetCommentById")]
         public async Task<IActionResult> GetCommentById(int id)
         {
@@ -52,6 +66,27 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get all comments
         /// </summary>
+        ///<remarks>
+        ///
+        ///Sample Request:
+        ///
+        ///     GET / comment
+        ///     {
+        ///         "id": 1  
+        ///         "Text": "Hi there this is a sample text"
+        ///         "Created":[]
+        ///         "Post":[]
+        ///         "User":[]
+        ///     },
+        ///     {
+        ///         "id": 2  
+        ///         "Text": "Hi there this is a sample text"
+        ///         "Created":[]
+        ///         "Post":[]
+        ///         "User":[]
+        ///     }
+        ///
+        ///</remarks>
         [HttpGet(Name = "GetComments")]
         public async Task<IActionResult> GetComments()
         {
@@ -72,6 +107,35 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get comments by Post ID
         /// </summary>
+        ///<remarks>
+        ///Sample Request:
+        ///
+        ///     GET/comments/post/{id}
+        ///        [
+        ///         {
+        ///             "id": 1,
+        ///             "text": "Cool yo!",
+        ///             "created": "2020-05-22T08:53:31.7372838",
+        ///             "post": null,
+        ///             "user": null
+        ///         },
+        ///         {
+        ///             "id": 3,
+        ///             "text": "Uuugghhh.",
+        ///             "created": "2020-05-22T08:53:31.7374273",
+        ///             "post": null,
+        ///             "user": null
+        ///          },
+        ///          {
+        ///             "id": 4,
+        ///             "text": "Haha awesome!",
+        ///             "created": "2020-05-22T08:53:31.7374309",
+        ///             "post": null,
+        ///             "user": null
+        ///          }
+        ///         ]
+        ///
+        ///</remarks>
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
@@ -92,6 +156,20 @@ namespace Social.API.Controllers
         /// <summary>
         /// Creates a Comment.
         /// </summary>
+        ///<remarks>
+        ///
+        ///Sample Request:
+        ///
+        ///     POST / comment
+        ///     {
+        ///         "id":  
+        ///         "Text": "Hi there this is a sample text"
+        ///         "Created":2018-06-11
+        ///         "Post":[]
+        ///         "User":[]
+        ///     }
+        ///
+        ///</remarks>
         [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
@@ -114,6 +192,20 @@ namespace Social.API.Controllers
         /// <summary>
         /// Updates comment by Id
         /// </summary>
+        ///<remarks>
+        ///
+        ///Sample Request:
+        ///
+        ///     PUT / comment/{id}
+        ///     {
+        ///         "id":  
+        ///         "Text": "This is the changed text"
+        ///         "Created":2018-06-11
+        ///         "Post":[]
+        ///         "User":[]
+        ///     }
+        ///
+        ///</remarks>
         [HttpPut("{Id}", Name = "UpdateCommentById")]
         public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
