@@ -31,6 +31,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets a UserConversator by Id.
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<IActionResult> GetUserConversatorById(int id)
         {
