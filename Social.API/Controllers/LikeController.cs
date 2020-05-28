@@ -29,6 +29,20 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets all Likes
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /likes
+        ///    [
+        ///    {
+        ///         "Id": 1
+        ///    },
+        ///    {
+        ///         "Id": 2
+        ///    }
+        ///    ]
+        ///
+        ///</remarks>
         [HttpGet(Name = "GetLikes")]
         public async Task<ActionResult> GetLikes()
         {
@@ -49,6 +63,22 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get Likes that belongs to a PostId
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /likes/post/1
+        ///    [
+        ///    {
+        ///         "Id": 1,
+        ///         "PostId:" 1
+        ///    },
+        ///    {
+        ///         "Id": 2,
+        ///         "PostId:" 1
+        ///    }
+        ///    ]
+        ///
+        ///</remarks>
         /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
@@ -70,6 +100,19 @@ namespace Social.API.Controllers
         /// <summary>
         /// Create a Like
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    POST /likes
+        ///    [
+        ///    {
+        ///         "Id": 1,
+        ///         "PostId" : 4,
+        ///         "UserId : 7
+        ///    }
+        ///    ]
+        ///
+        ///</remarks>
         /// <param name="likeToCreateDto"></param>
         [HttpPost(Name = "CreateLike")]
         public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
