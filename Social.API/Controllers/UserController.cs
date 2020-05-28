@@ -50,6 +50,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
+        /// <param name="userName"></param>
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
         {
@@ -93,6 +94,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
+        /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -129,6 +131,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
+        /// <param name="id"></param>
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
@@ -166,6 +169,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
+        /// <param name="id"></param>
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
@@ -214,6 +218,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
+        /// <param name="newUser"></param>
         [HttpPost(Name = "CreateUser")]
         public async Task<ActionResult<User>> CreateUser(User newUser)
         {
@@ -267,6 +272,8 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
 
+        /// <param name="id"></param>
+        /// <param name="user"></param>
         [HttpPut("{id}", Name = "UpdateUserById" )]
         public async Task<IActionResult> UpdateUserById(int id, User user)
         {   
@@ -292,8 +299,8 @@ namespace Social.API.Controllers
 
         /// <summary>
         /// Delete a single user
-        /// </summary>
-        
+        /// </summary> 
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {

@@ -49,6 +49,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get Likes that belongs to a PostId
         /// </summary>
+        /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
@@ -69,6 +70,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Create a Like
         /// </summary>
+        /// <param name="likeToCreateDto"></param>
         [HttpPost(Name = "CreateLike")]
         public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
         {
@@ -101,6 +103,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Delete a Like by its Id
         /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}", Name = "RemoveLikeById")]
         public async Task<IActionResult> RemoveLikeById(int id)
         {
