@@ -33,7 +33,24 @@ namespace Social.API.Services
         /// <summary>
         /// Get all Conversations
         /// </summary>
-        
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /conversations
+        ///    [
+        ///    {
+        ///         "Id": 1,
+        ///         "ConversationName": "The cool guys!",
+        ///         "UserConversators": [],
+        ///    },
+        ///    {
+        ///         "Id": 2,
+        ///         "ConversationName": "More guys!",
+        ///         "UserConversators": [],
+        ///    }
+        ///    ]
+        ///
+        ///</remarks>
         [HttpGet(Name = "GetConversations")]
         public async Task<IActionResult> GetConversations()
         {
@@ -53,6 +70,34 @@ namespace Social.API.Services
         /// <summary>
         /// Get a single Conversation by Id
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /conversations/1
+        ///    {
+        ///         "Id": 1,
+        ///         "ConversationName": "The cool guys!",
+        ///         "UserConversators": [],
+        ///         "links": [
+        ///         {
+        ///             "href": "https://localhost:5001/api/v1.0/conversations/1",
+        ///             "rel": "self",
+        ///             "method": "GET"
+        ///         },
+        ///         {
+        ///             "href": "https://localhost:5001/api/v1.0/conversations",
+        ///             "rel": "create",
+        ///             "method": "POST"
+        ///        },
+        ///        {
+        ///             "href": "https://localhost:5001/api/v1.0/conversations/1",
+        ///             "rel": "update",
+        ///             "method": "PUT"
+        ///        }
+        ///    ]
+        ///    }
+        ///
+        ///</remarks>
         /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
@@ -75,8 +120,19 @@ namespace Social.API.Services
         /// <summary>
         /// Get Conversations by User ID
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /conversations/user/3
+        ///    {
+        ///         "Id": 3,
+        ///         "ConversationName": "The other guys!",
+        ///         "UserConversators": []
+        ///    }
+        ///
+        ///</remarks>
         /// <param name="id"></param>
-        [HttpGet("user/{Id}", Name = "GetConversationsByUserId")]
+        [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
             try
@@ -97,6 +153,17 @@ namespace Social.API.Services
         /// <summary>
         /// Creates a Conversation.
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    POST /conversations
+        ///    {
+        ///         "Id": 1,
+        ///         "ConversationName": "Another guys reference maybe",
+        ///         "UserConversators": []
+        ///    }
+        ///
+        ///</remarks>
         /// <param name="conversation"></param>
         [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
@@ -119,6 +186,17 @@ namespace Social.API.Services
         /// <summary>
         /// Updates Conversation by Id
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    PUT /conversations/1
+        ///    {
+        ///         "Id": 1,
+        ///         "ConversationName": "Guys I'm changing this. Too many guys references, guys",
+        ///         "UserConversators": []
+        ///    }
+        ///
+        ///</remarks>
         /// <param name="id"></param>
         /// <param name="conversation"></param>
         [HttpPut("{id}", Name ="UpdateConversation")]
