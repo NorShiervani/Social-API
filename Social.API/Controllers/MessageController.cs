@@ -28,6 +28,17 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get a single message by Id
         /// </summary>
+          ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /message
+        ///     {
+        ///        "Id" : 1
+        ///        "text" : "Hello friends!"
+        ///        "userConversatorId" : 1
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetMessageById")]
         public async Task<IActionResult> GetMessageById(int id)
@@ -48,6 +59,17 @@ namespace Social.API.Controllers
         /// <summary>
         /// Create a new message
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    POST /message
+        ///     {
+        ///        "Id" : 7
+        ///        "text" : "Did you know the earth is flat?"
+        ///        "userConversatorId" : 3
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="messageToCreateDto"></param>
         [HttpPost(Name = "CreateMessage")]
         public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
@@ -108,6 +130,17 @@ namespace Social.API.Controllers
         /// <summary>
         /// Update a single message
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    PUT /message
+        ///     {
+        ///        "Id" : 7
+        ///        "text" : "No, the earth is in fact round. You Goofball."
+        ///        "userConversatorId" : 3
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="id"></param>
         /// <param name="message"></param>
         [HttpPut("{id}", Name = "UpdateMessage")]
