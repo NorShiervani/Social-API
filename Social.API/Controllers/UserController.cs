@@ -26,6 +26,25 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets all the users
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /users
+        ///     {
+        ///         "id": 1
+        ///         "UserName":"NoobMaster69"
+        ///         "Firstname": "Åke"
+        ///         "Lastname": "Andersson"
+        ///         "Email":"Åke.Andersson@test.com"
+        ///         "IsSuspended":"false"
+        ///         "Country":"Sweden"
+        ///         "City":"Göteborg"
+        ///         "DateRegistered":"2020-05-28"
+        ///         "Birthdate":"1990-07-24"
+        ///         "Role":"Regular"
+        ///     }
+        ///
+        ///</remarks> 
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
         {
