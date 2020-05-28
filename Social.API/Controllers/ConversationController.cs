@@ -53,6 +53,7 @@ namespace Social.API.Services
         /// <summary>
         /// Get a single Conversation by Id
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
@@ -74,6 +75,7 @@ namespace Social.API.Services
         /// <summary>
         /// Get Conversations by User ID
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("user/{Id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
@@ -95,6 +97,7 @@ namespace Social.API.Services
         /// <summary>
         /// Creates a Conversation.
         /// </summary>
+        /// <param name="conversation"></param>
         [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
@@ -116,7 +119,8 @@ namespace Social.API.Services
         /// <summary>
         /// Updates Conversation by Id
         /// </summary>
-
+        /// <param name="id"></param>
+        /// <param name="conversation"></param>
         [HttpPut("{id}", Name ="UpdateConversation")]
         public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
         {
@@ -143,7 +147,7 @@ namespace Social.API.Services
         /// <summary>
         /// Deletes a specific Conversation.
         /// </summary>
-        
+        /// <param name="id"></param>
         [HttpDelete("{id}", Name ="DeleteConversation")]
         public async Task<IActionResult> DeleteConversationById(int id)
         {

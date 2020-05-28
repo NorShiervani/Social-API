@@ -33,6 +33,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get a single comment by Id
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetCommentById")]
         public async Task<IActionResult> GetCommentById(int id)
         {
@@ -72,6 +73,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get comments by Post ID
         /// </summary>
+        /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
@@ -92,6 +94,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Creates a Comment.
         /// </summary>
+        /// <param name="comment"></param>
         [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
@@ -114,6 +117,8 @@ namespace Social.API.Controllers
         /// <summary>
         /// Updates comment by Id
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="comment"></param>
         [HttpPut("{Id}", Name = "UpdateCommentById")]
         public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
