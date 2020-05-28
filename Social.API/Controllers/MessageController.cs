@@ -28,6 +28,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get a single message by Id
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetMessageById")]
         public async Task<IActionResult> GetMessageById(int id)
         {
@@ -47,6 +48,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Create a new message
         /// </summary>
+        /// <param name="messageToCreateDto"></param>
         [HttpPost(Name = "CreateMessage")]
         public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
         {
@@ -77,6 +79,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Delete a single message by Id
         /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
         {
@@ -105,6 +108,8 @@ namespace Social.API.Controllers
         /// <summary>
         /// Update a single message
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="message"></param>
         [HttpPut("{id}", Name = "UpdateMessage")]
         public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
         {

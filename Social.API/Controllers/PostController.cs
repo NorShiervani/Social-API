@@ -48,6 +48,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets a Post by Id.
         /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetPostById")]
         public async Task<IActionResult> GetPostById(int id)
         {
@@ -66,6 +67,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Creates a new Post.
         /// </summary>
+        /// <param name="postToCreateDto"></param>
         [HttpPost(Name = "CreatePost")]
         public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
         {
@@ -97,6 +99,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Deletes a post by Id.
         /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}", Name = "DeletePostById")]
         public async Task<IActionResult> DeletePostById(int id)
         {
@@ -124,6 +127,8 @@ namespace Social.API.Controllers
         /// <summary>
         /// Updates a Post by Id.
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedText"></param>
         [HttpPut("{id}", Name = "UpdatePostText")]
         public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
         {
