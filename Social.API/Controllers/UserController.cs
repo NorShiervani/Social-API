@@ -26,6 +26,30 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets all the users
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /users
+        ///     {
+        ///         "id": 1
+        ///         "UserName":"NoobMaster69"
+        ///         "Password":"*******"
+        ///         "Firstname": "Åke"
+        ///         "Lastname": "Andersson"
+        ///         "Email":"Åke.Andersson@test.com"
+        ///         "IsSuspended":"false"
+        ///         "Country":"Sweden"
+        ///         "City":"Göteborg"
+        ///         "DateRegistered":"2020-05-28"
+        ///         "Birthdate":"1990-07-24"
+        ///         "Likes":[]
+        ///         "Posts":[]
+        ///         "Comments":[]
+        ///         "UserConversators":[]
+        ///         "Role":"Regular"
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="userName"></param>
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
@@ -46,6 +70,30 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get a single User by Id
         /// </summary>
+        ///<remarks>
+        ///Sample Request: 
+        ///
+        ///    GET /users/1
+        ///     {
+        ///         "id": 1
+        ///         "UserName":"NoobMaster69"
+        ///         "Password":"*******"
+        ///         "Firstname": "Åke"
+        ///         "Lastname": "Andersson"
+        ///         "Email":"Åke.Andersson@test.com"
+        ///         "IsSuspended":"false"
+        ///         "Country":"Sweden"
+        ///         "City":"Göteborg"
+        ///         "DateRegistered":"2020-05-28"
+        ///         "Birthdate":"1990-07-24"
+        ///         "Likes":[]
+        ///         "Posts":[]
+        ///         "Comments":[]
+        ///         "UserConversators":[]
+        ///         "Role":"Regular"
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
@@ -68,6 +116,21 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get all the posts by a single user
         /// </summary>
+        ///<remarks> 
+         ///Sample Request: 
+        ///
+        ///    GET /users/1/comments
+        ///     {
+        ///        "Id":1
+        ///        "Text":lever livet! #perfectlife!"
+        ///        "Created":"2020-05-20"
+        ///        "Post":[]
+        ///        "User":[]
+        ///        "Likes":[]
+        ///        "Comments"[]
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
@@ -93,6 +156,19 @@ namespace Social.API.Controllers
         /// <summary>
         /// Get all the comments by a single user
         /// </summary>
+        ///<remarks> 
+         ///Sample Request: 
+        ///
+        ///    GET /users/1/comments
+        ///     {
+        ///        "Id":1
+        ///        "Text":"Haha, gör kul ju!"
+        ///        "Created":"2020-05-28"
+        ///        "Post":[]
+        ///        "User":[]
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
@@ -118,6 +194,30 @@ namespace Social.API.Controllers
         /// <summary>
         /// Create a new user
         /// </summary>
+        ///<remarks> 
+        ///Sample Request: 
+        ///
+        ///    POST /users
+        ///     {
+        ///         "id": 2
+        ///         "UserName":"KalleAnka123"
+        ///         "Password":"*******"
+        ///         "Firstname": "Anders"
+        ///         "Lastname": "Åkesson"
+        ///         "Email":"Anders.Åkesson@test.com"
+        ///         "IsSuspended":"false"
+        ///         "Country":"Sweden"
+        ///         "City":"Göteborg"
+        ///         "DateRegistered":"2020-05-27"
+        ///         "Birthdate":"1985-11-08"
+        ///         "Likes":[]
+        ///         "Posts":[]
+        ///         "Comments":[]
+        ///         "UserConversators":[]
+        ///         "Role":"moderator"
+        ///     }
+        ///
+        ///</remarks> 
         /// <param name="newUser"></param>
         [HttpPost(Name = "CreateUser")]
         public async Task<ActionResult<User>> CreateUser(User newUser)
@@ -147,6 +247,31 @@ namespace Social.API.Controllers
         /// <summary>
         /// Update a single user
         /// </summary>
+        ///<remarks> 
+        ///Sample Request: 
+        ///
+        ///    PUT /users/1
+        ///     {
+        ///         "id": 1
+        ///         "UserName":"NoobMaster69"
+        ///         "Password":"*******"
+        ///         "Firstname": "Åke"
+        ///         "Lastname": "Andersson"
+        ///         "Email":"Åke.Andersson@test.com"
+        ///         "IsSuspended":"false"
+        ///         "Country":"Sweden"
+        ///         "City":"Göteborg"
+        ///         "DateRegistered":"2020-05-28"
+        ///         "Birthdate":"1990-07-24"
+        ///         "Likes":[]
+        ///         "Posts":[]
+        ///         "Comments":[]
+        ///         "UserConversators":[]
+        ///         "Role":"Regular"
+        ///     }
+        ///
+        ///</remarks> 
+
         /// <param name="id"></param>
         /// <param name="user"></param>
         [HttpPut("{id}", Name = "UpdateUserById" )]
@@ -174,7 +299,7 @@ namespace Social.API.Controllers
 
         /// <summary>
         /// Delete a single user
-        /// </summary>
+        /// </summary> 
         /// <param name="id"></param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
