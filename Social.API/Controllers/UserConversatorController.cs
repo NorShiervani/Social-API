@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Filters;
 using Social.API.Services;
 
 namespace Social.API.Controllers
@@ -39,6 +40,7 @@ namespace Social.API.Controllers
         ///              }
         ///     }
         ///</remarks>
+        [ApiKeyAuth]
         [HttpGet]
         public async Task<IActionResult> GetUserConversators()
         {
@@ -84,6 +86,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<IActionResult> GetUserConversatorById(int id)
         {

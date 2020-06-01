@@ -8,6 +8,7 @@ using Social.API.Models;
 using Social.API.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using Social.API.Filters;
 
 namespace Social.API.Services
 {
@@ -51,6 +52,7 @@ namespace Social.API.Services
         ///    ]
         ///
         ///</remarks>
+        [ApiKeyAuth]
         [HttpGet(Name = "GetConversations")]
         public async Task<IActionResult> GetConversations()
         {
@@ -99,6 +101,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
@@ -132,6 +135,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
@@ -165,6 +169,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="conversation"></param>
+        [ApiKeyAuth]
         [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
@@ -199,6 +204,7 @@ namespace Social.API.Services
         ///</remarks>
         /// <param name="id"></param>
         /// <param name="conversation"></param>
+        [ApiKeyAuth]
         [HttpPut("{id}", Name ="UpdateConversation")]
         public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
         {
@@ -226,6 +232,7 @@ namespace Social.API.Services
         /// Deletes a specific Conversation.
         /// </summary>
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpDelete("{id}", Name ="DeleteConversation")]
         public async Task<IActionResult> DeleteConversationById(int id)
         {

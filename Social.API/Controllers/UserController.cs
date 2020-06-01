@@ -7,6 +7,7 @@ using Social.API.Dtos;
 using Social.API.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
@@ -51,6 +52,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="userName"></param>
+        [ApiKeyAuth]
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
         {
@@ -95,6 +97,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -131,6 +134,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
@@ -169,6 +173,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
@@ -218,6 +223,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="newUser"></param>
+        [ApiKeyAuth]
         [HttpPost(Name = "CreateUser")]
         public async Task<ActionResult<UserForReturnDto>> CreateUser(UserForCreateDto newUser)
         {
@@ -269,6 +275,7 @@ namespace Social.API.Controllers
 
         /// <param name="id"></param>
         /// <param name="user"></param>
+        [ApiKeyAuth]
         [HttpPut("{id}", Name = "UpdateUserById" )]
         public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, User user)
         {   
@@ -296,6 +303,7 @@ namespace Social.API.Controllers
         /// Delete a single user
         /// </summary> 
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
@@ -48,6 +49,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpGet("{Id}", Name = "GetCommentById")]
         public async Task<IActionResult> GetCommentById(int id)
         {
@@ -88,6 +90,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks>
+        [ApiKeyAuth]
         [HttpGet(Name = "GetComments")]
         public async Task<IActionResult> GetComments()
         {
@@ -138,6 +141,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="Id"></param>
+        [ApiKeyAuth]
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPostId(int Id)
         {
@@ -173,6 +177,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="comment"></param>
+        [ApiKeyAuth]
         [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult> CreateComment([FromBody] Comment comment)
         {
@@ -211,6 +216,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="id"></param>
         /// <param name="comment"></param>
+        [ApiKeyAuth]
         [HttpPut("{Id}", Name = "UpdateCommentById")]
         public async Task<IActionResult> UpdateCommentById(int id, Comment comment)
         {   
@@ -237,6 +243,7 @@ namespace Social.API.Controllers
         /// Deletes a specific comment.
         /// </summary>
         /// <param name="id"></param>   
+        [ApiKeyAuth]
         [HttpDelete("{Id}", Name ="DeleteCommentById")]
         public async Task<IActionResult> DeleteCommentById(int id)
         {

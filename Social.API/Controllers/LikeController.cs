@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Filters;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -43,6 +44,7 @@ namespace Social.API.Controllers
         ///    ]
         ///
         ///</remarks>
+        [ApiKeyAuth]
         [HttpGet(Name = "GetLikes")]
         public async Task<ActionResult> GetLikes()
         {
@@ -80,6 +82,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="Id"></param>
+        [ApiKeyAuth]
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult> GetLikesByPostId(int Id)
         {
@@ -114,6 +117,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="likeToCreateDto"></param>
+        [ApiKeyAuth]
         [HttpPost(Name = "CreateLike")]
         public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
         {
@@ -147,6 +151,7 @@ namespace Social.API.Controllers
         /// Delete a Like by its Id
         /// </summary>
         /// <param name="id"></param>
+        [ApiKeyAuth]
         [HttpDelete("{id}", Name = "RemoveLikeById")]
         public async Task<IActionResult> RemoveLikeById(int id)
         {
