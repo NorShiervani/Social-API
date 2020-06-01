@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Social.API.Dtos;
 using Social.API.Services;
 
 namespace Social.API.Controllers
@@ -40,10 +42,10 @@ namespace Social.API.Controllers
         ///     }
         ///</remarks>
         [HttpGet]
-        public async Task<IActionResult> GetUserConversators()
+        public async Task<ActionResult<IEnumerable<UserConversatorForReturnDto>>> GetUserConversators()
         {
             var conversatorsFromRepo = await _repo.GetUserConversators();
-
+            var conversatorForReturn = _mapper.Map<UserConversatorForReturnDto[]>(conversatorsFromRepo);
             return Ok(conversatorsFromRepo);
         }
 
@@ -85,11 +87,11 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetUserConversatorById")]
-        public async Task<IActionResult> GetUserConversatorById(int id)
+        public async Task<ActionResult<UserConversatorForReturnDto>> GetUserConversatorById(int id)
         {
             var conversatorFromRepo = await _repo.GetUserConversatorById(id);
-
-            return Ok(conversatorFromRepo);
+            var conversatorForReturn = _mapper.Map<UserConversatorForReturnDto>(conversatorFromRepo);
+            return Ok(conversatorForReturn);
         }
     }
 }
