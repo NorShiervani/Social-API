@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Social.API.Filters
 {
-    public class ApiKetAuthAttribute: Attribute, IAsyncActionFilter
+    public class ApiKeyAuthAttribute: Attribute, IAsyncActionFilter
     {
         private const string ApiKeyHeaderName= "ApiKey";
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
