@@ -20,9 +20,11 @@ namespace Social.API.Services
         private readonly IMapper _mapper;
         private readonly IUrlHelper _urlHelper;
 
+#region SwaggerComment
         /// <summary>
         /// Constructor for ConversationController
         /// </summary>
+        #endregion
         public ConversationController(IConversationRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _mapper = mapper;
@@ -30,6 +32,7 @@ namespace Social.API.Services
             _urlHelper = urlHelper;
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get all Conversations
         /// </summary>
@@ -51,6 +54,7 @@ namespace Social.API.Services
         ///    ]
         ///
         ///</remarks>
+        #endregion
         [HttpGet(Name = "GetConversations")]
         public async Task<IActionResult> GetConversations()
         {
@@ -67,6 +71,8 @@ namespace Social.API.Services
             }
 
         }
+
+#region SwaggerComment
         /// <summary>
         /// Get a single Conversation by Id
         /// </summary>
@@ -99,6 +105,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{Id}", Name = "GetConversationById")]
         public async Task<IActionResult> GetConversationById(int id)
         {
@@ -117,6 +124,7 @@ namespace Social.API.Services
             
         }
         
+#region SwaggerComment
         /// <summary>
         /// Get Conversations by User ID
         /// </summary>
@@ -132,6 +140,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="id"></param>
+        #endregion
         [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
         public async Task<IActionResult> GetConversationsByUserId(int id)
         {
@@ -150,6 +159,7 @@ namespace Social.API.Services
             
         }
 
+#region SwaggerComment
         /// <summary>
         /// Creates a Conversation.
         /// </summary>
@@ -165,6 +175,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         /// <param name="conversation"></param>
+        #endregion
         [HttpPost(Name = "CreateConversation")]
         public async Task<IActionResult> CreateConversation(Conversation conversation)
         {
@@ -183,6 +194,7 @@ namespace Social.API.Services
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Updates Conversation by Id
         /// </summary>
@@ -199,6 +211,7 @@ namespace Social.API.Services
         ///</remarks>
         /// <param name="id"></param>
         /// <param name="conversation"></param>
+        #endregion
         [HttpPut("{id}", Name ="UpdateConversation")]
         public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
         {
@@ -222,10 +235,12 @@ namespace Social.API.Services
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Deletes a specific Conversation.
         /// </summary>
         /// <param name="id"></param>
+        #endregion
         [HttpDelete("{id}", Name ="DeleteConversation")]
         public async Task<IActionResult> DeleteConversationById(int id)
         {

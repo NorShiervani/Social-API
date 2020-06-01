@@ -26,6 +26,7 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+#region SwaggerComment
         /// <summary>
         /// Gets all Likes
         /// </summary>
@@ -43,6 +44,7 @@ namespace Social.API.Controllers
         ///    ]
         ///
         ///</remarks>
+        #endregion
         [HttpGet(Name = "GetLikes")]
         public async Task<ActionResult<LikeForReturnDto[]>> GetLikes()
         {
@@ -60,6 +62,7 @@ namespace Social.API.Controllers
             }
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get Likes that belongs to a PostId
         /// </summary>
@@ -80,6 +83,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="Id"></param>
+        #endregion
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
         public async Task<ActionResult<LikeForReturnDto[]>> GetLikesByPostId(int Id)
         {
@@ -97,6 +101,7 @@ namespace Social.API.Controllers
 
         }
 
+#region SwaggerComment
         /// <summary>
         /// Create a Like
         /// </summary>
@@ -114,6 +119,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="likeToCreateDto"></param>
+        #endregion
         [HttpPost(Name = "CreateLike")]
         public async Task<ActionResult<LikeToCreateDto>> CreateLike(LikeToCreateDto likeToCreateDto)
         {
@@ -143,10 +149,12 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Delete a Like by its Id
         /// </summary>
         /// <param name="id"></param>
+        #endregion
         [HttpDelete("{id}", Name = "RemoveLikeById")]
         public async Task<IActionResult> RemoveLikeById(int id)
         {

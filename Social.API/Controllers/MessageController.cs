@@ -25,6 +25,7 @@ namespace Social.API.Controllers
         }
 
         
+#region SwaggerComment
         /// <summary>
         /// Get a single message by Id
         /// </summary>
@@ -40,6 +41,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{id}", Name = "GetMessageById")]
         public async Task<IActionResult> GetMessageById(int id)
         {
@@ -56,6 +58,7 @@ namespace Social.API.Controllers
             }
         }
 
+#region SwaggerComment
         /// <summary>
         /// Create a new message
         /// </summary>
@@ -71,6 +74,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="messageToCreateDto"></param>
+        #endregion
         [HttpPost(Name = "CreateMessage")]
         public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
         {
@@ -98,10 +102,12 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Delete a single message by Id
         /// </summary>
         /// <param name="id"></param>
+        #endregion
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
         {
@@ -127,6 +133,7 @@ namespace Social.API.Controllers
         }
 
 
+#region SwaggerComment
         /// <summary>
         /// Update a single message
         /// </summary>
@@ -143,6 +150,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         /// <param name="message"></param>
+        #endregion
         [HttpPut("{id}", Name = "UpdateMessage")]
         public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
         {

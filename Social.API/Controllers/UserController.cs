@@ -23,6 +23,8 @@ namespace Social.API.Controllers
             _repo = repo;
             _urlHelper = urlHelper;
         }
+
+#region SwaggerComment
         /// <summary>
         /// Gets all the users
         /// </summary>
@@ -51,6 +53,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="userName"></param>
+        #endregion
         [HttpGet]
         public async Task<IActionResult> GetUsers(string userName = "")
         {
@@ -67,6 +70,7 @@ namespace Social.API.Controllers
             }
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get a single User by Id
         /// </summary>
@@ -95,6 +99,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -112,11 +117,12 @@ namespace Social.API.Controllers
             }
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get all the posts by a single user
         /// </summary>
         ///<remarks> 
-         ///Sample Request: 
+        ///Sample Request: 
         ///
         ///    GET /users/1/comments
         ///     {
@@ -131,6 +137,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
         public async Task<IActionResult> GetPostsByUserId(int id)
         {
@@ -152,6 +159,7 @@ namespace Social.API.Controllers
             }
         }
         
+#region SwaggerComment
         /// <summary>
         /// Get all the comments by a single user
         /// </summary>
@@ -169,6 +177,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
         public async Task<IActionResult> GetCommentsByUserId(int id)
         {
@@ -190,6 +199,7 @@ namespace Social.API.Controllers
             }
         }
         
+#region SwaggerComment
         /// <summary>
         /// Create a new user
         /// </summary>
@@ -218,6 +228,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="newUser"></param>
+        #endregion
         [HttpPost(Name = "CreateUser")]
         public async Task<ActionResult<UserForReturnDto>> CreateUser(UserForCreateDto newUser)
         {
@@ -239,6 +250,7 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Update a single user
         /// </summary>
@@ -266,9 +278,9 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks> 
-
         /// <param name="id"></param>
         /// <param name="user"></param>
+        #endregion
         [HttpPut("{id}", Name = "UpdateUserById" )]
         public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, User user)
         {   
@@ -292,10 +304,12 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Delete a single user
         /// </summary> 
         /// <param name="id"></param>
+        #endregion
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {
