@@ -44,7 +44,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         [HttpGet(Name = "GetLikes")]
-        public async Task<ActionResult> GetLikes()
+        public async Task<ActionResult<LikeForReturnDto[]>> GetLikes()
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetLikesByPostId")]
-        public async Task<ActionResult> GetLikesByPostId(int Id)
+        public async Task<ActionResult<LikeForReturnDto[]>> GetLikesByPostId(int Id)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="likeToCreateDto"></param>
         [HttpPost(Name = "CreateLike")]
-        public async Task<IActionResult> CreateLike(LikeToCreateDto likeToCreateDto)
+        public async Task<ActionResult<LikeToCreateDto>> CreateLike(LikeToCreateDto likeToCreateDto)
         {
             try
             {
