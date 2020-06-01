@@ -49,13 +49,13 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetCommentById")]
-        public async Task<IActionResult> GetCommentById(int id)
+        public async Task<ActionResult<CommentForReturnDto>> GetCommentById(int id)
         {
             try
             {
-            var commentFromRepo = await _repo.GetById(id);            
-            var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
-            return Ok(ExpandSingleItem(commentToDto));
+                var commentFromRepo = await _repo.GetById(id);            
+                var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
+                return Ok(ExpandSingleItem(commentToDto));
             }
             catch (Exception e)
             {
@@ -89,14 +89,14 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         [HttpGet(Name = "GetComments")]
-        public async Task<IActionResult> GetComments()
+        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> GetComments()
         {
             try
             {
-            var commentsFromRepo = await _repo.GetComments();            
-            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
-            var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
-            return Ok(toReturn);
+                var commentsFromRepo = await _repo.GetComments();            
+                var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
+                return Ok(toReturn);
             }
             catch (Exception e)
             {
@@ -139,13 +139,13 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
-        public async Task<IActionResult> GetCommentsByPostId(int Id)
+        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> GetCommentsByPostId(int Id)
         {
             try
             {
-            var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
-            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
-            return Ok(commentsToDto);
+                var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
+                var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                return Ok(commentsToDto);
             }
             catch (Exception e)
             {

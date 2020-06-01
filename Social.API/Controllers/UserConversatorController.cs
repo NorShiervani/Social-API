@@ -50,7 +50,7 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets a UserConversator by Id.
         /// </summary>
-         ///<remarks>
+        ///<remarks>
         ///Sample Request: 
         ///
         ///    GET /UserConversator/1
