@@ -20,9 +20,11 @@ namespace Social.API.Controllers
         private readonly IMapper _mapper;
         private readonly IUrlHelper _urlHelper;
 
+#region SwaggerComment
         /// <summary>
         /// Constructor for CommentController
         /// </summary>
+        #endregion
         public CommentController(ICommentRepository repo, IMapper mapper, IUrlHelper urlHelper)
         {
             _repo = repo;
@@ -30,6 +32,7 @@ namespace Social.API.Controllers
             _urlHelper = urlHelper;
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get a single comment by Id
         /// </summary>
@@ -48,6 +51,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{Id}", Name = "GetCommentById")]
         public async Task<ActionResult<CommentForReturnDto>> GetCommentById(int id)
         {
@@ -64,6 +68,7 @@ namespace Social.API.Controllers
             }
         }
 
+#region SwaggerComment
         /// <summary>
         /// Get all comments
         /// </summary>
@@ -88,6 +93,7 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks>
+        #endregion
         [HttpGet(Name = "GetComments")]
         public async Task<ActionResult<CommentForReturnDto[]>> GetComments()
         {
@@ -104,7 +110,7 @@ namespace Social.API.Controllers
                         $"Failed to retrieve comments. Exception thrown when attempting to retrieve data from the database: {e.Message}");
             }
         }
-
+#region SwaggerComment
         /// <summary>
         /// Get comments by Post ID
         /// </summary>
@@ -138,6 +144,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="Id"></param>
+        #endregion
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
         public async Task<ActionResult<CommentForReturnDto[]>> GetCommentsByPostId(int Id)
         {
@@ -154,7 +161,7 @@ namespace Social.API.Controllers
             }
         }
 
-
+#region SwaggerComment
         /// <summary>
         /// Creates a Comment.
         /// </summary>
@@ -173,6 +180,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="comment"></param>
+        #endregion
         [HttpPost(Name = "CreateComment")]
         public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] Comment comment)
         {
@@ -192,6 +200,7 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Updates comment by Id
         /// </summary>
@@ -211,6 +220,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="id"></param>
         /// <param name="comment"></param>
+        #endregion
         [HttpPut("{Id}", Name = "UpdateCommentById")]
         public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, Comment comment)
         {   
@@ -233,10 +243,12 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
+#region SwaggerComment
         /// <summary>
         /// Deletes a specific comment.
         /// </summary>
         /// <param name="id"></param>   
+        #endregion
         [HttpDelete("{Id}", Name ="DeleteCommentById")]
         public async Task<IActionResult> DeleteCommentById(int id)
         {

@@ -19,6 +19,7 @@ namespace Social.API.Controllers
             _repo = repo;
         }
 
+#region SwaggerComment
         /// <summary>
         /// Gets all UserConversators
         /// </summary>
@@ -41,6 +42,7 @@ namespace Social.API.Controllers
         ///              }
         ///     }
         ///</remarks>
+        #endregion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserConversatorForReturnDto>>> GetUserConversators()
         {
@@ -49,10 +51,11 @@ namespace Social.API.Controllers
             return Ok(conversatorsFromRepo);
         }
 
+#region SwaggerComment
         /// <summary>
         /// Gets a UserConversator by Id.
         /// </summary>
-         ///<remarks>
+        ///<remarks>
         ///Sample Request: 
         ///
         ///    GET /UserConversator/1
@@ -86,6 +89,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
+        #endregion
         [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<ActionResult<UserConversatorForReturnDto>> GetUserConversatorById(int id)
         {
