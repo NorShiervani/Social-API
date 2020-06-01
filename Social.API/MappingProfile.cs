@@ -8,9 +8,8 @@ public class MappingProfile : Profile
     public MappingProfile() {
         // Add as many of these lines as you need to map your objects
 
-        CreateMap<UserForReturnDto,User>().ReverseMap();
-
-        CreateMap<User,UserForCreateDto>().ReverseMap();
+        CreateMap<User, UserForReturnDto>().ReverseMap();
+        CreateMap<User, UserForCreateDto>().ReverseMap();
 
         CreateMap<Conversation,ConversationForReturnDto>().ReverseMap();
 
@@ -18,9 +17,10 @@ public class MappingProfile : Profile
 
         CreateMap<UserConversator,UserConversatorForReturnDto>().ReverseMap();
 
-        CreateMap<LikeForReturnDto,Like>().ReverseMap();
+        CreateMap<Like, LikeForReturnDto>().ReverseMap();
 
         CreateMap<Comment,CommentForReturnDto>().ReverseMap();
+        CreateMap<Comment,CommentToCreateDto>().ReverseMap();
         
         CreateMap<Message, MessageForReturnDto>().ReverseMap();
     }
