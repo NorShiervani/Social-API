@@ -52,7 +52,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="userName"></param>
         [HttpGet]
-        public async Task<IActionResult> GetUsers(string userName = "")
+        public async Task<ActionResult<UserForReturnDto[]>> GetUsers(string userName = "")
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetUserById")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<ActionResult<UserForReturnDto>> GetUserById(int id)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}/posts", Name = "GetPostsByUserId")]
-        public async Task<IActionResult> GetPostsByUserId(int id)
+        public async Task<ActionResult<UserForReturnDto>> GetPostsByUserId(int id)
         {
             try
             {
@@ -170,7 +170,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}/comments", Name = "GetCommentsByUserId")]
-        public async Task<IActionResult> GetCommentsByUserId(int id)
+        public async Task<ActionResult<UserForReturnDto>> GetCommentsByUserId(int id)
         {
             try
             {
