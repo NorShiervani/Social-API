@@ -30,7 +30,7 @@ namespace Social.API.Controllers
         /// Gets all Posts.
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostForReturnDto>>> GetPosts()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Social.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetPostById")]
-        public async Task<IActionResult> GetPostById(int id)
+        public async Task<ActionResult<PostForReturnDto>> GetPostById(int id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Social.API.Controllers
         /// </summary>
         /// <param name="postToCreateDto"></param>
         [HttpPost(Name = "CreatePost")]
-        public async Task<IActionResult> CreatePost([FromBody] PostToCreateDto postToCreateDto)
+        public async Task<ActionResult<PostForReturnDto>> CreatePost([FromBody] PostToCreateDto postToCreateDto)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Social.API.Controllers
 
                 await _repo.Create(post);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
+                    return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, _mapper.Map<PostForReturnDto>(post));
                 }
             }
             catch (Exception e)
@@ -130,7 +130,7 @@ namespace Social.API.Controllers
         /// <param name="id"></param>
         /// <param name="updatedText"></param>
         [HttpPut("{id}", Name = "UpdatePostText")]
-        public async Task<IActionResult> UpdatePostText(int id, [FromBody] string updatedText)
+        public async Task<ActionResult<PostForReturnDto>> UpdatePostText(int id, [FromBody] string updatedText)
         {
             try 
             {
