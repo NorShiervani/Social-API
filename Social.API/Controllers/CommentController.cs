@@ -49,7 +49,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetCommentById")]
-        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> GetCommentById(int id)
+        public async Task<ActionResult<CommentForReturnDto>> GetCommentById(int id)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         [HttpGet(Name = "GetComments")]
-        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> GetComments()
+        public async Task<ActionResult<CommentForReturnDto[]>> GetComments()
         {
             try
             {
@@ -139,7 +139,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="Id"></param>
         [HttpGet("post/{Id}", Name = "GetCommentsByPostId")]
-        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> GetCommentsByPostId(int Id)
+        public async Task<ActionResult<CommentForReturnDto[]>> GetCommentsByPostId(int Id)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace Social.API.Controllers
         ///</remarks>
         /// <param name="comment"></param>
         [HttpPost(Name = "CreateComment")]
-        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> CreateComment([FromBody] Comment comment)
+        public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] Comment comment)
         {
             try
             {
@@ -212,7 +212,7 @@ namespace Social.API.Controllers
         /// <param name="id"></param>
         /// <param name="comment"></param>
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public async Task<ActionResult<IEnumerable<CommentForReturnDto>>> UpdateCommentById(int id, Comment comment)
+        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, Comment comment)
         {   
             try
             {
