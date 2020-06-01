@@ -8,27 +8,20 @@ public class MappingProfile : Profile
     public MappingProfile() {
         // Add as many of these lines as you need to map your objects
 
-        CreateMap<UserForReturnDto,User>();
-        CreateMap<User,UserForReturnDto>();
+        CreateMap<UserForReturnDto,User>().ReverseMap();
 
         CreateMap<User,UserForCreateDto>().ReverseMap();
 
-        CreateMap<Conversation,ConversationForReturnDto>();
-        CreateMap<ConversationForReturnDto,Conversation>();
+        CreateMap<Conversation,ConversationForReturnDto>().ReverseMap();
 
-        CreateMap<Post,PostForReturnDto>();
-        CreateMap<PostForReturnDto,Post>();
+        CreateMap<Post,PostForReturnDto>().ReverseMap();
 
-        CreateMap<UserConversator,UserConversatorForReturnDto>();
-        CreateMap<UserConversatorForReturnDto,UserConversator>();
+        CreateMap<UserConversator,UserConversatorForReturnDto>().ReverseMap();
 
-        CreateMap<LikeForReturnDto,Like>();
-        CreateMap<Like,LikeForReturnDto>();
+        CreateMap<LikeForReturnDto,Like>().ReverseMap();
 
-        CreateMap<Comment,CommentForReturnDto>();
-        CreateMap<CommentForReturnDto,Comment>();
+        CreateMap<Comment,CommentForReturnDto>().ReverseMap();
         
-        CreateMap<Message, MessageForReturnDto>();
-        CreateMap<MessageForReturnDto,Message>();
+        CreateMap<Message, MessageForReturnDto>().ReverseMap();
     }
 }
