@@ -109,7 +109,6 @@ namespace Social.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Failed to retrieve the user. Exception thrown when attempting to retrieve data from the database: {e.Message}");
-
             }
         }
 
@@ -220,19 +219,15 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="newUser"></param>
         [HttpPost(Name = "CreateUser")]
-        public async Task<ActionResult<User>> CreateUser(User newUser)
+        public async Task<ActionResult<UserForReturnDto>> CreateUser(UserForCreateDto newUser)
         {
             try
-            {
-                var userExist = _repo.GetUserById(newUser.Id);
-                if (userExist != null)
-                {
-                    throw new Exception("User already exists");
-                }
-                
-                await _repo.Create(newUser);
+            {   
+                var user = _mapper.Map<User>(newUser);
+
+                await _repo.Create(user);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id, name = newUser.Username}, newUser);
+                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
                 }
 
             }
@@ -275,7 +270,7 @@ namespace Social.API.Controllers
         /// <param name="id"></param>
         /// <param name="user"></param>
         [HttpPut("{id}", Name = "UpdateUserById" )]
-        public async Task<IActionResult> UpdateUserById(int id, User user)
+        public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, User user)
         {   
             try
             {
@@ -286,7 +281,7 @@ namespace Social.API.Controllers
 
                 _repo.Update(user);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, user);
+                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
                 }
             }
             catch (Exception e)
@@ -325,7 +320,7 @@ namespace Social.API.Controllers
             return BadRequest();
         }
 
-         private dynamic ExpandSingleItem(UserForReturnDto userDto)
+        private dynamic ExpandSingleItem(UserForReturnDto userDto)
         {
             var links = GetLinks(userDto.Id);
 
