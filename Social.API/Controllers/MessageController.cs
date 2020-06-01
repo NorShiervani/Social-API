@@ -13,6 +13,7 @@ namespace Social.API.Controllers
 {
     [Route("api/v1.0/messages")]
     [ApiController]
+    [ApiKeyAuth]
     public class MessageController : ControllerBase
     {
         private readonly IMessageRepository _repo;
@@ -41,7 +42,6 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
-        [ApiKeyAuth]
         [HttpGet("{id}", Name = "GetMessageById")]
         public async Task<IActionResult> GetMessageById(int id)
         {
@@ -73,7 +73,6 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="messageToCreateDto"></param>
-        [ApiKeyAuth]
         [HttpPost(Name = "CreateMessage")]
         public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
         {
@@ -105,7 +104,6 @@ namespace Social.API.Controllers
         /// Delete a single message by Id
         /// </summary>
         /// <param name="id"></param>
-        [ApiKeyAuth]
         [HttpDelete("{id}", Name = "DeleteMessageById")]
         public async Task<IActionResult> DeleteMessageById(int id)
         {
@@ -147,7 +145,6 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         /// <param name="message"></param>
-        [ApiKeyAuth]
         [HttpPut("{id}", Name = "UpdateMessage")]
         public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
         {

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using Social.API.Filters;
 
 namespace Social.API
 {
@@ -63,7 +64,31 @@ namespace Social.API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+
+                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme{
+                    Description = "Enter your key below.",
+                    In = ParameterLocation.Header,
+                    Name = "Basic",
+                    Scheme = "basic",
+                    Type = SecuritySchemeType.ApiKey
+                 });
+
+                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                 {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Basic"
+                            },
+                        },
+                        new List<string>()
+                    }
+                });
             });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +111,7 @@ namespace Social.API
             app.UseSwaggerUI(c => {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social API V1");
             });
+
         }
     }
 }

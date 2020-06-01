@@ -8,6 +8,7 @@ namespace Social.API.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
+    [ApiKeyAuth]
     public class UserConversatorController : ControllerBase
     {
         private readonly IUserConversatorRepository _repo;
@@ -40,7 +41,6 @@ namespace Social.API.Controllers
         ///              }
         ///     }
         ///</remarks>
-        [ApiKeyAuth]
         [HttpGet]
         public async Task<IActionResult> GetUserConversators()
         {
@@ -86,7 +86,6 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
-        [ApiKeyAuth]
         [HttpGet("{id}", Name = "GetUserConversatorById")]
         public async Task<IActionResult> GetUserConversatorById(int id)
         {

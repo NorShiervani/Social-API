@@ -15,6 +15,7 @@ namespace Social.API.Controllers
 {
     [Route("api/v1.0/posts")]
     [ApiController]
+    [ApiKeyAuth]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repo;
@@ -30,7 +31,6 @@ namespace Social.API.Controllers
         /// <summary>
         /// Gets all Posts.
         /// </summary>
-        [ApiKeyAuth]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostForReturnDto>>> GetPosts()
         {
@@ -51,7 +51,6 @@ namespace Social.API.Controllers
         /// Gets a Post by Id.
         /// </summary>
         /// <param name="id"></param>
-        [ApiKeyAuth]
         [HttpGet("{id}", Name = "GetPostById")]
         public async Task<ActionResult<PostForReturnDto>> GetPostById(int id)
         {
@@ -71,7 +70,6 @@ namespace Social.API.Controllers
         /// Creates a new Post.
         /// </summary>
         /// <param name="postToCreateDto"></param>
-        [ApiKeyAuth]
         [HttpPost(Name = "CreatePost")]
         public async Task<ActionResult<PostForReturnDto>> CreatePost([FromBody] PostToCreateDto postToCreateDto)
         {
@@ -104,7 +102,6 @@ namespace Social.API.Controllers
         /// Deletes a post by Id.
         /// </summary>
         /// <param name="id"></param>
-        [ApiKeyAuth]
         [HttpDelete("{id}", Name = "DeletePostById")]
         public async Task<IActionResult> DeletePostById(int id)
         {
@@ -134,7 +131,6 @@ namespace Social.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updatedText"></param>
-        [ApiKeyAuth]
         [HttpPut("{id}", Name = "UpdatePostText")]
         public async Task<ActionResult<PostForReturnDto>> UpdatePostText(int id, [FromBody] string updatedText)
         {
