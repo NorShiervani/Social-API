@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Filters;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -12,6 +13,7 @@ namespace Social.API.Controllers
 {
     [Route("api/v1.0/messages")]
     [ApiController]
+    [ApiKeyAuth]
     public class MessageController : ControllerBase
     {
         private readonly IMessageRepository _repo;

@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Filters;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -14,6 +15,7 @@ namespace Social.API.Controllers
 {
     [Route("api/v1.0/posts")]
     [ApiController]
+    [ApiKeyAuth]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repo;

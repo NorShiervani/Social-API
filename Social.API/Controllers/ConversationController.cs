@@ -8,12 +8,14 @@ using Social.API.Models;
 using Social.API.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using Social.API.Filters;
 
 namespace Social.API.Services
 {
     [Produces("application/json")]
     [Route("api/v1.0/conversations")]
     [ApiController]
+    [ApiKeyAuth]
     public class ConversationController : ControllerBase
     {
         private readonly IConversationRepository _repo;
