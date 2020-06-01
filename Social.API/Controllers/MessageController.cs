@@ -41,7 +41,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="id"></param>
         [HttpGet("{id}", Name = "GetMessageById")]
-        public async Task<IActionResult> GetMessageById(int id)
+        public async Task<ActionResult<MessageForReturnDto>> GetMessageById(int id)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Social.API.Controllers
         ///</remarks> 
         /// <param name="messageToCreateDto"></param>
         [HttpPost(Name = "CreateMessage")]
-        public async Task<ActionResult> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
+        public async Task<ActionResult<MessageToCreateDto>> CreateMessage([FromBody] MessageToCreateDto messageToCreateDto)
         {
             try
             {
