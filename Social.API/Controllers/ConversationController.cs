@@ -52,7 +52,7 @@ namespace Social.API.Services
         ///
         ///</remarks>
         [HttpGet(Name = "GetConversations")]
-        public async Task<IActionResult> GetConversations()
+        public async Task<ActionResult<ConversationForReturnDto[]>> GetConversations()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Social.API.Services
         ///</remarks>
         /// <param name="id"></param>
         [HttpGet("{Id}", Name = "GetConversationById")]
-        public async Task<IActionResult> GetConversationById(int id)
+        public async Task<ActionResult<ConversationForReturnDto>> GetConversationById(int id)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace Social.API.Services
         ///</remarks>
         /// <param name="id"></param>
         [HttpGet("user/{id}", Name = "GetConversationsByUserId")]
-        public async Task<IActionResult> GetConversationsByUserId(int id)
+        public async Task<ActionResult<IEnumerable<ConversationForReturnDto>>> GetConversationsByUserId(int id)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace Social.API.Services
         ///</remarks>
         /// <param name="conversation"></param>
         [HttpPost(Name = "CreateConversation")]
-        public async Task<IActionResult> CreateConversation(Conversation conversation)
+        public async Task<ActionResult<ConversationForReturnDto>> CreateConversation(Conversation conversation)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace Social.API.Services
         /// <param name="id"></param>
         /// <param name="conversation"></param>
         [HttpPut("{id}", Name ="UpdateConversation")]
-        public async Task<IActionResult> UpdateConversation(int id, Conversation conversation)
+        public async Task<ActionResult<ConversationForReturnDto>> UpdateConversation(int id, Conversation conversation)
         {
             if(id != conversation.Id)
             {
