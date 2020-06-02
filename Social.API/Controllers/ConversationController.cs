@@ -225,8 +225,13 @@ namespace Social.API.Services
         {
             try
             {
-                Conversation conversationToUpdate = _mapper.Map<Conversation>(conversation);
-                _repo.Update(conversationToUpdate);
+                var existingConversation = await _repo.GetConversationById(id);
+                if(existingConversation == null)
+                {
+                        return NotFound($"Could not find a conversation with id: {id}");
+                }
+
+                Conversation conversationToUpdate = _mapper.Map(conversation, existingConversation);
                 if(await _repo.Save()) {
                     return CreatedAtAction(nameof(GetConversationById), new {id = conversationToUpdate.Id},_mapper.Map<ConversationForReturnDto>(conversationToUpdate));
                 }
