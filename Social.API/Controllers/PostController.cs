@@ -83,7 +83,8 @@ namespace Social.API.Controllers
                 if (userFromRepo == null)
                     return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
                 
-                Post post = new Post() {
+                Post post = new Post() 
+                {
                     Text = postToCreateDto.Text,
                     Created = DateTime.Now,
                     User = userFromRepo

@@ -57,9 +57,9 @@ namespace Social.API.Controllers
         {
             try
             {
-            var commentFromRepo = await _repo.GetById(id);            
-            var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
-            return Ok(ExpandSingleItem(commentToDto));
+                var commentFromRepo = await _repo.GetById(id);            
+                var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
+                return Ok(ExpandSingleItem(commentToDto));
             }
             catch (Exception e)
             {
@@ -99,10 +99,10 @@ namespace Social.API.Controllers
         {
             try
             {
-            var commentsFromRepo = await _repo.GetComments();            
-            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
-            var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
-            return Ok(toReturn);
+                var commentsFromRepo = await _repo.GetComments();            
+                var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
+                return Ok(toReturn);
             }
             catch (Exception e)
             {
@@ -150,9 +150,9 @@ namespace Social.API.Controllers
         {
             try
             {
-            var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
-            var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
-            return Ok(commentsToDto);
+                var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
+                var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                return Ok(commentsToDto);
             }
             catch (Exception e)
             {
@@ -182,14 +182,20 @@ namespace Social.API.Controllers
         /// <param name="comment"></param>
         #endregion
         [HttpPost(Name = "CreateComment")]
-        public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] Comment comment)
+        public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] CommentToCreateDto comment)
         {
             try
             {
-                await _repo.Create(comment);
+                Comment commentToCreate = new Comment {
+                    Text = comment.Text,
+                    Created = DateTime.Now,
+                    Post = comment.Post,
+                    User = comment.User
+                };
+                await _repo.Create(commentToCreate);
                 if(await _repo.Save()) {
                     
-                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, _mapper.Map<CommentForReturnDto>(comment));
+                    return CreatedAtAction(nameof(GetCommentById), new { id = commentToCreate.Id }, _mapper.Map<CommentForReturnDto>(comment));
                 }
             }
             catch (Exception e)
@@ -222,17 +228,15 @@ namespace Social.API.Controllers
         /// <param name="comment"></param>
         #endregion
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, Comment comment)
+        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, CommentToCreateDto comment)
         {   
             try
             {
-                if (id != comment.Id)
-                {
-                    return BadRequest("Wrong commentId");
-                }
-                _repo.Update(comment);
+                Comment commentToUpdate = _mapper.Map<Comment>(comment);
+                commentToUpdate.Created = DateTime.Now;
+                _repo.Update(commentToUpdate);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id}, _mapper.Map<CommentForReturnDto>(comment));
+                    return CreatedAtAction(nameof(GetCommentById), new { id = commentToUpdate.Id}, _mapper.Map<CommentForReturnDto>(commentToUpdate));
                 }
             }
             catch (Exception e)
