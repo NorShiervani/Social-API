@@ -54,6 +54,11 @@ namespace Social.API.Controllers
             {
                 var likesFromRepo = await _repo.GetLikes();
                 var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+
+                if(likesToDto == null)
+                {
+                    return NotFound();
+                }
                 var toReturn = likesToDto.Select(x => ExpandSingleItem(x));
                 return Ok(toReturn);
             }
@@ -93,6 +98,11 @@ namespace Social.API.Controllers
             {
                 var likesFromRepo = await _repo.GetLikesByPostId(Id);
                 var likesToDto = _mapper.Map<LikeForReturnDto[]>(likesFromRepo);
+                
+                if(likesToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(likesToDto);
             }
             catch (Exception e)

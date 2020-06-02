@@ -61,6 +61,11 @@ namespace Social.API.Controllers
             {
                 var commentFromRepo = await _repo.GetById(id);            
                 var commentToDto = _mapper.Map<CommentForReturnDto>(commentFromRepo);
+                
+                if(commentToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(ExpandSingleItem(commentToDto));
             }
             catch (Exception e)
@@ -103,6 +108,11 @@ namespace Social.API.Controllers
             {
                 var commentsFromRepo = await _repo.GetComments();            
                 var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                
+                if(commentsToDto == null)
+                {
+                    return NotFound();
+                }
                 var toReturn = commentsToDto.Select(x => ExpandSingleItem(x));
                 return Ok(toReturn);
             }
@@ -154,6 +164,11 @@ namespace Social.API.Controllers
             {
                 var commentsFromRepo = await _repo.GetCommentsByPostId(Id);
                 var commentsToDto = _mapper.Map<CommentForReturnDto[]>(commentsFromRepo);
+                
+                if(commentsToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(commentsToDto);
             }
             catch (Exception e)
@@ -181,23 +196,23 @@ namespace Social.API.Controllers
         ///     }
         ///
         ///</remarks>
-        /// <param name="comment"></param>
+        /// <param name="commentDto"></param>
         #endregion
         [HttpPost(Name = "CreateComment")]
-        public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] CommentToCreateDto comment)
+        public async Task<ActionResult<CommentForReturnDto>> CreateComment([FromBody] CommentToCreateDto commentDto)
         {
             try
             {
                 Comment commentToCreate = new Comment {
-                    Text = comment.Text,
+                    Text = commentDto.Text,
                     Created = DateTime.Now,
-                    Post = comment.Post,
-                    User = comment.User
+                    Post = commentDto.Post,
+                    User = commentDto.User
                 };
                 await _repo.Create(commentToCreate);
                 if(await _repo.Save()) {
                     
-                    return CreatedAtAction(nameof(GetCommentById), new { id = commentToCreate.Id }, _mapper.Map<CommentForReturnDto>(comment));
+                    return CreatedAtAction(nameof(GetCommentById), new { id = commentToCreate.Id }, _mapper.Map<CommentForReturnDto>(commentDto));
                 }
             }
             catch (Exception e)
