@@ -227,14 +227,19 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="id"></param>
-        /// <param name="comment"></param>
+        /// <param name="commentDto"></param>
         #endregion
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, CommentToCreateDto comment)
+        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, CommentToCreateDto commentDto)
         {   
             try
             {
-                Comment commentToUpdate = _mapper.Map<Comment>(comment);
+                var existingComment = await _repo.GetById(id);
+                if (existingComment == null)
+                {
+                    return NotFound($"Could not find a comment with id: {id}");
+                }
+                Comment commentToUpdate = _mapper.Map(commentDto, existingComment);
                 commentToUpdate.Created = DateTime.Now;
                 _repo.Update(commentToUpdate);
                 if(await _repo.Save()) {

@@ -63,6 +63,11 @@ namespace Social.API.Controllers
             {
                 var usersFromRepo = await _repo.GetUsers(userName);
                 var usersToDto = _mapper.Map<UserForReturnDto[]>(usersFromRepo);
+
+                if(usersToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(usersToDto);
             }
             catch (Exception e)
@@ -109,6 +114,10 @@ namespace Social.API.Controllers
             {
                 var userFromRepo = await _repo.GetUserById(id);
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    NotFound();
+                }
                 return Ok(ExpandSingleItem(userToDto));
 
             }
@@ -146,11 +155,11 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(userToDto.Posts);
 
             }
@@ -186,11 +195,11 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(userToDto.Comments);
 
             }
@@ -237,9 +246,10 @@ namespace Social.API.Controllers
             try
             {   
                 var user = _mapper.Map<User>(newUser);
-
                 await _repo.Create(user);
-                if(await _repo.Save()) {
+
+                if(await _repo.Save()) 
+                {
                     return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
                 }
 
@@ -281,21 +291,23 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
-        /// <param name="user"></param>
+        /// <param name="userDto"></param>
         #endregion
         [HttpPut("{id}", Name = "UpdateUserById" )]
-        public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, User user)
+        public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, UserForReturnDto userDto)
         {   
             try
             {
-                if (id != user.Id)
+                var existingUser = await _repo.GetUserById(id);
+                if (existingUser == null)
                 {
-                    return BadRequest("Wrong userId");
+                    return NotFound($"Could not found a user with id: {id}");
                 }
+                var newUser= _mapper.Map(userDto, existingUser);
+                _repo.Update(newUser);
 
-                _repo.Update(user);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
+                    return CreatedAtAction(nameof(GetUserById), new { id = userDto.Id, name = userDto.Username}, _mapper.Map<UserForReturnDto>(userDto));
                 }
             }
             catch (Exception e)
