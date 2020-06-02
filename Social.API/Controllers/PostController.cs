@@ -39,6 +39,10 @@ namespace Social.API.Controllers
             try
             {
                 var postsFromRepo = await _repo.GetAll(x => x.User, x => x.Likes, x => x.Comments);
+                if(postsFromRepo == null)
+                {
+                     return NotFound($"No Posts were found.");
+                }
                 var toReturn = postsFromRepo.Select(x => ExpandSingleItem(x));
                 return Ok(toReturn);
             }
@@ -61,6 +65,10 @@ namespace Social.API.Controllers
             try
             {
                 var postFromRepo = await _repo.GetPostById(id);
+                if(postFromRepo == null)
+                {
+                     return NotFound($"Post with the id {id} was not found.");
+                }
                 return Ok(ExpandSingleItem(postFromRepo));
             }
             catch (Exception e)
@@ -83,7 +91,7 @@ namespace Social.API.Controllers
             {
                 var userFromRepo = await _repo.GetUserById(postToCreateDto.UserId);
                 if (userFromRepo == null)
-                    return BadRequest($"User with the id {postToCreateDto.UserId} does not exist.");
+                    return NotFound($"User with the id {postToCreateDto.UserId} does not exist.");
                 
                 Post post = new Post() 
                 {
