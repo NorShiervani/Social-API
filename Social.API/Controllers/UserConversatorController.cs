@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Filters;
 using Social.API.Services;
 
 namespace Social.API.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
+    [ApiKeyAuth]
     public class UserConversatorController : ControllerBase
     {
         private readonly IUserConversatorRepository _repo;

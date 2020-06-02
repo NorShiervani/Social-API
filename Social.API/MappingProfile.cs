@@ -12,6 +12,7 @@ public class MappingProfile : Profile
         CreateMap<User, UserForCreateDto>().ReverseMap();
 
         CreateMap<Conversation,ConversationForReturnDto>().ReverseMap();
+        CreateMap<Conversation, ConversationToCreateDto>().ReverseMap();
 
         CreateMap<Post,PostForReturnDto>().ReverseMap();
 

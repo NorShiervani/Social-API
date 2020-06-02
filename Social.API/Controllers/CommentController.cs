@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/v1.0/comments")]
     [ApiController]
+    [ApiKeyAuth]
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _repo;
@@ -225,14 +227,19 @@ namespace Social.API.Controllers
         ///
         ///</remarks>
         /// <param name="id"></param>
-        /// <param name="comment"></param>
+        /// <param name="commentDto"></param>
         #endregion
         [HttpPut("{Id}", Name = "UpdateCommentById")]
-        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, CommentToCreateDto comment)
+        public async Task<ActionResult<CommentForReturnDto>> UpdateCommentById(int id, CommentToCreateDto commentDto)
         {   
             try
             {
-                Comment commentToUpdate = _mapper.Map<Comment>(comment);
+                var existingComment = await _repo.GetById(id);
+                if (existingComment == null)
+                {
+                    return NotFound($"Could not find a comment with id: {id}");
+                }
+                Comment commentToUpdate = _mapper.Map(commentDto, existingComment);
                 commentToUpdate.Created = DateTime.Now;
                 _repo.Update(commentToUpdate);
                 if(await _repo.Save()) {

@@ -7,11 +7,13 @@ using Social.API.Dtos;
 using Social.API.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
     [Route("api/v1.0/users")]
     [ApiController]
+    [ApiKeyAuth]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
@@ -61,6 +63,11 @@ namespace Social.API.Controllers
             {
                 var usersFromRepo = await _repo.GetUsers(userName);
                 var usersToDto = _mapper.Map<UserForReturnDto[]>(usersFromRepo);
+
+                if(usersToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(usersToDto);
             }
             catch (Exception e)
@@ -107,6 +114,10 @@ namespace Social.API.Controllers
             {
                 var userFromRepo = await _repo.GetUserById(id);
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    NotFound();
+                }
                 return Ok(ExpandSingleItem(userToDto));
 
             }
@@ -144,11 +155,11 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(userToDto.Posts);
 
             }
@@ -184,11 +195,11 @@ namespace Social.API.Controllers
             try
             {
                 var userFromRepo = await _repo.GetUserById(id);
-                if(userFromRepo == null)
-                {
-                    return NoContent();
-                }
                 var userToDto = _mapper.Map<UserForReturnDto>(userFromRepo);
+                if(userToDto == null)
+                {
+                    return NotFound();
+                }
                 return Ok(userToDto.Comments);
 
             }
