@@ -103,7 +103,7 @@ namespace Social.API
             app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social API V1");
             });
         }
     }
