@@ -284,4 +284,7 @@ __pycache__/
 # Ignore all local history of files
 .history
 
+
+Social.API/*.json
+
 # End of https://www.gitignore.io/api/aspnetcore,visualstudiocode
