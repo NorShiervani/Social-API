@@ -179,13 +179,19 @@ namespace Social.API.Services
         /// <param name="conversation"></param>
         #endregion
         [HttpPost(Name = "CreateConversation")]
-        public async Task<ActionResult<ConversationForReturnDto>> CreateConversation(Conversation conversation)
+        public async Task<ActionResult<ConversationForReturnDto>> CreateConversation([FromBody]ConversationToCreateDto conversation)
         {
             try
             {
-                await _repo.Create(conversation);
+                Conversation conversationToCreate = new Conversation
+                {
+                    ConversationName = conversation.ConversationName,
+                    UserConversators = conversation.UserConversators
+
+                };
+                await _repo.Create(conversationToCreate);
                 if(await _repo.Save()) {
-                    return Ok(conversation);
+                    return CreatedAtAction(nameof(GetConversationById), new {id = conversationToCreate.Id}, _mapper.Map<ConversationForReturnDto>(conversationToCreate));
                 }
             }
             catch (Exception e)
@@ -215,18 +221,14 @@ namespace Social.API.Services
         /// <param name="conversation"></param>
         #endregion
         [HttpPut("{id}", Name ="UpdateConversation")]
-        public async Task<ActionResult<ConversationForReturnDto>> UpdateConversation(int id, Conversation conversation)
+        public async Task<ActionResult<ConversationForReturnDto>> UpdateConversation(int id, ConversationToCreateDto conversation)
         {
-            if(id != conversation.Id)
-            {
-                return BadRequest();
-            }
             try
             {
-                _repo.Update(conversation);
-                
+                Conversation conversationToUpdate = _mapper.Map<Conversation>(conversation);
+                _repo.Update(conversationToUpdate);
                 if(await _repo.Save()) {
-                    return Ok(conversation);
+                    return CreatedAtAction(nameof(GetConversationById), new {id = conversationToUpdate.Id},_mapper.Map<ConversationForReturnDto>(conversationToUpdate));
                 }
             }
             catch (Exception e)
