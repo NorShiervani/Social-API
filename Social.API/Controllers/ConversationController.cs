@@ -63,6 +63,10 @@ namespace Social.API.Services
             try
             {
                 var conversationsFromRepo = await _repo.GetConversations();
+                if(conversationsFromRepo == null)
+                {
+                   return NotFound($"Could not find any conversations");
+                }
                 var conversationsToDto = _mapper.Map<ConversationForReturnDto[]>(conversationsFromRepo);
                 return Ok(conversationsToDto);
             }
@@ -114,6 +118,10 @@ namespace Social.API.Services
             try
             {
                 var conversationFromRepo = await _repo.GetConversationById(id);
+                if(conversationFromRepo == null)
+                {
+                   return NotFound($"Could not find any conversation with {id}.");
+                }
                 var conversationToDto = _mapper.Map<ConversationForReturnDto>(conversationFromRepo);
                 var links = CreateLinksForCollection();
                 return Ok(ExpandSingleItem(conversationToDto));
@@ -149,6 +157,10 @@ namespace Social.API.Services
             try
             {
                 var conversationFromRepo = await _repo.GetConversationsByUserId(id);
+                if(conversationFromRepo == null)
+                {
+                   return NotFound($"Could not find any conversation for user with id: {id}.");
+                }
                 var conversationToDto = _mapper.Map<ConversationForReturnDto[]>(conversationFromRepo);
                 var toReturn = conversationToDto.Select(x => ExpandSingleItem(x));
                 return Ok(toReturn);
@@ -228,7 +240,7 @@ namespace Social.API.Services
                 var existingConversation = await _repo.GetConversationById(id);
                 if(existingConversation == null)
                 {
-                        return NotFound($"Could not find a conversation with id: {id}");
+                    return NotFound($"Could not find a conversation with id: {id}");
                 }
 
                 Conversation conversationToUpdate = _mapper.Map(conversation, existingConversation);
