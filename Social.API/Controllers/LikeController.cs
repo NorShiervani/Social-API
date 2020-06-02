@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
+using Social.API.Filters;
 using Social.API.Models;
 using Social.API.Services;
 
@@ -13,6 +14,7 @@ namespace Social.API.Controllers
 {
     [Route("/api/v1.0/likes")]
     [ApiController]
+    [ApiKeyAuth]
     public class LikeController : ControllerBase
     {
         private readonly ILikeRepository _repo;

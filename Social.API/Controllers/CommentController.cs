@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Social.API.Dtos;
 using Social.API.Models;
 using Social.API.Services;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/v1.0/comments")]
     [ApiController]
+    [ApiKeyAuth]
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _repo;

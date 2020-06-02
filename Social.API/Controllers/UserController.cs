@@ -7,11 +7,13 @@ using Social.API.Dtos;
 using Social.API.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using Social.API.Filters;
 
 namespace Social.API.Controllers
 {
     [Route("api/v1.0/users")]
     [ApiController]
+    [ApiKeyAuth]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repo;
