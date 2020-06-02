@@ -233,12 +233,13 @@ namespace Social.API.Controllers
         public async Task<ActionResult<UserForReturnDto>> CreateUser(UserForCreateDto newUser)
         {
             try
-            {   
-                var user = _mapper.Map<User>(newUser);
+            {
+                var userToCreate = _mapper.Map<User>(newUser);
+                userToCreate.DateRegistered = DateTime.Now;
 
-                await _repo.Create(user);
+                await _repo.Create(userToCreate);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
+                    return CreatedAtAction(nameof(GetUserById), new { id = userToCreate.Id, name = userToCreate.Username}, _mapper.Map<UserForReturnDto>(userToCreate));
                 }
 
             }
@@ -279,21 +280,22 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
-        /// <param name="user"></param>
+        /// <param name="userDto"></param>
         #endregion
         [HttpPut("{id}", Name = "UpdateUserById" )]
-        public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, User user)
+        public async Task<ActionResult<UserForReturnDto>> UpdateUserById(int id, UserForCreateDto userDto)
         {   
             try
             {
-                if (id != user.Id)
+                User existingUser = await _repo.GetById(id);
+                if (existingUser == null)
                 {
-                    return BadRequest("Wrong userId");
+                    return NotFound($"Could not find a user with id: {id}");
                 }
-
-                _repo.Update(user);
+                User userToUpdate = _mapper.Map(userDto, existingUser);
+                _repo.Update(userToUpdate);
                 if(await _repo.Save()) {
-                    return CreatedAtAction(nameof(GetUserById), new { id = user.Id, name = user.Username}, _mapper.Map<UserForReturnDto>(user));
+                    return CreatedAtAction(nameof(GetUserById), new { id = userToUpdate.Id, name = userToUpdate.Username}, _mapper.Map<UserForReturnDto>(userToUpdate));
                 }
             }
             catch (Exception e)
