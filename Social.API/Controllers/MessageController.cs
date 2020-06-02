@@ -151,23 +151,23 @@ namespace Social.API.Controllers
         ///
         ///</remarks> 
         /// <param name="id"></param>
-        /// <param name="message"></param>
+        /// <param name="messageDto"></param>
         #endregion
         [HttpPut("{id}", Name = "UpdateMessage")]
-        public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto message)
+        public async Task<ActionResult<MessageForReturnDto>> UpdateMessage(int id, MessageForReturnDto messageDto)
         {
             try
             {
-                var oldMessage = await _repo.GetMessageById(id);
-                if(oldMessage == null)
+                var existingMessage = await _repo.GetMessageById(id);
+                if(existingMessage == null)
                 {
-                    return NotFound($"We could not find any message with that Id: {id}");
+                    return NotFound($"We could not find any message with Id: {id}");
                 }
 
-                var updatedMessage = _mapper.Map(message, oldMessage);
+                Message updatedMessage = _mapper.Map(messageDto, existingMessage);
                 _repo.Update(updatedMessage);
                 if(await _repo.Save()) {
-                    return NoContent();
+                    return CreatedAtAction(nameof(GetMessageById), new { id = updatedMessage.Id}, _mapper.Map<MessageForReturnDto>(updatedMessage));
                 }
             }
             catch (Exception e)
