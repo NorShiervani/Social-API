@@ -161,7 +161,7 @@ namespace Social.API.Controllers
                 var existingMessage = await _repo.GetMessageById(id);
                 if(existingMessage == null)
                 {
-                    return NotFound($"We could not find any message with that Id: {id}");
+                    return NotFound($"We could not find any message with Id: {id}");
                 }
 
                 Message updatedMessage = _mapper.Map(messageDto, existingMessage);
