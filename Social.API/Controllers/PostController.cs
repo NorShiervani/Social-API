@@ -38,7 +38,7 @@ namespace Social.API.Controllers
         {
             try
             {
-                var postsFromRepo = await _repo.GetAll(x => x.User, x => x.Likes, x => x.Comments);
+                var postsFromRepo = await _repo.GetAll();
                 if(postsFromRepo == null)
                 {
                      return NotFound($"No Posts were found.");

@@ -14,7 +14,7 @@ namespace Social.API.Services
         { }
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            return await _context.Posts.Include(p => p.User).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
+            return await _context.Posts.ToListAsync(); 
         }
     }
 }
