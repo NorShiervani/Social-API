@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -19,12 +21,12 @@ namespace Social.API.Filters
            }
 
             var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var apikey = configuration.GetValue<string>(key: "ApiKey");
-            
-            if(!apikey.Equals(potentialApiKey))
-            {
-               context.Result = new UnauthorizedResult();
-               return;
+
+            var apiKeys = configuration.GetSection("ApiKeys").Get<List<string>>();
+
+            if(!apiKeys.Any(x => x.Equals(potentialApiKey))) {
+                context.Result = new UnauthorizedResult();
+                return;
             }
 
             await next();
