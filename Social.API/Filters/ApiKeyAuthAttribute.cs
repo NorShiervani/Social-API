@@ -4,14 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Social.API.Models.Authorization;
 
 namespace Social.API.Filters
 {
     public class ApiKeyAuthAttribute: Attribute, IAsyncActionFilter
     {
-        private const string ApiKeyHeaderName= "ApiKey";
+        private const string ApiKeyHeaderName = "ApiKey";
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {   
@@ -21,11 +23,13 @@ namespace Social.API.Filters
                 return;
             }
 
-            var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            DataContext dbContext = context.HttpContext.RequestServices.GetService<DataContext>();
+            var apiUsers = await dbContext.Set<ApiUser>().ToListAsync();
 
-            var apiKeys = configuration.GetSection("ApiKeys").Get<List<string>>();
+            List<string> allKeys = new List<string>();
+            apiUsers.ForEach(u => allKeys.Add(u.UserName + ":" + u.ApiKey));
 
-            if(!apiKeys.Any(x => x.Equals(potentialApiKey))) {
+            if(!allKeys.Any(x => x.Equals(potentialApiKey))) {
                 context.Result = new UnauthorizedResult();
                 return;
             }

@@ -22,7 +22,13 @@ using System.IO;
 namespace Social.API
 {
     public class Startup
-    {
+    {        
+        private readonly IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false)

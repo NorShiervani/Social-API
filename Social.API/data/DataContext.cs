@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Social.API.Models.Authorization;
 
 namespace Social.API
 {
@@ -28,6 +29,7 @@ namespace Social.API
         public virtual DbSet<UserConversator> UserConversators { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Conversation> Conversations { get; set; }
+        public virtual DbSet<ApiUser> ApiUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,11 +40,25 @@ namespace Social.API
         {
             modelBuilder.Entity<User>().HasIndex(n => n.Username).IsUnique();
             modelBuilder.Entity<User>().HasIndex(n => n.Email).IsUnique();
+            modelBuilder.Entity<ApiUser>().HasIndex(n => n.UserName).IsUnique();
 
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 1, Name = "Bill" });
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 2, Name = "Shaun" });
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 3, Name = "Hillary" });
             modelBuilder.Entity<Fake>().HasData(new Fake { Id = 4, Name = "Emma" });
+
+            modelBuilder.Entity<ApiUser>().HasData(
+                new {
+                    Id = 1,
+                    UserName = "Khepster",
+                    ApiKey = "111"
+                },
+                new {
+                    Id = 2,
+                    UserName = "Berit",
+                    ApiKey = "jahaja"
+                }
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new

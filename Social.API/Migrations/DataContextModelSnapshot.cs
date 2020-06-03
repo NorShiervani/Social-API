@@ -16,6 +16,40 @@ namespace Social.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0");
 
+            modelBuilder.Entity("Social.API.Models.Authorization.ApiUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("ApiUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApiKey = "111",
+                            UserName = "Khepster"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApiKey = "jahaja",
+                            UserName = "Berit"
+                        });
+                });
+
             modelBuilder.Entity("Social.API.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -46,7 +80,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2838),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(9058),
                             PostId = 3,
                             Text = "Cool yo!",
                             UserId = 1
@@ -54,7 +88,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4180),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(68),
                             PostId = 2,
                             Text = "Fast as fuck!",
                             UserId = 2
@@ -62,7 +96,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4273),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(173),
                             PostId = 3,
                             Text = "Uuugghhh.",
                             UserId = 3
@@ -70,7 +104,7 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 4,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(4309),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(247),
                             PostId = 3,
                             Text = "Haha awesome!",
                             UserId = 2
@@ -200,35 +234,35 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(5389),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(1178),
                             Text = "Hello friends!",
                             UserConversatorId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6393),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(2316),
                             Text = "Hello!",
                             UserConversatorId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6478),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(2444),
                             Text = "What up?!",
                             UserConversatorId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6513),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(2618),
                             Text = "Doing laundry, and you?",
                             UserConversatorId = 2
                         },
                         new
                         {
                             Id = 5,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(6540),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 96, DateTimeKind.Local).AddTicks(2697),
                             Text = "Eating breakfast, and staying chill!",
                             UserConversatorId = 1
                         });
@@ -259,21 +293,21 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(1415),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(7766),
                             Text = "Hey everybody! You all good?",
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2611),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(8788),
                             Text = "Having the most lovely",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2020, 5, 22, 8, 53, 31, 737, DateTimeKind.Local).AddTicks(2700),
+                            Created = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(8898),
                             Text = "Russia... Is not very nice(to us)...",
                             UserId = 3
                         });
@@ -322,16 +356,22 @@ namespace Social.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Birthdate = new DateTime(2002, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(6407),
+                            Birthdate = new DateTime(2002, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(3533),
                             City = "Brighton",
                             Country = "England",
-                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 727, DateTimeKind.Local).AddTicks(6789),
+                            DateRegistered = new DateTime(2020, 6, 3, 17, 46, 34, 91, DateTimeKind.Local).AddTicks(9007),
                             Email = "jd@example.com",
                             Firstname = "John",
                             IsSuspended = false,
@@ -343,10 +383,10 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 2,
-                            Birthdate = new DateTime(1997, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9798),
+                            Birthdate = new DateTime(1997, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(6217),
                             City = "El Paso",
                             Country = "USA",
-                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9762),
+                            DateRegistered = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(6193),
                             Email = "pp@example.com",
                             Firstname = "Patrick",
                             IsSuspended = false,
@@ -358,10 +398,10 @@ namespace Social.API.Migrations
                         new
                         {
                             Id = 3,
-                            Birthdate = new DateTime(1975, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9900),
+                            Birthdate = new DateTime(1975, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(6356),
                             City = "Kiev",
                             Country = "Ukraine",
-                            DateRegistered = new DateTime(2020, 5, 22, 8, 53, 31, 736, DateTimeKind.Local).AddTicks(9891),
+                            DateRegistered = new DateTime(2020, 6, 3, 17, 46, 34, 95, DateTimeKind.Local).AddTicks(6342),
                             Email = "cmso@example.com",
                             Firstname = "Svetlana",
                             IsSuspended = false,
