@@ -17,11 +17,10 @@ namespace Social.API.Services
         {
             if(string.IsNullOrEmpty(userName))
             {
-                return await _context.Users.Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync(); 
+                return await _context.Users.ToListAsync(); 
             }
 
-            return await _context.Users.Where(u=>u.Username.ToLower() == userName.ToLower()).Include(u => u.Posts).Include(p => p.Comments).Include(p => p.Likes).ToListAsync();
-            
+            return await _context.Users.Where(u=>u.Username.ToLower() == userName.ToLower()).ToListAsync();
         }
     }
 }

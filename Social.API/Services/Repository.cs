@@ -67,10 +67,7 @@ namespace Social.API.Services
         public async Task<User> GetUserById(int id)
         {
             _logger.LogInformation($"Retrieving user with the id {id}.");
-            return await _context.Users.Include(u => u.Posts)
-                .Include(p => p.Comments)
-                .Include(p => p.Likes)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Post> GetPostById(int id)
